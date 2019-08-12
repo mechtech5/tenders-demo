@@ -14,17 +14,17 @@ class CreateExpenseTables extends Migration
     public function up()
     {
         Schema::create('comp_grp', function (Blueprint $table) {
-            $table->string('grp_code', 1);
+            $table->string('grp_code', 1)->primary();
             $table->string('grp_name', 100);
             $table->string('grp_desc', 250)->nullable();
         });
 
         Schema::create('comp_mast', function (Blueprint $table) {
-            $table->string('comp_code', 3);
+            $table->string('comp_code', 3)->primary();
             $table->string('grp_code', 1);
             $table->string('comp_name', 100);
             $table->string('comp_desc', 250)->nullable();
-            $table->boolean('enabled');
+            $table->boolean('enabled')->default(1);
         });
 
         Schema::create('vendors', function (Blueprint $table) {
@@ -37,7 +37,7 @@ class CreateExpenseTables extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('website')->nullable();
-            $table->boolean('enabled');
+            $table->boolean('enabled')->default(1);
             $table->text('note')->nullable();
             $table->timestamps();
         });
@@ -57,7 +57,7 @@ class CreateExpenseTables extends Migration
             $table->unsignedInteger('exp_in_user');
             $table->unsignedBigInteger('permit_id');
             $table->string('website')->nullable();
-            $table->boolean('enabled')->nullable();
+            $table->boolean('enabled')->default(1);
             $table->text('note')->nullable();
             $table->boolean('reconciled');
             $table->timestamps();
@@ -69,7 +69,7 @@ class CreateExpenseTables extends Migration
             $table->string('comp_code', 3);
             $table->string('name', 100);
             $table->string('color')->nullable();
-            $table->boolean('enabled');
+            $table->boolean('enabled')->default(1);
         });
 
         Schema::create('expense_mode_mast', function (Blueprint $table) {
@@ -77,7 +77,7 @@ class CreateExpenseTables extends Migration
             $table->string('comp_code', 3);
             $table->string('name', 100);
             $table->string('color')->nullable();
-            $table->boolean('enabled');
+            $table->boolean('enabled')->default(1);
         });
 
         Schema::create('account_mast', function (Blueprint $table) {
@@ -88,7 +88,7 @@ class CreateExpenseTables extends Migration
             $table->string('bank_name');
             $table->string('bank_phone');
             $table->text('bank_address');
-            $table->boolean('enabled');
+            $table->boolean('enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -112,7 +112,7 @@ class CreateExpenseTables extends Migration
             $table->string('site_name');
             $table->string('site_desc', 250);
             $table->text('note')->nullable();
-            $table->boolean('enabled');
+            $table->boolean('enabled')->default(1);
         });
     }
 
@@ -129,5 +129,8 @@ class CreateExpenseTables extends Migration
         Schema::dropIfExists('payments');
         Schema::dropIfExists('expense_catg_mast');
         Schema::dropIfExists('account_mast');
+        Schema::dropIfExists('exp_permit_user');
+        Schema::dropIfExists('exp_in_user');
+        Schema::dropIfExists('exp_site_mast');
     }
 }
