@@ -14,3 +14,4 @@
 Route::get('/', function () {
     return view('layouts.home');
 });
+Route::resource('/expenses/bills','BillsController');
