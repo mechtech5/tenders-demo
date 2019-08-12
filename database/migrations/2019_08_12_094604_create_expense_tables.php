@@ -27,7 +27,7 @@ class CreateExpenseTables extends Migration
             $table->boolean('enabled');
         });
 
-        Schema::create('vendor_mast', function (Blueprint $table) {
+        Schema::create('vendors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('comp_code', 3);
             $table->unsignedInteger('user_id');
@@ -56,6 +56,28 @@ class CreateExpenseTables extends Migration
             $table->boolean('enabled')->nullable();
             $table->text('note')->nullable();
             $table->boolean('reconciled');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('expense_catg_mast', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('comp_code');
+            $table->string('name', 100);
+            $table->enum('type', ['income', 'expense']);
+            $table->string('color');
+            $table->boolean('enabled');
+        });
+
+        Schema::create('account_mast', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('comp_code');
+            $table->string('name');
+            $table->decimal('opening_balance', 15, 4);
+            $table->string('bank_name');
+            $table->string('bank_phone');
+            $table->text('bank_address');
+            $table->boolean('enabled');
             $table->timestamps();
             $table->softDeletes();
         });
