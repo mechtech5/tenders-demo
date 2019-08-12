@@ -3,9 +3,9 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Bills
+				<h1 style="font-size: 20px">Vendors
 					<span class="ml-2">
-						<a href="{{route('bills.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
+						<a href="{{route('vendors.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
 							<span class="fa fa-plus "></span> Add New</a>
 					</span>
 					<span class="ml-2">
@@ -27,9 +27,17 @@
 				<div class="card">
 					<div class="card-header bg-white">
 						<div class="row">
-							<div class="col-md-2"></div>
-							<div class="col-md-2"></div>
-							<div class="col-md-2"></div>
+							<div class="col-md-12">
+								<h5 >Search: 
+									<span class="ml-2 ">
+										<input type="text" name="search" placeholder="type to search..." class="p-1"/>
+									</span> 
+									<span class="ml-1">
+										<a href="" class="btn btn-sm btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd; font-size: 13px;" ><i class="fa fa-filter"></i> Filter</a>
+									</span>
+								</h5>
+							</div>
+							
 						</div>
 					</div>
 					<div class="card-body table-rsponsive">
@@ -37,10 +45,9 @@
 							<thead>
 								<tr>
 									<th>Name</th>
-									<th>Vendor</th>
-									<th>Amount</th>
-									<th>Bill Date</th>
-									<th>Due Date</th>
+									<th>Email</th>
+									<th>Phone</th>
+									<th>Unpaid</th>									
 									<th>Status </th>
 									<th>Action </th>
 								</tr>
@@ -51,8 +58,7 @@
 									<td></td>
 									<td></td>
 									<td></td>
-									<td></td>
-									<td></td>
+									<td></td>							
 									<td></td>
 								</tr>
 							</tbody>
@@ -61,6 +67,5 @@
 				</div>
 			</div>
 		</div>
-
 	</main>
 @endsection
