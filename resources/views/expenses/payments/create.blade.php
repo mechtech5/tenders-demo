@@ -3,7 +3,7 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12">
-				<h1 style="font-size: 20px;">New Vendor</h1>
+				<h1 style="font-size: 20px;">New Payments</h1>
 				<hr>
 			</div>
 		</div>
@@ -11,36 +11,14 @@
 			<div class="col-md-12">
 				<div class="card shadow-xs">
 					<div class="card-body">
-						<form action="{{route('vendors.store')}}" method="Post">
+						<form action="{{route('payments.store')}}" method="Post">
 							@csrf
 						<div class=" row form-group ">
-							<div class="col-md-6 mt-2">
-								<label for="name" class="font-wieght-bold"><b>Name <span class="text-danger">*</span></b></label>
-								<input type="text" name="name" class="form-control" placeholder="Enter Name" value="{{old('name')}}" required> 
-
-							    @error('name')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-							</div>
-							<div class="col-md-6 mt-2">
-								<label for="email" ><b>Email <span class="text-danger">*</span></b></label>
-								<input type="text" name="email" class="form-control" placeholder="Enter Email" value="{{old('email')}}" required> 
-
-								@error('email')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-							</div>
 							<div class="col-md-6 mt-2">
 								<label for="comp_code"><b>Company Name <span class="text-danger">*</span></b></label>
 								<select class="form-control" name="comp_code">
 									<option value="0" >Select Company</option>
-									@foreach($companies as $comp)
-										<option value="{{$comp->comp_code}}">{{$comp->comp_name}}</option>
-									@endforeach
+									
 								</select>
 								@error('comp_code')
                                     <span class="text-danger" role="alert">
@@ -48,21 +26,62 @@
                                     </span>
                                 @enderror
 							</div>
-							<div class="col-md-6 mt-2">
-								<label for="tax_number" ><b>Tax Number</b></label>
-								<input type="text" name="tax_number" class="form-control" placeholder="Enter Tax Number" value="{{old('tax_number')}}" >
 
-								@error('tax_number')
+							<div class="col-md-6 mt-2">
+								<label for="amount" class="font-wieght-bold"><b>Amount <span class="text-danger">*</span></b></label>
+								<input type="text" name="amount" class="form-control" placeholder="Enter Amount" value="{{old('amount')}}" required> 
+
+							    @error('amount')
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+							</div>
+							<div class="col-md-6 mt-2">
+								<label for="account_id"><b>Account Type <span class="text-danger">*</span></b></label>
+								<select class="selectpicker form-control border" name="account_id" data-live-search="true">
+									<option value="0" >Select Account</option>
+									
+								</select>
+								@error('account_id')
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+							</div>
+							
+							<div class="col-md-6 mt-2">
+								<label for="vendor_id" ><b>Vendor <span class="text-danger">*</span></b></label>
+							
+								<select class="selectpicker form-control border" name="vendor_id" data-live-search="true">
+									<option value="0" >Select Vendor</option>
+									@foreach($vendors as $vendor)
+									  <option value="{{$vendor->id}}">{{$vendor->name}}</option>
+									  @endforeach
+								</select>
+
+								@error('vendor_id')
+                                    <span class="text-danger" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror 
+							</div>
+
+							<div class="col-md-6 mt-2">
+								<label for="paid_at" ><b>Date <span class="text-danger">*</span></b></label>
+								<input type="text" name="paid_at" class="form-control" placeholder="Enter Date" value="{{old('paid_at')}}"  id="paid_at"  autocomplete="dob" autofocus  data-date-format="yyyy-mm-dd" placeholder="{{date('Y-m-d')}}" required>
+
+								@error('paid_at')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror								 
 							</div>
 							<div class="col-md-6 mt-2">
-								<label for="phone" ><b>Phone</b></label>
-								<input type="text" name="phone" class="form-control" placeholder="Enter Phone Number" value="{{old('phone')}}" > 
+								<label for="narration" ><b>Narration</b></label>
+								<input type="text" name="narration" class="form-control" placeholder="Enter Narration" value="{{old('narration')}}" > 
 
-								@error('phone')
+								@error('narration')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -99,17 +118,6 @@
                                 @enderror 
 							</div>
 
-							<div class="col-md-6 mt-2">
-								<label for="acc_ifsc" ><b>IFSC Code</b></label>
-								<input type="text" name="acc_ifsc" class="form-control" placeholder="Enter IFSC code" value="{{old('acc_ifsc')}}" >
-
-								@error('acc_ifsc')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror 
-							</div>
-
 							
 							<div class="col-md-6 mt-2">
 								<label for="enabled" ><b>Enabled <span class="text-danger">*</span></b></label>
@@ -139,7 +147,7 @@
 							<div class="col-md-12 mt-3">
 								<input type="hidden" name="user_id" value="{{Auth::user()->id}}">
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Save</button>
-								<span class="ml-2" ><a href="{{route('vendors.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
+								<span class="ml-2" ><a href="{{route('payments.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
 							</div>
 						</div>
 						</form>
@@ -148,4 +156,14 @@
 			</div>
 		</div>
 	</main>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			 $(function () {
+		      $("#paid_at").datepicker({ 
+		        singleDatePicker: true,
+		        showDropdowns: true,
+		      });
+		    });
+		});
+	</script>
 @endsection

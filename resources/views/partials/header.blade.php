@@ -6,13 +6,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Main CSS-->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <title>Laxyo  @yield('title')</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
   
   </head>
   <body class="app sidebar-mini rtl">
@@ -82,7 +92,7 @@
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-shopping-cart"></i><span class="app-menu__label">Expenses</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="{{route('bills.index')}}"><i class="icon fa fa-angle-double-right"></i> Bills</a></li>
-            <li><a class="treeview-item" href="#"><i class="icon fa fa-angle-double-right"></i> Payments</a></li>
+            <li><a class="treeview-item" href="{{route('payments.index')}}"><i class="icon fa fa-angle-double-right"></i> Payments</a></li>
             <li><a class="treeview-item" href="{{route('vendors.index')}}"><i class="icon fa fa-angle-double-right"></i> Vendors</a></li>
           
           </ul>

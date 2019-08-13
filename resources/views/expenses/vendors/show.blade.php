@@ -45,27 +45,60 @@
 							
 						</div>
 					</div>
-					<div class="card-body table-rsponsive">
-						<table class="table">
+					<div class="card-body table-responsive">
+
+						<table class="table table-stripped table-bordered">
 							<thead>
 								<tr>
 									<th>Name</th>
 									<th>Email</th>
-									<th>Phone</th>
-									<th>Unpaid</th>									
-									<th>Status </th>
-									<th>Action </th>
+									<th>Company Name</th>	
+									<th>Phone</th>								
+									<th>Tax Number</th>	
+									<th>Address</th>
+									<th>Status</th>
+									<th>Actions</th>
 								</tr>
 							</thead>
 							<tbody>
+								@foreach($vendors as $vendor)
 								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>							
-									<td></td>
+									<td>{{$vendor->name}}</td>
+									<td>{{$vendor->email}}</td>
+									<td>
+										@foreach($companies as $comp)
+											@if($comp->comp_code == $vendor->comp_code)
+												{{$comp->comp_name}}
+											@endif
+										@endforeach
+									</td>
+									<td>{{$vendor->phone != '' ? $vendor->phone : '-'}}</td>
+									
+									<td>{{$vendor->tax_number != '' ? $vendor->tax_number : '-'}}</td>	
+									<td>{{$vendor->address != '' ? $vendor->address : '-'}}</td>
+									<td>
+										@if($vendor->enabled == '1')
+											{{__('Enabled')}}
+										@else
+											{{__('Disabled')}}
+										@endif
+
+									</td>
+									<td class="d-flex">
+										<span>
+											<a href="{{route('vendors.edit',$vendor->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+										</span>
+										<span class="ml-3">
+											<form action="{{route('vendors.destroy',$vendor->id)}}" method="POST" id="delform_{{ $vendor->id}}">
+													@csrf
+												@method('DELETE')
+												<a href="javascript:$('#delform_{{ $vendor->id}}').submit();" class="btn btn-sm btn-danger"><i class="fa fa-trash text-white" onclick="return confirm('Are you sure?')" style="font-size: 12px;"></i></a>
+										
+											</form>
+										</span>
+									</td>
 								</tr>
+								@endforeach
 							</tbody>
 						</table>
 					</div>

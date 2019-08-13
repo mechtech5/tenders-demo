@@ -24,16 +24,20 @@ class StoreVendor extends FormRequest
     public function rules()
     {
         return [
-            'name'           => 'required|string|max:255',
-            'email'         => 'required|email|string|unique:vendors',
+            'name'          => 'required|string|max:255',
+            'email'         => 'required|email|string',
             'comp_code'     => 'required|not_in:0',
             'tax_number'    => 'nullable|string',
             'phone'         => 'nullable|string',
             'website'       => 'nullable|string',
+            'acc_no'        => 'nullable|number',
+            'acc_name'      => 'nullable|string',
+            'acc_ifsc'      => 'nullable|string', 
             'enabled'       => 'required',
             'address'       => 'nullable|string',
             'note'          => 'nullable|string',
-            'user_id'       => 'required'
+            'user_id'       => 'required',
+
         ];
     }
 }
