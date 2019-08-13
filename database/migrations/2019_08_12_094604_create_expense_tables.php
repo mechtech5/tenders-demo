@@ -34,6 +34,11 @@ class CreateExpenseTables extends Migration
             $table->string('name', 200);
             $table->string('email');
             $table->string('tax_number')->nullable();
+            // Account Details
+            $table->string('acc_no')->nullable();
+            $table->string('acc_name')->nullable();
+            $table->string('acc_ifsc')->nullable();
+            // ---------------
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('website')->nullable();
@@ -44,24 +49,31 @@ class CreateExpenseTables extends Migration
 
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('comp_code', 3);
             $table->unsignedInteger('account_id');
             $table->datetime('paid_at');
             $table->decimal('amount', 15, 4);
-            $table->unsignedInteger('vendor_id');
-            $table->text('description')->nullable();
+            $table->unsignedInteger('vendor_id')->nullable();
+            $table->string('narration', 200);
             $table->unsignedInteger('catg_id');
             $table->unsignedInteger('mode_id');
-            $table->unsignedInteger('exp_permit_user');
-            $table->unsignedInteger('exp_in_user');
-            $table->unsignedBigInteger('permit_id');
+            $table->unsignedInteger('exp_permit_user')->nullable();
+            $table->unsignedInteger('exp_in_user')->nullable();
             $table->string('website')->nullable();
-            $table->boolean('enabled')->default(1);
+
+            /* payment status
+                A - Approved
+                H - Hold
+                P - Pending
+                D - Declined 
+                F - Failed
+                C - Cancelled
+            */
+            $table->char('status', 1)->default('A');
             $table->text('note')->nullable();
-            $table->boolean('reconciled');
+            $table->boolean('req_approval')->default(0);
+            $table->boolean('reconciled')->default(0);
             $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::create('expense_catg_mast', function (Blueprint $table) {
