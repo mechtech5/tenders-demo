@@ -30,7 +30,6 @@ class CreateExpenseTables extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('comp_code', 3);
-            $table->unsignedInteger('user_id');
             $table->string('name', 200);
             $table->string('email');
             $table->string('tax_number')->nullable();
@@ -52,7 +51,7 @@ class CreateExpenseTables extends Migration
             $table->string('comp_code', 3);
             $table->unsignedInteger('account_id');
             $table->datetime('paid_at');
-            $table->decimal('amount', 15, 4);
+            $table->decimal('amount', 15, 4)->default(0.00);
             $table->unsignedInteger('vendor_id')->nullable();
             $table->string('narration', 200);
             $table->unsignedInteger('catg_id');
@@ -70,7 +69,7 @@ class CreateExpenseTables extends Migration
                 C - Cancelled
             */
             $table->char('status', 1)->default('A');
-            
+
             $table->text('note')->nullable();
             $table->boolean('req_approval')->default(0);
             $table->boolean('reconciled')->default(0);
@@ -97,23 +96,23 @@ class CreateExpenseTables extends Migration
             $table->increments('id');
             $table->string('comp_code', 3);
             $table->string('name');
-            $table->decimal('opening_balance', 15, 4);
+            $table->decimal('opening_balance', 15, 4)->default(0.00);
             $table->string('bank_name');
-            $table->string('bank_phone');
-            $table->text('bank_address');
+            $table->string('bank_phn');
+            $table->text('bank_addr');
             $table->boolean('enabled')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
 
         Schema::create('exp_permit_user', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('emp_id');
             $table->string('grp_code', 1);
             $table->string('comp_code', 3);
         });
 
         Schema::create('exp_in_user', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('emp_id');
             $table->string('grp_code', 1);
             $table->string('comp_code', 3);
         });
