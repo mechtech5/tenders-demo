@@ -70,6 +70,7 @@ class CreateExpenseTables extends Migration
                 C - Cancelled
             */
             $table->char('status', 1)->default('A');
+            
             $table->text('note')->nullable();
             $table->boolean('req_approval')->default(0);
             $table->boolean('reconciled')->default(0);
