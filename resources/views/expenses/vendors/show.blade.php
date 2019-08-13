@@ -20,6 +20,11 @@
 					</span>
 				</h1>
 				<hr>
+				@if($message = Session::get('success'))
+					<div class="alert alert-success">
+						{{$message}}
+					</div>
+				@endif
 			</div>
 		</div>
 		<div class="row ">

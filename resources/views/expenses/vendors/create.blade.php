@@ -11,18 +11,52 @@
 			<div class="col-md-12">
 				<div class="card shadow-xs">
 					<div class="card-body">
+						<form action="{{route('vendors.store')}}" method="Post">
+							@csrf
 						<div class=" row form-group ">
 							<div class="col-md-6 mt-2">
 								<label for="name" class="font-wieght-bold"><b>Name <span class="text-danger">*</span></b></label>
 								<input type="text" name="name" class="form-control" placeholder="Enter Name" value="{{old('name')}}" required> 
+
+							    @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
 							</div>
 							<div class="col-md-6 mt-2">
 								<label for="email" ><b>Email <span class="text-danger">*</span></b></label>
 								<input type="text" name="email" class="form-control" placeholder="Enter Email" value="{{old('email')}}" required> 
+
+								@error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+							</div>
+							<div class="col-md-6 mt-2">
+								<label for="comp_code"><b>Company Name <span class="text-danger">*</span></b></label>
+								<select class="form-control" name="comp_code">
+									<option value="0" >Select Company</option>
+									@foreach($companies as $comp)
+										<option value="{{$comp->comp_code}}">{{$comp->comp_name}}</option>
+									@endforeach
+								</select>
+								@error('comp_code')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
 							</div>
 							<div class="col-md-6 mt-2">
 								<label for="tax_number" ><b>Tax Number</b></label>
-								<input type="text" name="tax_number" class="form-control" placeholder="Enter Tax Number" value="{{old('tax_number')}}" > 
+								<input type="text" name="tax_number" class="form-control" placeholder="Enter Tax Number" value="{{old('tax_number')}}" >
+
+								@error('tax_number')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror								 
 							</div>
 							<div class="col-md-6 mt-2">
 								<label for="phone" ><b>Phone</b></label>
@@ -30,8 +64,15 @@
 							</div>
 							<div class="col-md-6 mt-2">
 								<label for="website" ><b>Website</b></label>
-								<input type="text" name="website" class="form-control" placeholder="Enter website" value="{{old('website')}}" > 
+								<input type="text" name="website" class="form-control" placeholder="Enter website" value="{{old('website')}}" >
+
+								@error('website')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror 
 							</div>
+							
 							<div class="col-md-6 mt-2">
 								<label for="enabled" ><b>Enabled</b></label>
 								<div class="input-group">
@@ -54,14 +95,16 @@
 							</div>
 							<div class="col-md-12 mt-2">
 								<label for="note" ><b>Note </b></label>
-								<textarea name="Note" class="form-control" rows="5" cols="10" placeholder="Enter Note"  >{{old('Note')}}</textarea>
+								<textarea name="note" class="form-control" rows="5" cols="10" placeholder="Enter Note"  >{{old('note')}}</textarea>
 							
 							</div>
 							<div class="col-md-12 mt-3">
+								<input type="hidden" name="user_id" value="{{Auth::user()->id}}">
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Save</button>
 								<span class="ml-2" ><a href="{{route('vendors.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
 							</div>
 						</div>
+						</form>
 					</div>
 				</div>
 			</div>
