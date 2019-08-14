@@ -1,36 +1,39 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Expenses;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVendor;
 use Auth;
 use App\CompMast;
 use App\Vendor;
-
 class VendorsController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
     public function index(){
-    	$companies = CompMast::all();
-    	$vendors = Vendor::where('user_id',Auth::user()->id)->get();
-    	return view('expenses.vendors.show',compact('vendors','companies'));
+        $companies = CompMast::all();
+        $vendors = Vendor::where('user_id',Auth::user()->id)->get();
+        return view('expenses.vendors.show',compact('vendors','companies'));
     }
 
     public function create(){
-    	$companies = CompMast::all();
-    	return view('expenses.vendors.create',compact('companies'));
+        $companies = CompMast::all();
+        return view('expenses.vendors.create',compact('companies'));
     }
 
     public function store(StoreVendor $request){
-    	$data = $request->validated();	
-    	Vendor::create($data);
-    	return redirect()->route('vendors.index')->with('success','Vendor Inserted Successfully');
+        $data = $request->validated();  
+        Vendor::create($data);
+        return redirect()->route('vendors.index')->with('success','Vendor Inserted Successfully');
     }
 
     public function edit($id){
         $vendor = Vendor::find($id);
         $companies = CompMast::all();
-    	return view('expenses.vendors.edit',compact('vendor','companies'));
+        return view('expenses.vendors.edit',compact('vendor','companies'));
     } 
 
     public function update(StoreVendor $request, $id){

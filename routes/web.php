@@ -16,6 +16,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::resource('/expenses/bills','BillsController');
-Route::resource('/expenses/vendors','VendorsController');
-Route::resource('/expenses/payments','PaymentsController');
+Route::resource('/expenses/bills','Expenses\BillsController');
+Route::resource('/expenses/vendors','Expenses\VendorsController');
+Route::resource('/expenses/payments','Expenses\PaymentsController');

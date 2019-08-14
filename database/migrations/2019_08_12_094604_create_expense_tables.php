@@ -79,7 +79,7 @@ class CreateExpenseTables extends Migration
 
         Schema::create('expense_catg_mast', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('comp_code', 3);
+            $table->string('grp_code', 1);
             $table->string('name', 100);
             $table->string('color')->nullable();
             $table->boolean('enabled')->default(1);
@@ -87,7 +87,7 @@ class CreateExpenseTables extends Migration
 
         Schema::create('expense_mode_mast', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('comp_code', 3);
+            $table->string('grp_code', 1);
             $table->string('name', 100);
             $table->string('color')->nullable();
             $table->boolean('enabled')->default(1);

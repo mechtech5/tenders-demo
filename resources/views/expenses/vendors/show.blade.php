@@ -85,6 +85,7 @@
 
 									</td>
 									<td class="d-flex">
+										
 										<span>
 											<a href="{{route('vendors.edit',$vendor->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
