@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class ExpenseMode extends Model
 {
-    protected $table = 'expense_mode_mast'; 
+    protected $table = 'exp_mode_mast'; 
 }

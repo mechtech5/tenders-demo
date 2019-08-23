@@ -11,7 +11,7 @@ class BillsController extends Controller
         $this->middleware('auth');
     }
    	public function index(){
-        return view('expenses.bills.show');
+        return view('expenses.bills.index');
     }
     public function create(){
         return view('expenses.bills.create');

@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Controllers\Settings;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\EmployeeMast;
+use App\Models\ExpensePermitUser;
+use App\Models\CompGrpMast;
+use App\User;
+class ExpensePermitUserController extends Controller
+{
+    public function create(){
+   		$olduser_id = ExpensePermitUser::select('emp_id')->get();
+   		
+   		$users = EmployeeMast::whereNotIn('emp_id',$olduser_id->toArray())->get();
+
+   		$oldUsers = EmployeeMast::whereIn('emp_id',$olduser_id->toArray())->get();
+
+   		// $users = EmployeeMast::all();
+   		// return $users;
+   		return view('settings.expense_permit_user.create',compact('users','oldUsers'));
+   	}
+
+   	public function store(Request $request){
+   		$users = $request->users;
+   		$grp_code = $request->grp_code;
+
+   		$company_grp = CompGrpMast::find($grp_code);
+
+   		$company_grp->expense_permit_users()->sync($users);
+
+   		return 'Expense Permit User Added successfully';
+
+   	}
+}

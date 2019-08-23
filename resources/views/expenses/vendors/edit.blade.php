@@ -143,7 +143,7 @@
 							
 							</div>
 							<div class="col-md-12 mt-3">
-								<input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+								
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Save</button>
 								<span class="ml-2" ><a href="{{route('vendors.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
 							</div>

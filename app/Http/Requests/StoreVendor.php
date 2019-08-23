@@ -30,13 +30,13 @@ class StoreVendor extends FormRequest
             'tax_number'    => 'nullable|string',
             'phone'         => 'nullable|string',
             'website'       => 'nullable|string',
-            'acc_no'        => 'nullable|number',
+            'acc_no'        => 'nullable|numeric',
             'acc_name'      => 'nullable|string',
             'acc_ifsc'      => 'nullable|string', 
             'enabled'       => 'required',
             'address'       => 'nullable|string',
             'note'          => 'nullable|string',
-            'user_id'       => 'required',
+           
 
         ];
     }

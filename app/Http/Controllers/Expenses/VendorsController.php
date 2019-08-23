@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVendor;
 use Auth;
-use App\CompMast;
-use App\Vendor;
+use App\Models\CompMast;
+use App\Models\Vendor;
 class VendorsController extends Controller
 {
     public function __construct(){
@@ -15,8 +15,8 @@ class VendorsController extends Controller
     }
     public function index(){
         $companies = CompMast::all();
-        $vendors = Vendor::where('user_id',Auth::user()->id)->get();
-        return view('expenses.vendors.show',compact('vendors','companies'));
+        $vendors = Vendor::all();
+        return view('expenses.vendors.index',compact('vendors','companies'));
     }
 
     public function create(){
@@ -25,6 +25,7 @@ class VendorsController extends Controller
     }
 
     public function store(StoreVendor $request){
+
         $data = $request->validated();  
         Vendor::create($data);
         return redirect()->route('vendors.index')->with('success','Vendor Inserted Successfully');

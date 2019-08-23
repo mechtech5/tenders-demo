@@ -89,11 +89,11 @@
 										<span>
 											<a href="{{route('vendors.edit',$vendor->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
-										<span class="ml-3">
+										<span class="ml-2">
 											<form action="{{route('vendors.destroy',$vendor->id)}}" method="POST" id="delform_{{ $vendor->id}}">
 													@csrf
 												@method('DELETE')
-												<a href="javascript:$('#delform_{{ $vendor->id}}').submit();" class="btn btn-sm btn-danger"><i class="fa fa-trash text-white" onclick="return confirm('Are you sure?')" style="font-size: 12px;"></i></a>
+												<a href="javascript:$('#delform_{{ $vendor->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
 										
 											</form>
 										</span>

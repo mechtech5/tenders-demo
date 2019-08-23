@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Laxyo</title>
-
+    <link rel = "icon" href ="{{asset('images/logo_laxyo.png')}}" type = "image/x-icon" style="line-height: 40px;">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
