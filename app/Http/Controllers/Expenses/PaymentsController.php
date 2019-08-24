@@ -30,6 +30,7 @@ class PaymentsController extends Controller
         $payments = Payment::with('account','company','employee_in_user','employee_permit_user','expense_mode','vendor')->with(['expense_category' => function($query){
             $query->where('enabled',1);
         }])->get();
+
         // return $payments;
         return view('expenses.payments.index',compact('payments'));
     }
@@ -125,9 +126,364 @@ class PaymentsController extends Controller
         ]);
 
 
-         Excel::import(new PaymentsImport,$request->file('file'));
-           
+         $datas = Excel::toCollection(new PaymentsImport,$request->file('file'));
+     
+        $status = TRUE;
+        $error =array();
+
+
+        foreach ($datas as $data) {
+            foreach ($data as $row) {
+                 //Company Validation
+            if($status == TRUE){
+                if($row['company_name'] == ''){
+                    $status = FALSE; 
+
+                }
+                else{
+                    $company = CompMast::where('comp_name',$row['company_name'])->first();
+                    if(!empty($company)){
+                        $status =TRUE;
+                    }
+                    else{
+                        
+                        $status = FALSE; 
+                    }
+                }
+                
+            }
+
+           //Company account check      
+              if($status == TRUE){
+                if($row['account_name'] == ''){
+                   $account_id = null;
+                   $status == TRUE;   
+                  
+                }
+                else{
+                    $account = AccountMast::where('name',$row['account_name'])->first();
+                    if(!empty($account)){                                            
+                        if($account->comp_code == $comp_code = $company->comp_code){
+                            $status = TRUE;
+                            $account_id = $account->id;
+                        }
+                        else{  
+                                                     
+                            $status = FALSE;
+                        }
+                    }
+                    else{
+                       
+                        
+                        $status = FALSE;
+                    }
+                   
+                }
+
+              }
+
+              // Date check 
+              if($status == TRUE){
+                if($row['date'] == ''){
+                    $status = TRUE;
+                    $date = date('Y-m-d');
+                }
+                else{
+                    
+                    
+
+                     $date = date('Y-m-d');
+                     // dd($date);   
+                     $status = TRUE;                 
+                }
+              }
+
+            //Amount check
+              if($status == TRUE){
+                if($row['amount'] == ''){
+                    $status = FALSE;
+                }
+                else{
+                    if(is_numeric($row['amount'])) {
+                        $status = TRUE;
+                        $amount = $row['amount'];
+                    }
+                    else{
+                        $status = FALSE;
+                    }                 
+                   
+                }
+              }
+
+            //vendor Check
+              if($status == TRUE){
+                if($row['vendor_name'] == '')
+                {
+                    $vendor_id = null;
+                    $status = TRUE;
+                }
+                else{
+                    $vendor = Vendor::where('name','LIKE', '%'.$row['vendor_name']. '%')->first();
+                    if(!empty($vendor)){
+                        if($vendor->comp_code == $company->comp_code){
+                            $vendor_id = $vendor->id;
+                            $status = TRUE; 
+                        }
+                        else{
+
+                            $status =FALSE;
+                        }
+                    }
+                    else{
+                       $status = FALSE;                     
+                    }                    
+                }
+              }
+
+              // Narration check
+              if($status == TRUE){
+                if($row['narration'] == ''){
+                    $status = FALSE;
+                }
+                else{
+                    $status =TRUE;
+                }
+              }
+
+            //expense_in_user check
+              if($status == TRUE){
+                if($row['expense_in_user'] == ''){
+                    $exp_user_id = null;
+                    $status = TRUE;
+                }
+                else{
+                   $employee = EmployeeMast::where('emp_name','LIKE', '%'.$row['expense_in_user']. '%')->first();
+                   if(!empty($employee)){
+                        $exp_user = ExpenseInUser::where('emp_id',$employee->emp_id)->first();
+                        if(!empty($exp_user)){
+                            $exp_user_id = $exp_user->emp_id;
+                            $status = TRUE;
+                        }
+                        else{
+                        $status =FALSE;
+                        }
+                   }
+                   else{
+                     $status = FALSE;
+                   }
+                }
+              }
+
+              // expense_permit
+              if($status == TRUE){
+                if($row['expense_permit'] == ''){
+                    $exp_permit_id = null;
+                    $status = TRUE;
+                }
+                else{
+                   $employee = EmployeeMast::where('emp_name','LIKE', '%'.$row['expense_permit']. '%')->first();
+
+                   if(!empty($employee)){
+                    $exp_permit = ExpensePermitUser::where('emp_id',$employee->emp_id)->first();
+
+                    if(!empty($exp_permit)){
+                        $exp_permit_id = $exp_permit->emp_id;
+                        $status = TRUE;
+                    }
+                    else{
+                        $status =FALSE;
+                    }
+                   }
+                   else{
+                     $status = FALSE;
+                   }
+                }
+              }
+
+
+            // Email Check
+              if($status == TRUE){
+                if($row['email'] == ''){
+                    $email = null ;
+                    $status = TRUE;
+                }
+                else{
+                    $email_check = $this->valid_email($row['email']);
+                    if($email_check == TRUE){
+                        $email = $row['email'];
+                        $status = TRUE;
+                    }
+                    else{
+                        $status = FALSE;
+                    }                    
+                }
+              }
+              //payment_method check
+
+              if($status == TRUE){
+                if($row['payment_method'] == ''){
+                    $status = FALSE ;
+                }
+                else{
+                    $payment_method = ExpenseMode::where('name',$row['payment_method'])->first();
+                    if(!empty($payment_method)){                   
+                            $status = TRUE; 
+                    }
+                    else{
+                         $status = FALSE;
+                    }                                     
+                }
+              }
+
+              // Payment_status check 
+              if($status == TRUE){
+                if($row['payment_status'] == ''){
+                    if($payment_method->name == 'NEFT'){
+                        $payment_status = 'P'; //Pending
+                    }
+                    else{
+                       $payment_status = 'A';  //Approved
+                    }
+                   // $status = FALSE;
+                }
+                else{
+                    if($payment_method->name == 'NEFT'){
+                        if($row['payment_status'] == 'Pending' || $row['payment_status'] == 'pending'){
+                            $status = TRUE;
+                            $payment_status = 'P';
+                           
+                        }
+                        else{
+                            $status = FALSE;
+
+                        }
+                    }
+                    else{
+                        if($row['payment_status'] == 'Approved' || $row['payment_status'] == 'approved' ){
+                            $payment_status = 'A';  
+                            $status = TRUE;
+                                                
+                        }
+                        elseif($row['payment_status'] == 'Pending' || $row['payment_status'] == 'pending'){
+                            $payment_status = 'P';  
+                            $status = TRUE;    
+                            
+                        }
+                        elseif($row['payment_status'] == 'Hold' || $row['payment_status'] == 'hold'){
+                            $payment_status = 'H';  
+                            $status = TRUE; 
+                           
+                        }
+
+                        elseif($row['payment_status'] == 'Declined' || $row['payment_status'] == 'declined'){
+                            $payment_status = 'D';  
+                            $status = TRUE; 
+                             
+                        }
+                        else{
+
+                            $status = FALSE; 
+                        }
+                        
+                    }
+                    
+                }
+              }
+
+             // Request_approval
+               if($status == TRUE){
+                    if($row['request_approval'] == ''){
+                        if($payment_method->name == 'NEFT'){
+                            $req_approval = '1';
+                        } 
+                        else{
+                             $req_approval = '0';
+                        }
+                    }
+                    else{
+                        if($payment_method->name == 'NEFT'){
+                            if($row['request_approval'] == 'YES' || $row['request_approval'] == 'yes' || $row['request_approval'] == 'Yes'){
+                                $req_approval = '1';
+                                $status =TRUE;
+
+                            }
+                            else{
+                                $status =FALSE;
+                            }
+                        }
+                        else{
+                            if($row['request_approval'] == 'YES' || $row['request_approval'] == 'yes' || $row['request_approval'] == 'Yes'){
+                                $req_approval = '1';
+                                $status =TRUE;
+                               
+                            }
+                            else if($row['request_approval'] == 'NO' || $row['request_approval'] == 'no' || $row['request_approval'] == 'No'){
+                                $req_approval = '0';
+                                $status =TRUE;
+                            }
+                            else{
+                                $status =FALSE;
+                            }
+                        }
+                    }
+               }
+
+               // expense_category 
+
+               if($status == TRUE){
+                if($row['expense_category'] == ''){
+                   $status = FALSE; 
+                }
+                else{
+                    $exp_catg =ExpenseCategory::where('name',$row['expense_category'])->first();
+                    if(!empty($exp_catg)){
+                       
+                        $status = TRUE;
+                    }
+                    else{
+                        $status = FALSE;
+                    }
+                }
+               }
+
+              if($status == TRUE){
+                //  Payment::create([
+                //     'comp_code'         => $company->comp_code,
+                //     'account_id'        => $account_id,
+                //     'paid_at'           => $date,
+                //     'amount'            => $amount,
+                //     'vendor_id'         => $vendor_id,
+                //     'narration'         => $row['narration'],
+                //     'catg_id'           => $exp_catg->id,
+                //     'mode_id'           => $payment_method->id,
+                //     'exp_permit_user'   => $exp_permit_id,
+                //     'exp_in_user'       => $exp_user_id,
+                //     'email'             => $email,
+                //     'status'            => $payment_status,
+                //     'note'              => $row['note'],
+                //     'req_approval'      => $req_approval,
+                    
+                   
+                // ]);
+              }
+              else{
+                $error[] =$row['amount'];
+
+              }
+                $status =TRUE;
+
+            }
+        }
+
+
+
+        return $error;
         // return back();
     
     }   
+    public function valid_email($email) {
+         return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) ? FALSE : TRUE;
+    }
+
+    
 }
