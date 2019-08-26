@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePayments;
 use App\Exports\PaymentsExport;
+use App\Exports\ErrorPaymentExport;
 use App\Imports\PaymentsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Auth;
@@ -17,8 +18,9 @@ use App\Models\AccountMast;
 use App\Models\ExpenseCategory;    
 use App\Models\ExpenseInUser;    
 use App\Models\ExpensePermitUser;    
+use App\Models\EmployeeMast;    
 use App\Models\Payment;    
-
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 class PaymentsController extends Controller
 {
     public function __construct(){
@@ -27,7 +29,7 @@ class PaymentsController extends Controller
 
     public function index()
     {
-        $payments = Payment::with('account','company','employee_in_user','employee_permit_user','expense_mode','vendor')->with(['expense_category' => function($query){
+        $payments = Payment::with('account','company','expense_in_user','expense_permit_user','expense_mode','vendor')->with(['expense_category' => function($query){
             $query->where('enabled',1);
         }])->get();
 
@@ -70,7 +72,7 @@ class PaymentsController extends Controller
     
     public function show($id)
     {
-        $payment = Payment::with('account','company','employee_in_user','employee_permit_user','expense_category','expense_mode','vendor')->where('id',$id)->first();
+        $payment = Payment::with('account','company','expense_in_user','expense_permit_user','expense_category','expense_mode','vendor')->where('id',$id)->first();
         // return $payment;
        return view('expenses.payments.show',compact('payment'));
     }
@@ -135,8 +137,10 @@ class PaymentsController extends Controller
         foreach ($datas as $data) {
             foreach ($data as $row) {
                  //Company Validation
+
             if($status == TRUE){
                 if($row['company_name'] == ''){
+
                     $status = FALSE; 
 
                 }
@@ -190,9 +194,7 @@ class PaymentsController extends Controller
                 }
                 else{
                     
-                    
-
-                     $date = date('Y-m-d');
+                     $date = date('Y-m-d',strtotime($row['date']));
                      // dd($date);   
                      $status = TRUE;                 
                 }
@@ -447,42 +449,73 @@ class PaymentsController extends Controller
                }
 
               if($status == TRUE){
-                //  Payment::create([
-                //     'comp_code'         => $company->comp_code,
-                //     'account_id'        => $account_id,
-                //     'paid_at'           => $date,
-                //     'amount'            => $amount,
-                //     'vendor_id'         => $vendor_id,
-                //     'narration'         => $row['narration'],
-                //     'catg_id'           => $exp_catg->id,
-                //     'mode_id'           => $payment_method->id,
-                //     'exp_permit_user'   => $exp_permit_id,
-                //     'exp_in_user'       => $exp_user_id,
-                //     'email'             => $email,
-                //     'status'            => $payment_status,
-                //     'note'              => $row['note'],
-                //     'req_approval'      => $req_approval,
+                 Payment::create([
+                    'comp_code'         => $company->comp_code,
+                    'account_id'        => $account_id,
+                    'paid_at'           => $date,
+                    'amount'            => $amount,
+                    'vendor_id'         => $vendor_id,
+                    'narration'         => $row['narration'],
+                    'catg_id'           => $exp_catg->id,
+                    'mode_id'           => $payment_method->id,
+                    'exp_permit_user'   => $exp_permit_id,
+                    'exp_in_user'       => $exp_user_id,
+                    'email'             => $email,
+                    'status'            => $payment_status,
+                    'note'              => $row['note'],
+                    'req_approval'      => $req_approval,
                     
                    
-                // ]);
+                ]);
               }
               else{
-                $error[] =$row['amount'];
+                $error[] =[
+                    'sno'             => $row['sno'],
+                    'company_name'    => $row['company_name'],
+                    'account_name'    => $row['account_name'],
+                    'date'            => $row['date'],
+                    'amount'          => $row['amount'],
+                    'vendor_name'     => $row['vendor_name'],
+                    'narration'       => $row['narration'],
+                    'expense_in_user' => $row['expense_in_user'],
+                    'expense_permit'  => $row['expense_permit'],
+                    'email'           => $row['email'],
+                    'payment_method'  => $row['payment_method'],
+                    'payment_status'  => $row['payment_status'],
+                    'expense_category'=> $row['expense_category'],
+                    'request_approval'=> $row['request_approval'],
+                    'note'            => $row['note'],
+                   
+                ];
 
               }
                 $status =TRUE;
 
             }
         }
+        if(count($error) !=0){
 
+            return Excel::download(new ErrorPaymentExport($error), 'errorpaymentimport.xlsx');
+        }
+    
 
+        return back()->with('success','Excel imported successfully');
+       
 
-        return $error;
-        // return back();
+   
+           
+      
+
     
     }   
     public function valid_email($email) {
          return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) ? FALSE : TRUE;
+    }
+
+    public function error_import_payment($error){
+
+   
+  
     }
 
     

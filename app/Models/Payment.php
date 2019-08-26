@@ -15,10 +15,10 @@ class Payment extends Model
     public function company(){
     	return $this->belongsTo('App\Models\CompMast','comp_code');
     }
-    public function employee_in_user(){
+    public function expense_in_user(){
     	return $this->belongsTo('App\Models\EmployeeMast','exp_in_user');
     }
-    public function employee_permit_user(){
+    public function expense_permit_user(){
     	return $this->belongsTo('App\Models\EmployeeMast','exp_permit_user');
     }
     public function expense_category(){
