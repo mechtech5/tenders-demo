@@ -2,47 +2,35 @@
 
 namespace App\Imports;
 
-use App\Models\Demo;
+use App\Models\Payment;
 use App\Models\CompMast;
+use App\Models\AccountMast;
+use App\Models\Vendor;
+use App\Models\EmployeeMast;
+use App\Models\ExpenseInUser;
+use App\Models\ExpensePermitUser;
+use App\Models\ExpenseMode;
+use App\Models\ExpenseCategory;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 class PaymentsImport implements ToCollection, WithHeadingRow
 {
      public function collection(Collection $rows){
         
-        $status = TRUE;
-        $error =array();
-
-        foreach ($rows as $row){
         
-
-          //Company Validation
-            if($status == TRUE){
-                $compaines = CompMast::where('comp_name',$row['company_name'])->get();
-                if(count($compaines) !=0){
-                    $status =TRUE;
-                }
-                else{
-                    $error[] = $row['company_name'];
-                    $status = FALSE; 
-                }
-            }
-                       
-
-            dd($status);
-            die;
-        }
+        // return $rows;
+       
     
-      
-    
+             // dd($error);
+            
         // foreach ($rows as $row){
         //     Demo::create([
         //         'comp_code'     => $row['company_name'],
         //         'account_id'    => $row['account_name'],
         //         'amount'        => $row['amount'],
-        //         'status'        => $row['status'],
+        //         
         //         'req_approval'  => $row['Request Approval'],
         //     ]);
         // }

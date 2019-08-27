@@ -51,10 +51,15 @@
 			</div>
 		</div>
 		@if($message = Session::get('success'))
-					<div class="alert alert-success">
-						{{$message}}
-					</div>
-				@endif
+			<div class="alert alert-success">
+				{{$message}}
+			</div>
+		@endif
+		@if(Session::get('error'))
+			<div class="alert alert-danger">
+				{{session('error')}}
+			</div>
+		@endif		
 		<div class="row ">
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
@@ -87,15 +92,12 @@
 										<td>{{$payment->company->comp_name}}</td>
 										<td>{{date('d-m-Y', strtotime($payment->paid_at))}}</td>
 										<td><i class="fa fa-inr"> </i> {{$payment->amount}}</td>
-										<td>{{$payment->vendor_id != 0 ? $payment->vendor->name : '-' }}</td>
+										<td>{{$payment->vendor_id != null ? $payment->vendor->name : '-' }}</td>
 										<td>{{$payment->narration}}</td>
 										
-										<td>
-											@if($payment->expense_category != null)
-												{{$payment->expense_category->name}}
-											@endif
-										</td>
-										<td>{{$payment->account->name}}</td>
+										<td>{{$payment->catg_id !=null ? $payment->expense_category->name : ''}}</td>
+
+										<td>{{$payment->account_id !=null ? $payment->account->name : ''}}</td>
 										<td>
 											@if($payment->status == 'A')
 												{{'Approved'}}
