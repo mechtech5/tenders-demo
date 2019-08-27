@@ -89,7 +89,7 @@ class CreateExpenseTables extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('exp_catg_mast', function (Blueprint $table) {
+        Schema::create('expense_catg_mast', function (Blueprint $table) {
             $table->increments('id');
             $table->string('grp_code', 1);
             $table->string('name', 100);
@@ -97,7 +97,7 @@ class CreateExpenseTables extends Migration
             $table->boolean('enabled')->default(1);
         });
 
-        Schema::create('exp_mode_mast', function (Blueprint $table) {
+        Schema::create('expense_mode_mast', function (Blueprint $table) {
             $table->increments('id');
             $table->string('grp_code', 1);
             $table->string('name', 100);
@@ -105,19 +105,19 @@ class CreateExpenseTables extends Migration
             $table->boolean('enabled')->default(1);
         });
 
-        Schema::create('exp_permit_user', function (Blueprint $table) {
+        Schema::create('expense_permit_user', function (Blueprint $table) {
             $table->unsignedBigInteger('emp_id');
             $table->string('grp_code', 1);
             $table->string('comp_code', 3)->nullable();
         });
 
-        Schema::create('exp_in_user', function (Blueprint $table) {
+        Schema::create('expense_in_user', function (Blueprint $table) {
             $table->unsignedBigInteger('emp_id');
             $table->string('grp_code', 1);
             $table->string('comp_code', 3)->nullable();
         });
 
-        Schema::create('exp_site_mast', function (Blueprint $table) {
+        Schema::create('expense_site_mast', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('comp_code', 3);
@@ -222,6 +222,102 @@ class CreateExpenseTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+       Schema::create('inc_invoices',function($table){
+       		$table->bigIncrements('id');
+       		$table->string('comp_code',3);
+       		$table->string('invoice_number',191);
+       		$table->string('order_number',191);
+       		$table->string('invoice_status_code',191);
+       		$table->dateTime('invoiced_at');
+       		$table->dateTime('due_at');
+       		$table->decimal('amount',15,4);
+       		$table->string('customer_name',191);
+       		$table->string('customer_email',191);
+       		$table->string('customer_tax_number',191);
+       		$table->string('customer_phone',191);
+       		$table->text('customer_address');
+       		$table->text('notes');
+       		$table->timestamps();
+       		$table->softDeletes();
+       		$table->integer('category_id')->default(1);
+       		$table->bigInteger('parent_id')->default(0);
+       });
+
+       Schema::create('inc_invoice_histories',function($table){
+       		$table->bigIncrements('id');
+       		$table->string('comp_code',3);
+       		$table->bigInteger('invoice_id');
+       		$table->string('status_code',191);
+       		$table->tinyInteger('notify');
+       		$table->text('description');
+       		$table->timestamps();
+       		$table->softDeletes();
+       });
+
+       Schema::create('inc_invoice_items',function($table){
+       		$table->bigIncrements('id');
+       		$table->string('comp_code',3);
+       		$table->bigInteger('invoice_id');
+       		$table->bigInteger('item_id');
+       		$table->string('name',191);
+       		$table->string('sku',191);
+       		$table->decimal('quantity',7,2);
+       		$table->decimal('price',15,4);
+       		$table->decimal('total',15,4);
+       		$table->decimal('tax',15,4);
+       		$table->timestamps();
+       		$table->softDeletes();
+       });
+
+       Schema::create('inc_invoice_item_taxes',function($table){
+	       	$table->bigIncrements('id');
+	       	$table->string('comp_code',3);
+	       	$table->bigInteger('invoice_id');
+	       	$table->bigInteger('invoice_item_id');
+	       	$table->bigInteger('tax_id');
+	       	$table->string('name',191);
+	       	$table->decimal('amount',15,4);
+					$table->timestamps();
+       		$table->softDeletes();
+       });
+
+        Schema::create('inc_invoice_payments',function($table){
+	       	$table->bigIncrements('id');
+	       	$table->string('comp_code',3);
+	       	$table->bigInteger('invoice_id');
+	       	$table->bigInteger('account_id');
+	       	$table->dateTime('paid_at');	
+	       	$table->decimal('amount',15,4);
+	       	$table->text('description');
+	       	$table->string('payment_method',191);
+	       	$table->string('reference',191);
+	       	$table->tinyInteger('reconciled');
+					$table->timestamps();
+       		$table->softDeletes();
+       });
+
+        Schema::create('inc_invoice_statuses',function($table){
+        	$table->bigIncrements('id');
+        	$table->string('comp_code',3);
+        	$table->string('name',191);
+        	$table->string('code',191);
+        	$table->timestamps();
+       		$table->softDeletes();
+        });
+
+        Schema::create('inc_invoice_totals',function($table){
+	        	$table->bigIncrements('id');
+	        	$table->string('comp_code',3);
+	        	$table->bigInteger('invoice_id');
+	        	$table->string('name',191);
+        		$table->string('code',191);
+        		$table->decimal('amount',15,4);
+        		$table->integer('sort_order');
+	        	$table->timestamps();
+	       		$table->softDeletes();
+        });
+
     }
 
     /**

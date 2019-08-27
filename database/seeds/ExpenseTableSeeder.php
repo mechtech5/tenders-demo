@@ -49,7 +49,7 @@ class ExpenseTableSeeder extends Seeder
                 'comp_name' => 'APNAGPS'
             ]
         ]);
-        DB::table('exp_mode_mast')->insert([
+        DB::table('expense_mode_mast')->insert([
             [
                 'grp_code' => '1',
                 'name' => 'Cash'

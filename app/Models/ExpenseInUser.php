@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExpenseInUser extends Model
 {
-    protected $table = 'exp_in_user';
+    protected $table = 'expense_in_user';
 	public $timestamps = false;
 	protected $guarded = [] ;
  	protected $primaryKey = 'emp_id';

@@ -26,13 +26,11 @@
 										<input type="text" name="name" class="form-control" required="" value="{{$category->name}}">
 									</div>
 									@error('name')
-                                    <span class="text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                	@enderror
+                    <span class="text-danger" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                	@enderror
 								</div>
-
-
 								<div class="col-md-6 mt-2">
 								<label for="enabled" ><b>Enabled <span class="text-danger">*</span></b></label>
 								<div class="input-group">

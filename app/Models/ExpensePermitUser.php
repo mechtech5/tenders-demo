@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ExpensePermitUser extends Model
 {
-    protected $table = 'exp_permit_user';
+    protected $table = 'expense_permit_user';
 	public $timestamps = false;
 	protected $guarded = [] ;
  	protected $primaryKey = 'emp_id';

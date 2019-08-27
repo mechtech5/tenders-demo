@@ -123,10 +123,10 @@
 											
 												</form>
 											</span>
- --}}											<span class="">
+ --}}									<span class="">
 												<a href="{{route('payments.show',$payment->id)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye"></i></a>
 											</span>
-									</td>
+										</td>
 									</tr>
 								@endforeach
 							</tbody>

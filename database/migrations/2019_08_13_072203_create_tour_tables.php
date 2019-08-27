@@ -25,6 +25,8 @@ class CreateTourTables extends Migration
             $table->date('emp_dob');
             $table->unsignedInteger('emp_desg');
             $table->boolean('active')->default(1);
+            $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('dsgn_mast', function (Blueprint $table) {
@@ -32,6 +34,8 @@ class CreateTourTables extends Migration
             $table->string('comp_code', 3);
             $table->string('title', 100);
             $table->text('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('emp_grade_mast', function (Blueprint $table) {
@@ -39,6 +43,8 @@ class CreateTourTables extends Migration
             $table->string('comp_grp', 1);
             $table->decimal('entitled_amt', 15, 4)->default(0.00);
             $table->text('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('tours', function (Blueprint $table) {
