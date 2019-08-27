@@ -11,7 +11,7 @@ class Designation extends Model
   protected $table = 'dsgn_mast';  	
   protected $fillable = ['title'];
 
-  public function employee(){
- 		return $this->belongsTo('App\Models\EmployeeMast');
+  public function employees(){
+ 		return $this->hasMany('App\Models\EmployeeMast', 'emp_desg', 'id');
  	}
 }

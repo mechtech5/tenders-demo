@@ -13,6 +13,10 @@ class EmployeeMast extends Model
  	public $incrementing =false;
 
 	public function company(){
- 		return $this->belongsTo('App\Models\CompMast');
+ 		return $this->belongsTo('App\Models\CompMast', 'comp_code');
+ 	}
+
+ 	public function designation(){
+ 		return $this->belongsTo('App\Models\Designation', 'emp_desg');
  	}
 }
