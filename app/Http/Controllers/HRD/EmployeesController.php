@@ -14,7 +14,7 @@ class EmployeesController extends Controller
     }
     public function index()
     {		
-  		$employees = EmployeeMast::all();
+  		$employees = EmployeeMast::with('designation','company')->get();
       return view('HRD.employees.index',compact('employees'));
     }
     public function export(){

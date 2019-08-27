@@ -43,11 +43,11 @@
 									<td>{{$employee->emp_id}}</td>
 									<td>{{$employee->emp_name}}</td>
 									<td>{{$employee->emp_code}}</td>
-									<td>{{$employee->comp_code}}</td>
+									<td>{{$employee->company->comp_name}}</td>
 									<td>{{$employee->grade_code}}</td>
 									<td>{{$employee->emp_gender}}</td>
 									<td>{{$employee->emp_dob}}</td>
-									<td>{{$employee->emp_desg}}</td>
+									<td>{{$employee->designation->title}}</td>
 									<td>{{$employee->active}}</td>
 									<td class='d-flex'>
 										<span>
