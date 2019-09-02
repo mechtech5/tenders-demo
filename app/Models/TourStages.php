@@ -19,6 +19,6 @@ class TourStages extends Model
  	}
 
  	public function employee(){
- 		return $this->belongsTo('App\Models\EmployeeMast','emp_id','creator_id');
+ 		return $this->belongsTo('App\Models\EmployeeMast','creator_id');
  	}
 }

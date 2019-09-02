@@ -8,6 +8,7 @@ use App\Models\EmployeeMast;
 use App\Models\TourStages;
 use App\Models\TourStatus;
 use App\Models\Tours;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,8 +19,7 @@ class ToursController extends Controller
     }
     public function index()
     { 
-    
-    	$tours = Tours::with('stages.status_info')->get();
+    	$tours = Tours::with('stages.status_info','stages.employee')->get();
       return view('expenses.tours.index',compact('tours'));
     }
 
@@ -66,7 +66,7 @@ class ToursController extends Controller
 
 		    	$stage = new TourStages();
 		    	$stage->tour_id = $tour->id;
-		    	$stage->creator_id = auth()->user()->id;
+		    	$stage->creator_id = User::find(auth()->user()->id)->employee->emp_id; 
 		    	$stage->status = 1;  //1 for created status
 		    	$stage->save();
 			});
@@ -141,7 +141,7 @@ class ToursController extends Controller
     public function show_stages($id)
     { 
     	$actions = $this->display_action_button($id);
-    	$tour = Tours::with('stages.status_info','employee','company')->where('id',$id)->first();
+    	$tour = Tours::with('stages.status_info','stages.employee','employee','company')->where('id',$id)->first();
     	return view('expenses.tours.stages',compact('tour','employee','actions'));
     }
 
@@ -159,6 +159,7 @@ class ToursController extends Controller
     	$actions['approve'] = $this->display_approve($d1,$d2,$hr,$tl,$tour_creator,$latest_stage);
     	$actions['delete'] = 	$this->display_delete($d1,$d2,$hr,$tl,$tour_creator,$latest_stage);
     	$actions['hold'] = false;
+    	$actions['decline'] =  $this->display_decline($d1,$d2,$hr,$tl,$tour_creator,$latest_stage);
     	$actions['start'] = $this->display_start($d1,$d2,$hr,$tl,$tour_creator,$latest_stage);
     	$actions['end'] = $this->display_end($d1,$d2,$hr,$tl,$tour_creator,$latest_stage);
     	return $actions;
@@ -196,20 +197,37 @@ class ToursController extends Controller
     }
 
     public function display_start($d1,$d2,$hr,$tl,$tour_creator,$stage){
-    	return false;
-    	// $x = false;
-    	// $t_creatorid = $tour_creator->login_user; //Employeee- Creator of tour
-   		// $uid = auth()->user()->id; //logged user ID
-   		// $d1_id = $d1->login_user; //Y sir logged ID
-   		// $d2_id = $d2->login_user; //HS Sir logged ID
-   		// $hr_id = $hr->login_user; //HR logged ID
-   		// $tl_id = $tl->login_user; //TL logged ID
+    	$x = false;
+    	$t_creatorid = $tour_creator->login_user; //Employeee- Creator of tour
+   		$uid = auth()->user()->id; //logged user ID
+   		$d1_id = $d1->login_user; //Y sir logged ID
+   		$d2_id = $d2->login_user; //HS Sir logged ID
+   		$hr_id = $hr->login_user; //HR logged ID
+   		$tl_id = $tl->login_user; //TL logged ID
 
-     //  //if latest stage is 'Advance Amount Released' (4) then  any one (TL/Y sir/HR/employee) can stgart tour
-    	// if(in_array($uid,array($t_creatorid,$d1_id,$hr_id,$tl_id)) && $stage==4){
-  			// $x = true;
-    	// }
-    	// return $x;
+      //if latest stage is 'Advance Amount Released' (4) then  any one (TL/Y sir/HR/employee) can stgart tour
+    	if(in_array($uid,array($t_creatorid,$d1_id,$hr_id,$tl_id)) && $stage==4){
+  			$x = true;
+    	}
+    	return $x;
+    }
+
+    public function display_decline($d1,$d2,$hr,$tl,$tour_creator,$stage){
+    	$x = false;
+    	$t_creatorid = $tour_creator->login_user; //Employeee- Creator of tour
+   		$uid = auth()->user()->id; //logged user ID
+   		$d1_id = $d1->login_user; //Y sir logged ID
+   		$d2_id = $d2->login_user; //HS Sir logged ID
+   		$hr_id = $hr->login_user; //HR logged ID
+   		$tl_id = $tl->login_user; //TL logged ID
+
+      //if latest stage is created (1) then  any one (TL/Y sir) can decline tour
+    	if(in_array($uid,array($d1_id,$tl_id)) && $stage==1){
+  			$x = true;
+    	}elseif(in_array($uid,array($d1_id))){ //In any case Y sir can decline it
+  			$x = true;
+    	}
+    	return $x;
     }
 
      public function display_end($d1,$d2,$hr,$tl,$tour_creator,$stage){
@@ -267,7 +285,7 @@ class ToursController extends Controller
 				elseif($tl->login_user == auth()->user()->id){ //TL approval staus
 					$stage->status = 2; //TL approving
 				}
-				$stage->creator_id = auth()->user()->id;
+				$stage->creator_id = User::find(auth()->user()->id)->employee->emp_id;
 				$stage->tour_id = $id;
 				$stage->save();
 				$inserted = true;
@@ -275,7 +293,7 @@ class ToursController extends Controller
 			elseif($latest_stage == 2){ //TL approved
 				$stage = new TourStages();
 				$stage->status = 3; //YS Sir approving
-				$stage->creator_id = auth()->user()->id;
+				$stage->creator_id = User::find(auth()->user()->id)->employee->emp_id;
 				$stage->tour_id = $id;
 				$stage->save();
 				$inserted = true;
@@ -283,7 +301,7 @@ class ToursController extends Controller
 			elseif($latest_stage == 3){ //YS Sir approved
 				$stage = new TourStages();
 				$stage->status = 4; // HR approving Amount released
-				$stage->creator_id = auth()->user()->id;
+				$stage->creator_id = User::find(auth()->user()->id)->employee->emp_id;
 				$stage->tour_id = $id;
 				$stage->save();
 				$inserted = true;
@@ -291,7 +309,7 @@ class ToursController extends Controller
 			elseif($latest_stage == 6){ //Tour Ended
 				$stage = new TourStages();
 				$stage->status = 7; // HS Sir approving
-				$stage->creator_id = auth()->user()->id;
+				$stage->creator_id = User::find(auth()->user()->id)->employee->emp_id;
 				$stage->tour_id = $id;
 				$stage->save();
 				$inserted = true;
@@ -299,7 +317,7 @@ class ToursController extends Controller
 			elseif($latest_stage == 7){ //HS approved alll expenses
 				$stage = new TourStages();
 				$stage->status = 8; // Account Final stages 
-				$stage->creator_id = auth()->user()->id;
+				$stage->creator_id = User::find(auth()->user()->id)->employee->emp_id;
 				$stage->tour_id = $id;
 				$stage->save();
 				$inserted = true;
@@ -311,6 +329,9 @@ class ToursController extends Controller
 				return redirect()->route('tour.show_stages',$id)->with('error','Something went wrong!!');
 			}
 
+    }
+    //declie tour
+    public function decline($id){
     }
     //start tour
      public function start($id){
@@ -325,7 +346,7 @@ class ToursController extends Controller
     	if($latest_stage == 4){  //Amount released
 				$stage = new TourStages();
 				$stage->status = 5; // TOur started
-				$stage->creator_id = auth()->user()->id;
+				$stage->creator_id = User::find(auth()->user()->id)->employee->emp_id;
 				$stage->tour_id = $id;
 				$stage->save();
 				$inserted = true;
@@ -333,6 +354,31 @@ class ToursController extends Controller
 
 			if($inserted){
 				return redirect()->route('tour.show_stages',$id)->with('success','Tour started Successfully!!');
+			}else{
+				return redirect()->route('tour.show_stages',$id)->with('error','Something went wrong!!');
+			}
+
+    }
+     public function end($id){
+    	$tour = Tours::with('stages.status_info','employee','company')->where('id',$id)->first();
+    	$latest_stage = $this->return_latest_stage($tour->stages);
+    	$management = $this->fetch_management_users($id);
+    	$d1 = $management['d1'];
+    	$hr = $management['hr'];
+    	$tl = $management['tl'];
+    	$inserted = false;
+    	//Tl, HR, Y Sir, employee can start the tour 
+    	if($latest_stage == 5){  //Amount released
+				$stage = new TourStages();
+				$stage->status = 6; // TOur started
+				$stage->creator_id = User::find(auth()->user()->id)->employee->emp_id;
+				$stage->tour_id = $id;
+				$stage->save();
+				$inserted = true;
+			}
+
+			if($inserted){
+				return redirect()->route('tour.show_stages',$id)->with('success','Tour ended Successfully!!');
 			}else{
 				return redirect()->route('tour.show_stages',$id)->with('error','Something went wrong!!');
 			}

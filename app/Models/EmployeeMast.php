@@ -29,6 +29,6 @@ class EmployeeMast extends Model
  	}
 
  	public function stages(){
- 		return $this->hasMany('App\Models\TourStages','creator_id','emp_id');
+ 		return $this->hasMany('App\Models\TourStages','emp_id');
  	}
 }

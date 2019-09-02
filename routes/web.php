@@ -32,6 +32,8 @@ Route::post('payments/imports/', 'Expenses\PaymentsController@import')->name('pa
 Route::get('expenses/tour/show_stages/{id}','Expenses\ToursController@show_stages')->name('tour.show_stages');
 Route::get('expenses/tour/approve/{id}','Expenses\ToursController@approve')->name('tour.approve');
 Route::get('expenses/tour/start/{id}','Expenses\ToursController@start')->name('tour.start');
+Route::get('expenses/tour/end/{id}','Expenses\ToursController@end')->name('tour.end');
+Route::get('expenses/tour/decline/{id}','Expenses\ToursController@decline')->name('tour.decline');
 // HRD module
 Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
 

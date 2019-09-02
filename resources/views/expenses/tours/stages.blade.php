@@ -61,31 +61,38 @@
 						<div class="text-right">
 							@if($actions['approve'])
 							<span class="">
-									<a href="{{route('tour.approve',$tour->id)}}" class="btn btn-sm btn-success">
-										<i class="fa fa-check-square-o" style="font-size: 12px;"></i>Approve
-									</a>
+								<a href="{{route('tour.approve',$tour->id)}}" class="btn btn-sm btn-success">
+									<i class="fa fa-check-square-o" style="font-size: 12px;"></i>Approve
+								</a>
 							</span>
 							@endif
 							@if($actions['delete'])
 							<span class="ml-2">
-									<a href="#" class="btn btn-sm btn-danger">
-										<i class="fa fa-trash" style="font-size: 12px;"></i>Delete
-									</a>
+								<a href="#" class="btn btn-sm btn-danger">
+									<i class="fa fa-trash" style="font-size: 12px;"></i>Delete
+								</a>
+							</span>
+							@endif
+							@if($actions['decline'])
+							<span class="ml-2">
+								<a href="{{route('tour.decline',$tour->id)}}" class="btn btn-sm btn-danger">
+									<i class="fa fa-ban" style="font-size: 12px;"></i>decline
+								</a>
 							</span>
 							@endif
 							@if($actions['hold'])
 							<span class="ml-2">
-									<a href="#" class="btn btn-sm btn-primary">Hold</a>
+								<a href="#" class="btn btn-sm btn-primary">Hold</a>
 							</span>
 							@endif
 							@if($actions['start'])
 							<span class="ml-2">
-									<a href="{{route('tour.start',$tour->id)}}" class="btn btn-sm btn-info">Start Tour</a>
+								<a href="{{route('tour.start',$tour->id)}}" class="btn btn-sm btn-info">Start Tour</a>
 							</span>
 							@endif
 							@if($actions['end'])
 							<span class="ml-2">
-									<a href="#" class="btn btn-sm btn-secondary">End Tour</a>
+								<a href="{{route('tour.end',$tour->id)}}" class="btn btn-sm btn-secondary">End Tour</a>
 							</span>
 							@endif
 						</div>
@@ -104,8 +111,9 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Note</th>
+									<th>Creator</th>
 									<th>Status</th>
+									<th>Note</th>
 									<th>Created At</th>
 								</tr>
 							</thead>
@@ -113,8 +121,9 @@
 								@foreach($tour->stages as $stage)
 								<tr>
 									<td>{{$stage->id}}</td>
-									<td>{{$stage->note}}</td>
+									<td>{{$stage->employee->emp_name}}</td>
 									<td>{{$stage->status_info->title}}</td>
+									<td>{{$stage->note}}</td>
 									<td>{{$stage->created_at}}</td>
 								</tr>
 								@endforeach
