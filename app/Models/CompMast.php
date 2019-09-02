@@ -15,6 +15,10 @@ class CompMast extends Model
  		return $this->hasMany('App\Models\EmployeeMast', 'comp_code', 'comp_code');
  	}
 
+ 	public function tours(){
+ 		return $this->hasMany('App\Models\Tours', 'comp_code', 'comp_code');
+ 	}
+
  	public function designations(){
  		return $this->hasMany('App\Models\Designation', 'comp_code', 'comp_code');
  	}

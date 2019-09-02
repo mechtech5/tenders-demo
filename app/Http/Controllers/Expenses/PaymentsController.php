@@ -48,9 +48,9 @@ class PaymentsController extends Controller
 
         $exp_catg = ExpenseCategory::all();
 
-        $exp_in_users = ExpenseInUser::join('emp_mast','emp_mast.emp_id','exp_in_user.emp_id')->get();
+        $exp_in_users = ExpenseInUser::join('emp_mast','emp_mast.emp_id','expense_in_user.emp_id')->get();
 
-        $exp_permit_users = ExpensePermitUser::join('emp_mast','emp_mast.emp_id','exp_permit_user.emp_id')->get();
+        $exp_permit_users = ExpensePermitUser::join('emp_mast','emp_mast.emp_id','expense_permit_user.emp_id')->get();
 
         return view('expenses.payments.create',compact('vendors','companies','accounts','exp_mode','exp_catg','exp_in_users','exp_permit_users'));
     }
@@ -87,9 +87,9 @@ class PaymentsController extends Controller
         $exp_mode = ExpenseMode::all();
         $exp_catg = ExpenseCategory::all();
         
-        $exp_in_users = ExpenseInUser::join('emp_mast','emp_mast.emp_id','exp_in_user.emp_id')->get();
+        $exp_in_users = ExpenseInUser::join('emp_mast','emp_mast.emp_id','expense_in_user.emp_id')->get();
 
-        $exp_permit_users = ExpensePermitUser::join('emp_mast','emp_mast.emp_id','exp_permit_user.emp_id')->get();
+        $exp_permit_users = ExpensePermitUser::join('emp_mast','emp_mast.emp_id','expense_permit_user.emp_id')->get();
 
         return view('expenses.payments.edit',compact('vendors','companies','accounts','exp_mode','exp_catg','exp_in_users','exp_permit_users','payment'));
         

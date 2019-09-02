@@ -13,6 +13,6 @@ class ExpenseInUser extends Model
  	public $incrementing =false;
 
  	public function users(){
- 		return $this->belongsToMany('App\CompGrpMast','exp_in_user','emp_id','grp_code');
+ 		return $this->belongsToMany('App\CompGrpMast','expense_in_user','emp_id','grp_code');
  	}
 }

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\HRD;
 
 use App\Http\Controllers\Controller;
+use App\Models\CompMast;
+use App\Models\Designation;
 use App\Models\EmployeeMast;
+use App\Models\Grade;
 use Illuminate\Http\Request;
 
 class EmployeesController extends Controller
@@ -27,9 +30,16 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
+    public function insert_employee(Request $request){
+    	$employee = new EmployeeMast();
+    	$employee->emp_name = $request->name;
+    	$employee->login_user = $request->id;
+    	$employee->save();
+    	return redirect()->route('employees.index')->with('success','Employee Created Successfully');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -60,7 +70,11 @@ class EmployeesController extends Controller
      */
     public function edit($id)
     {
-        $data['employee'] = EmployeeMast::findOrFail($id);
+        $data['employee'] = EmployeeMast::with('company','designation')->findOrFail($id);
+  			$data['companies'] = CompMast::all();
+  			$data['parent_ids'] = EmployeeMast::where('comp_code',$data['employee']->comp_code)->where('emp_id','!=',$data['employee']->emp_id)->get();
+  			$data['grades'] = Grade::all();
+  			$data['designations'] = Designation::where('comp_code',$data['employee']->comp_code)->get();
         return view('HRD.employees.edit',$data);
     }
 
@@ -72,10 +86,41 @@ class EmployeesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {	
+    	$data =  $request->validate([
+    						'name'	=> 'required|string|max:50',
+				   			'emp_code'	=> 'required|string|max:191',
+				   			'comp_code'	=> 'required',
+				   			'emp_gender'	=> 'required',
+				   			'grade_code'	=> 'required',
+				   			'emp_dob'	=> 'required',
+				   			'join_dt'	=> 'required',
+				   			'emp_desg'	=> 'required',
+	    					],[
+	    						'emp_dob.required' => 'The Date of Birth is requred.',
+	    						'join_dt.required' => 'The Joining date is requred.',
+	    						'emp_desg.required' => 'The Designation is requred.',
+	    					]);
+    	 $employee = EmployeeMast::find($id);
+       $employee->emp_name = trim($data['name']);
+       $employee->emp_code = $data['emp_code'];
+       $employee->comp_code = $data['comp_code'];
+       $employee->emp_gender = $data['emp_gender'];
+       $employee->grade_code = $data['grade_code'];
+       $employee->emp_dob = $data['emp_dob'];
+       $employee->join_dt = $data['join_dt'];
+       $employee->emp_desg = $data['emp_desg'];
+       $employee->parent_id = $request->parent_id;
+       $employee->active = $request->active;
+       $employee->save();
+	   	return redirect()->route('employees.index')->with('success','Employee details Updated Successfully');
     }
 
+    public function fetch_designation(Request $request){
+    		$designations = Designation::where('comp_code',$request->comp_code)->get();
+    		return $designations;
+
+    }
     /**
      * Remove the specified resource from storage.
      *

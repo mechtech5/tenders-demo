@@ -18,35 +18,49 @@ class ExpenseTableSeeder extends Seeder
         ]);
 
         DB::table('comp_mast')->insert([
+        		[
+                'comp_code' => '000',
+                'grp_code' => '1',
+                'comp_name' => 'Management',
+                'tour_enable' => 0
+
+            ],
             [
                 'comp_code' => '001',
                 'grp_code' => '1',
-                'comp_name' => 'LEL'
+                'comp_name' => 'LEL',
+                'tour_enable' => 1
+
             ],
             [
                 'comp_code' => '002',
                 'grp_code' => '1',
-                'comp_name' => 'YIPL'
+                'comp_name' => 'YIPL',
+                'tour_enable' => 1
             ],
             [
                 'comp_code' => '003',
                 'grp_code' => '1',
-                'comp_name' => 'LIS'
+                'comp_name' => 'LIS',
+                'tour_enable' => 0
             ],
             [
                 'comp_code' => '004',
                 'grp_code' => '1',
-                'comp_name' => 'DBF'
+                'comp_name' => 'DBF',
+                'tour_enable' => 0
             ],
             [
                 'comp_code' => '005',
                 'grp_code' => '1',
-                'comp_name' => 'AMAZON'
+                'comp_name' => 'AMAZON',
+                'tour_enable' => 0
             ],
             [
                 'comp_code' => '006',
                 'grp_code' => '1',
-                'comp_name' => 'APNAGPS'
+                'comp_name' => 'APNAGPS',
+                'tour_enable' => 0
             ]
         ]);
         DB::table('expense_mode_mast')->insert([
@@ -85,9 +99,54 @@ class ExpenseTableSeeder extends Seeder
 
         ]);
         DB::table('emp_mast')->insert([
+        	 [ 
+                'comp_code'  => '000',
+                'login_user' => '2',
+                'emp_name'   => 'Y Sir',
+                'emp_gender' => 'M',
+                'emp_dob'    => '1994-06-26',
+                'grade_code' => 'A',
+                'emp_desg'   => '1'
+            ],
+             [ 
+                'comp_code'  => '000',
+                'login_user' => '3',
+                'emp_name'   => 'HS Sir',
+                'emp_gender' => 'M',
+                'emp_dob'    => '1994-06-26',
+                'grade_code' => 'A',
+                'emp_desg'   => '2'
+            ],
+             [ 
+                'comp_code'  => '000',
+                'login_user' => '4',
+                'emp_name'   => 'HR - User',
+                'emp_gender' => 'M',
+                'emp_dob'    => '1994-06-26',
+                'grade_code' => 'A',
+                'emp_desg'   => '3'
+            ],
+             [ 
+                'comp_code'  => '001',
+                'login_user' => '5',
+                'emp_name'   => 'TL comp 1',
+                'emp_gender' => 'M',
+                'emp_dob'    => '1994-06-26',
+                'grade_code' => 'A',
+                'emp_desg'   => '4'
+            ],
+             [ 
+                'comp_code'  => '002',
+                'login_user' => '6',
+                'emp_name'   => 'TL Comp 2',
+                'emp_gender' => 'M',
+                'emp_dob'    => '1994-06-26',
+                'grade_code' => 'A',
+                'emp_desg'   => '5'
+            ],
 
             [ 
-                'comp_code'  => '001',
+                'comp_code'  => '004',
                 'login_user' => '1',
                 'emp_name'   => 'Aayush Likhar',
                 'emp_gender' => 'M',
@@ -97,8 +156,8 @@ class ExpenseTableSeeder extends Seeder
             ],
 
             [ 
-                'comp_code'  => '006',
-                'login_user' => '2',
+                'comp_code'  => '004',
+                'login_user' => '7',
                 'emp_name'   => 'Vinod Kurmi',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1993-06-26',
@@ -107,8 +166,8 @@ class ExpenseTableSeeder extends Seeder
             ],
 
             [ 
-                'comp_code'  => '001',
-                'login_user' => '3',
+                'comp_code'  => '004',
+                'login_user' => '8',
                 'emp_name'   => 'Ritesh Panchal',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1996-06-26',
@@ -116,8 +175,8 @@ class ExpenseTableSeeder extends Seeder
                 'emp_desg'   => '1'
             ],
             [ 
-                'comp_code'  => '006',
-                'login_user' => '4',
+                'comp_code'  => '004',
+                'login_user' => '9',
                 'emp_name'   => 'Abhishek Soni',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1994-06-26',
@@ -128,6 +187,58 @@ class ExpenseTableSeeder extends Seeder
 
 
         ]);     
+        DB::table('tour_status')->insert([
+
+            [ 
+                'title'  => 'Created',
+            ],
+
+            [ 
+                'title'  => 'TL approval',
+            ],
+
+            [ 
+                'title'  => 'YS Sir approval',
+            ],
+            [ 
+                'title'  => 'Advance Amount Released',
+            ],
+            [ 
+                'title'  => 'Tour started',
+            ],
+            [ 
+                'title'  => 'Tour ended',
+            ],
+            [ 
+                'title'  => 'HS Sir Approval',
+            ],
+            [ 
+                'title'  => 'Account Final',
+            ],
+        ]); 
+         DB::table('desg_mast')->insert([
+            [ 
+                'comp_code'  => '000',
+                'title'  => 'Director1 (Y Sir)',
+            ],
+            [ 
+                'comp_code'  => '000',
+                'title'  => 'Director2 (HS Sir)',
+            ],
+            [ 
+                'comp_code'  => '000',
+                'title'  => 'HR',
+            ],
+            [ 
+                'comp_code'  => '001',
+                'title'  => 'TL',
+            ],
+            [ 
+                'comp_code'  => '002',
+                'title'  => 'TL',
+            ],
+
+        ]); 
         DB::table('exp_bill_statuses')->insert([
             [
                 'comp_code' => '001',
