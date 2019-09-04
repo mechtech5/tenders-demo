@@ -1,5 +1,23 @@
 @extends('layouts.master')
 @section('content')
+<?php
+function check_visibility($users, $tour, $action){
+	$current_stage = $tour->current_stage;
+	$detail = array();
+	foreach($tour->activity->approval->details as $row){
+		if($current_stage == $row->id){
+			$detail = JSON_decode($row);
+		}
+	}
+	$allowed_emp = json_decode($detail->$action);
+	foreach($users as $user){
+		if(auth()->user()->id == $user->id && in_array($user->employee->emp_id,$allowed_emp)){
+			return True;
+		}
+	}
+	return false;
+}
+?>
 	<main class="app-content">	
 		@if($message = Session::get('success'))
 			<div class="alert alert-success">
@@ -57,47 +75,26 @@
 							    </fieldset>
 							  </div>
 							</form>
+							<p><?php echo '<pre>'; print_r(check_visibility($users, $tour,'approve')); ?></p>
 						</div>
-						<div class="text-right">
-							@if($actions['approve'])
+						<div class="text-right d-flex pull-right">
+							@if(check_visibility($users, $tour,'approve'))
 							<span class="">
-								<a href="{{route('tour.approve',$tour->id)}}" class="btn btn-sm btn-success">
+								<a href="#" class="btn btn-sm btn-success">
 									<i class="fa fa-check-square-o" style="font-size: 12px;"></i>Approve
 								</a>
 							</span>
 							@endif
-							@if($actions['delete'])
+
+							@if(check_visibility($users, $tour,'approve'))
 							<span class="ml-2">
 								<a href="#" class="btn btn-sm btn-danger">
-									<i class="fa fa-trash" style="font-size: 12px;"></i>Delete
+									<i class="fa fa-check-square-o" style="font-size: 12px;"></i>Decline
 								</a>
-							</span>
-							@endif
-							@if($actions['decline'])
-							<span class="ml-2">
-								<a href="{{route('tour.decline',$tour->id)}}" class="btn btn-sm btn-danger">
-									<i class="fa fa-ban" style="font-size: 12px;"></i>decline
-								</a>
-							</span>
-							@endif
-							@if($actions['hold'])
-							<span class="ml-2">
-								<a href="#" class="btn btn-sm btn-primary">Hold</a>
-							</span>
-							@endif
-							@if($actions['start'])
-							<span class="ml-2">
-								<a href="{{route('tour.start',$tour->id)}}" class="btn btn-sm btn-info">Start Tour</a>
-							</span>
-							@endif
-							@if($actions['end'])
-							<span class="ml-2">
-								<a href="{{route('tour.end',$tour->id)}}" class="btn btn-sm btn-secondary">End Tour</a>
 							</span>
 							@endif
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -122,7 +119,7 @@
 								<tr>
 									<td>{{$stage->id}}</td>
 									<td>{{$stage->employee->emp_name}}</td>
-									<td>{{$stage->status_info->title}}</td>
+									<td>{{$stage->approval_detail->title}}</td>
 									<td>{{$stage->note}}</td>
 									<td>{{$stage->created_at}}</td>
 								</tr>

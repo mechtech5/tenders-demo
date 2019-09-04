@@ -187,35 +187,6 @@ class ExpenseTableSeeder extends Seeder
 
 
         ]);     
-        DB::table('tour_status')->insert([
-
-            [ 
-                'title'  => 'Created',
-            ],
-
-            [ 
-                'title'  => 'TL approval',
-            ],
-
-            [ 
-                'title'  => 'YS Sir approval',
-            ],
-            [ 
-                'title'  => 'Advance Amount Released',
-            ],
-            [ 
-                'title'  => 'Tour started',
-            ],
-            [ 
-                'title'  => 'Tour ended',
-            ],
-            [ 
-                'title'  => 'HS Sir Approval',
-            ],
-            [ 
-                'title'  => 'Account Final',
-            ],
-        ]); 
          DB::table('desg_mast')->insert([
             [ 
                 'comp_code'  => '000',

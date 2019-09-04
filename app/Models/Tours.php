@@ -18,8 +18,15 @@ class Tours extends Model
  		return $this->belongsTo('App\Models\CompMast','comp_code');
  	}
 
+ 	public function activity(){
+ 		return $this->belongsTo('App\Models\Activity');
+ 	}
+
  	public function stages(){
  		return $this->hasMany('App\Models\TourStages','tour_id');
  	}
 
+ 	public function current_stage_info(){
+ 		return $this->belongsTo('App\Models\ApprovalDetail','current_stage','id');
+ 	}
 }

@@ -114,9 +114,11 @@
          <li class="treeview {{call_user_func_array('Request::is', (array)['hrd*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">HRD</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li class={{call_user_func_array('Request::is', (array)['hrd/employees*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('employees.index')}}"><i class="icon fa fa-angle-double-right"></i>Employees</a></li>
+             <li class={{call_user_func_array('Request::is', (array)['hrd/approvals*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('approvals.index')}}"><i class="icon fa fa-angle-double-right"></i>Approvals</a></li>
           </ul>
         </li>
         {{-- end of module --}}
+        </li>
        <li class="treeview {{call_user_func_array('Request::is', (array)['settings*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog "></i><span class="app-menu__label">Settings</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href=""><i class="icon fa fa-angle-double-right"></i> General</a></li>

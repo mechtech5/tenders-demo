@@ -52,10 +52,14 @@ class CreateTourTables extends Migration
             $table->bigIncrements('id');
             $table->string('comp_code', 3);
             $table->unsignedBigInteger('emp_id');
+            $table->unsignedBigInteger('activity_id');
+            $table->unsignedBigInteger('current_stage');
             $table->string('purpose');
              $table->decimal('adv_amt', 15, 4)->default(0.00);
             $table->string('start_loc');
+            $table->date('start_date');
             $table->string('end_loc');
+            $table->date('end_date');
             $table->text('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -71,14 +75,6 @@ class CreateTourTables extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-         Schema::create('tour_status', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('title',255);
-            $table->timestamps();
-            $table->softDeletes();   
-        });
-
     }
 
     /**
@@ -92,5 +88,6 @@ class CreateTourTables extends Migration
         Schema::dropIfExists('desg_mast');
         Schema::dropIfExists('tours');
         Schema::dropIfExists('tour_stages');
+        Schema::dropIfExists('emp_grade_mast');     
     }
 }

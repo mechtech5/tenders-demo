@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Expenses;
+namespace App\Http\Controllers\HRD;
 
 use App\Http\Controllers\Controller;
-use App\Models\Activity;
+use App\Models\EmployeeMast;
 use App\Models\Approval;
-use App\Models\Tours;
-use App\User;
 use Illuminate\Http\Request;
 
-class ToursController extends Controller
+class ApprovalsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +16,8 @@ class ToursController extends Controller
      */
     public function index()
     {
-    	$tours = Tours::with('current_stage_info','activity.approval.details','stages','company','employee')->get();
-      return view('expenses.tours.index',compact('tours'));
+      $data['approvals'] = Approval::all();
+      return view('HRD.approvals.index',$data);
     }
 
     /**
@@ -29,7 +27,8 @@ class ToursController extends Controller
      */
     public function create()
     {
-        //
+    	$employees = EmployeeMast::whereIn('comp_code',['000','001','002'])->get();
+      return view('HRD.tour_approvals.create',compact('employees'));
     }
 
     /**
@@ -54,15 +53,6 @@ class ToursController extends Controller
         //
     }
 
-    public function tour_stages($id)
-    {
-    	$users = User::with('employee')->get();
-      $tour = Tours::with('current_stage_info','activity.approval.details','stages.employee','stages.approval_detail','company','employee')
-      				->where('id',$id)
-      				->first();
-      return view('expenses.tours.stages',compact('tour','users'));
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -71,7 +61,7 @@ class ToursController extends Controller
      */
     public function edit($id)
     {
-        //
+        return 'edit';
     }
 
     /**
@@ -94,6 +84,6 @@ class ToursController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return 'destroy';
     }
 }

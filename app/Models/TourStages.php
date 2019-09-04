@@ -14,11 +14,11 @@ class TourStages extends Model
  		return $this->belongsTo('App\Models\Tours');
  	}
 
- 	 public function status_info(){
- 		return $this->belongsTo('App\Models\TourStatus','status');
+ 	public function approval_detail(){
+ 		return $this->belongsTo('App\Models\ApprovalDetail','id');
  	}
-
  	public function employee(){
  		return $this->belongsTo('App\Models\EmployeeMast','creator_id');
  	}
+
 }
