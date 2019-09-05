@@ -25,6 +25,7 @@ class CreateExpenseTables extends Migration
             $table->string('comp_name', 100);
             $table->string('comp_desc', 250)->nullable();
             $table->boolean('enabled')->default(1);
+             $table->integer('tour_enable')->default(0);
         });
 
         Schema::create('vendors', function (Blueprint $table) {

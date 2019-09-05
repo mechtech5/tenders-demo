@@ -37,7 +37,7 @@
 								@foreach($designations as $designation)
 								<tr>
 									<td>{{$designation->id}}</td>
-									<td>{{$designation->comp_code}}</td>
+									<td>{{$designation->company->comp_name}}</td>
 									<td>{{$designation->title}}</td>
 									<td>{{$designation->description}}</td>
 									<td class="d-flex">

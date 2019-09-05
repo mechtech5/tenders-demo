@@ -69,8 +69,7 @@
         
        	
           if(users != ''){
-          	$.ajax({
-          		type:'POST',
+          	$.post({
           		url:"{{route('expense_permit_user.store')}}",
           		data: {grp_code:grp_code, users:users},
           		success:function(data){

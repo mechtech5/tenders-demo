@@ -66,7 +66,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 	@enderror
-								</div>
+							</div>
 							<div class="col-md-12 mt-3">
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Submit</button>
 								<span class="ml-2" ><a href="{{route('designations.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>

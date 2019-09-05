@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Designation extends Model
 {
   use SoftDeletes;
-  protected $table = 'dsgn_mast';  	
+  protected $table = 'desg_mast';  	
   protected $fillable = ['title'];
 
   public function employees(){
  		return $this->hasMany('App\Models\EmployeeMast', 'emp_desg', 'id');
+ 	}
+
+ 	public function company(){
+ 		return $this->belongsTo('App\Models\CompMast','comp_code');
  	}
 }
