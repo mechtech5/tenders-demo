@@ -86,7 +86,7 @@ function check_visibility($users, $tour, $action){
 							</span>
 							@endif
 
-							@if(check_visibility($users, $tour,'approve'))
+							@if(check_visibility($users, $tour,'decline'))
 							<span class="ml-2">
 								<a href="#" class="btn btn-sm btn-danger">
 									<i class="fa fa-check-square-o" style="font-size: 12px;"></i>Decline

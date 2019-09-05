@@ -57,6 +57,7 @@ class ToursController extends Controller
     public function tour_stages($id)
     {
     	$users = User::with('employee')->get();
+    	
       $tour = Tours::with('current_stage_info','activity.approval.details','stages.employee','stages.approval_detail','company','employee')
       				->where('id',$id)
       				->first();
