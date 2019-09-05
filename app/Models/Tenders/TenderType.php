@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenders;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class TenderType extends Model
 {
+	use SoftDeletes;
  	protected $table = 'tender_type_mast';
 
  	public function tenders(){

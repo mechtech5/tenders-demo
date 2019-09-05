@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Tender;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tenders\TenderStatus;
 use Illuminate\Http\Request;
 
 class TenderStatusController extends Controller
 {
 	public function index()
 	{
-		return view('tender.status.index');
+		$tender_statuses  = TenderStatus::get();
+		return view('tender.status.index',compact('tender_statuses'));
 	}
 
 	public function create()
@@ -17,9 +19,17 @@ class TenderStatusController extends Controller
 		return view('tender.status.create');
 	}
 
-	public function store()
+	public function store(Request $request)
 	{
-		return request();
+		$data = $request->validate([
+ 			'name'	=> 'required|string|max:191',
+ 			'description'	=> 'required',
+ 		]);
+ 		$tender_status = new TenderStatus();
+ 		$tender_status->status_name  = $data['name'];
+ 		$tender_status->status_desc  = $data['description'];
+ 		$tender_status->save();
+  	return redirect()->route('tender_status.index')->with('success','Created Successfully.');
 	}
 
 	public function show()
@@ -27,18 +37,30 @@ class TenderStatusController extends Controller
 		return view('tender.status.show');
 	}
 
-	public function edit()
+	public function edit($id)
 	{
-		return view('tender.status.edit');
+		$tender_status = TenderStatus::find($id);
+		return view('tender.status.edit',compact('tender_status'));
 	}
 
-	public function update()
+	public function update(Request $request, $id)
 	{
-		return request();
+		 $data = $request->validate([
+	   			'name'	=> 'required|string|max:191',
+	   			'description'	=> 'required',
+	   		]);
+
+		 $tender_status = TenderStatus::find($id);
+     $tender_status->status_name = $data['name'];
+     $tender_status->status_desc = $data['description'];
+     $tender_status->save();
+ 		return redirect()->route('tender_status.index')->with('success','Updated Successfully.');
 	}
 
-	public function destroy()
+	public function destroy($id)
 	{
-		//
+		 $tender_status = TenderStatus::find($id);
+      $tender_status->delete();
+    	return redirect()->route('tender_status.index')->with('success','Deleted Successfully.');
 	}
 }
