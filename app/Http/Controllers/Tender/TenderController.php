@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tender;
 
+use App\Models\Tenders\Tender;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,8 @@ class TenderController extends Controller
 {
 	public function index()
 	{
-		return view('tender.master.index');
+		$tenders = Tender::all();
+		return view('tender.master.index', compact('tenders'));
 	}
 
 	public function create()

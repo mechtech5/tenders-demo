@@ -47,22 +47,23 @@ class TenderTypeController extends Controller
 
 	public function update(Request $request, $id)
 	{
-		 $data = $request->validate([
-	   			'name'	=> 'required|string|max:191',
-	   			'description'	=> 'required',
-	   		]);
+	 	$data = $request->validate([
+ 			'name'	=> 'required|string|max:191',
+ 			'description'	=> 'required',
+ 		]);
 
-		 $tender_type = TenderType::find($id);
-     $tender_type->type_name = $data['name'];
-     $tender_type->type_desc = $data['description'];
-     $tender_type->save();
+	 	$tender_type = TenderType::find($id);
+   	$tender_type->type_name = $data['name'];
+   	$tender_type->type_desc = $data['description'];
+   	$tender_type->save();
+   	
  		return redirect()->route('tender_type.index')->with('success','Updated Successfully.');
 	}
 
 	public function destroy($id)
 	{
-		 $tender_type = TenderType::find($id);
-      $tender_type->delete();
-    	return redirect()->route('tender_type.index')->with('success','Deleted Successfully.');
+	 	$tender_type = TenderType::find($id);
+  	$tender_type->delete();
+  	return redirect()->route('tender_type.index')->with('success','Deleted Successfully.');
 	}
 }

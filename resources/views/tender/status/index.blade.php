@@ -27,7 +27,6 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Account Code</th>
 									<th>Name</th>
 									<th>Description</th>
 									<th>Action</th>
@@ -37,7 +36,6 @@
 							@foreach($tender_statuses as $tender_status)
 							<tr>
 								<td>{{$tender_status->id}}</td>
-								<td>{{$tender_status->account_code}}</td>
 								<td>{{$tender_status->status_name}}</td>
 								<td>{{$tender_status->status_desc}}</td>
 								<td class="d-flex">

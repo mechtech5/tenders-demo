@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenders;
 
 use Illuminate\Database\Eloquent\Model;
 
