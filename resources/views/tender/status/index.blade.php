@@ -18,6 +18,11 @@
 				{{$message}}
 			</div>
 		@endif 
+		@if($message = Session::get('error'))
+			<div class="alert alert-danger">
+				{{$message}}
+			</div>
+		@endif 
 		<div class="row ">
 			<div class="col-md-12 col-xl-12">
 				<div class="card shadow-xs">

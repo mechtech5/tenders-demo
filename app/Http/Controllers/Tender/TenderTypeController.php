@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tender;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tenders\Tender;
 use App\Models\Tenders\TenderType;
 use Illuminate\Http\Request;
 
@@ -62,6 +63,10 @@ class TenderTypeController extends Controller
 
 	public function destroy($id)
 	{
+		 $tender_master = Tender::where('type_id',$id)->first();
+		 if($tender_master){
+		 	return redirect()->route('tender_type.index')->with('error','It is being used by Tender, Unable to delete!');
+		 }
 	 	$tender_type = TenderType::find($id);
   	$tender_type->delete();
   	return redirect()->route('tender_type.index')->with('success','Deleted Successfully.');
