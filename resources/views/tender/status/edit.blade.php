@@ -48,7 +48,7 @@
                     </span>
                 	@enderror
 								</div>
-								<div class="col-md-6 col-lg-6 col-xl-6 mt-2 offset-3">
+									<div class="col-md-6 col-lg-6 col-xl-6 mt-2 offset-3">
 									<label for="name"><b>Description <span class="text-danger">*</span></b> </label>
 									<div class="input-group">
 										<div class="input-group-prepend">

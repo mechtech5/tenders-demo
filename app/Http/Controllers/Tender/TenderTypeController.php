@@ -52,7 +52,7 @@ class TenderTypeController extends Controller
  			'description'	=> 'required',
  		]);
 
-	 	$tender_type = TenderType::find($id);
+	 	$tender_type = TenderType::findOrFail($id);
    	$tender_type->type_name = $data['name'];
    	$tender_type->type_desc = $data['description'];
    	$tender_type->save();

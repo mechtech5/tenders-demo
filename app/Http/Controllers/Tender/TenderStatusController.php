@@ -27,6 +27,7 @@ class TenderStatusController extends Controller
  		]);
  		$tender_status = new TenderStatus();
  		$tender_status->status_name  = $data['name'];
+ 		$tender_status->account_code  = 452;
  		$tender_status->status_desc  = $data['description'];
  		$tender_status->save();
   	return redirect()->route('tender_status.index')->with('success','Created Successfully.');

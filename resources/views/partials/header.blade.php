@@ -120,9 +120,9 @@
         {{-- end of module --}}
         <li class="treeview {{call_user_func_array('Request::is', (array)['tender*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Tenders</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
-            <li class={{call_user_func_array('Request::is', (array)['tender_type/*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_type.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Type</a></li>
-            <li class={{call_user_func_array('Request::is', (array)['tender_status/*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_status.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Status</a></li>
-            <li class={{call_user_func_array('Request::is', (array)['tender/*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Mast</a></li>
+            <li class={{call_user_func_array('Request::is', (array)['tender_type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_type.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Type</a></li>
+            <li class={{call_user_func_array('Request::is', (array)['tender_status*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_status.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Status</a></li>
+            <li class={{call_user_func_array('Request::is', (array)['tender_master*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_master.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Mast</a></li>
           </ul>
         </li>
        <li class="treeview {{call_user_func_array('Request::is', (array)['settings*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog "></i><span class="app-menu__label">Settings</span><i class="treeview-indicator fa fa-angle-right"></i></a>
