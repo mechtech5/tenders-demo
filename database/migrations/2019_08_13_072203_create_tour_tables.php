@@ -14,34 +14,34 @@ class CreateTourTables extends Migration
     public function up()
     {
         Schema::create('emp_mast', function (Blueprint $table) {
-            $table->bigIncrements('emp_id')->nullable();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable();
-            $table->string('emp_code')->nullable();
-            $table->string('comp_code', 3)->nullable();
-            $table->string('grade_code', 2)->nullable();
-            $table->unsignedInteger('login_user');
+            $table->string('emp_code',191)->nullable();
+            $table->integer('comp_id');
+            $table->integer('dept_id')->nullable();
+            $table->integer('desg_id');
+            $table->integer('grade_id')->nullable();
             $table->string('emp_name', 50);
             $table->enum('emp_gender', ['M', 'F', 'O'])->nullable();
             $table->date('emp_dob')->nullable();
-            $table->unsignedInteger('emp_desg')->nullable();
             $table->date('join_dt')->nullable();
-            $table->boolean('active')->default(1);
+            $table->integer('status_id')->nullable();
             $table->timestamps();
-            $table->softDeletes();
+            $table->softDeletes();			
         });
 
         Schema::create('desg_mast', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('comp_code', 3);
-            $table->string('title', 100);
-            $table->text('description')->nullable();
+            $table->integer('comp_id');
+            $table->string('desg_name', 50);
+            $table->string('desg_desc',200)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
 
         Schema::create('emp_grade_mast', function (Blueprint $table) {
             $table->string('grade_code', 2)->primary();
-            $table->string('comp_grp', 1);
+            $table->integer('comp_id');
             $table->decimal('entitled_amt', 15, 4)->default(0.00);
             $table->text('description')->nullable();
             $table->timestamps();

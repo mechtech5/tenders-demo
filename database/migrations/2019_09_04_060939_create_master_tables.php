@@ -34,6 +34,14 @@ class CreateMasterTables extends Migration
 			    $table->softDeletes();   
 		  });
 
+		  Schema::create('emp_status_mast',function(Blueprint $table){
+		  	 	$table->bigIncrements('id');
+		  	 	$table->string('status_name',50);
+		  	 	$table->string('status_desc',200);
+			    $table->timestamps();
+			    $table->softDeletes();  
+		  });
+
 		   Schema::create('approval', function (Blueprint $table) {
 			    $table->bigIncrements('id');
 			    $table->bigInteger('activity_id');
@@ -53,5 +61,6 @@ class CreateMasterTables extends Migration
         Schema::dropIfExists('approval_detail');
         Schema::dropIfExists('activity');
         Schema::dropIfExists('approval');
+        Schema::dropIfExists('emp_status_mast');
     }
 }

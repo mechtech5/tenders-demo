@@ -1,6 +1,5 @@
 @extends('layouts.master')
 @section('content')
-
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
@@ -12,7 +11,7 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card shadow-xs">
 					<div class="card-body">
-						<form action="{{route('employees.update', ['id'=>$employee->emp_id])}}" method="POST">
+						<form action="{{route('employees.update', ['id'=>$employee->id])}}" method="POST">
 							@csrf
 							@method('PATCH')
 							<div class="row form-group">
@@ -48,7 +47,7 @@
                     </span>
                 	@enderror
 								</div>
-								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
+				{{-- 				<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Company Code <span class="text-danger">*</span></b> </label>
 									<div class="input-group">
 										<div class="input-group-prepend">
@@ -56,19 +55,19 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<select name="comp_code" class="form-control" id="comp_code" onchange="fetchDesignation();">
+										<select name="comp_id" class="form-control" id="comp_id" onchange="fetchDesignation();">
 											<option value="">Select Company</option>	
 											@foreach($companies as $company)
-											<option value="{{$company->comp_code}}" {{old('comp_code',$employee->comp_code) == $company->comp_code ? 'selected' : ''}}>{{$company->comp_name}}</option>
+											<option value="{{$company->id}}" {{old('comp_id',$employee->comp_id) == $company->id ? 'selected' : ''}}>{{$company->comp_name}}</option>
 											@endforeach
 										</select>
 									</div>
-									@error('comp_code')
+									@error('comp_id')
                     <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 	@enderror
-								</div>
+								</div> --}}
 								{{-- Fetch all Employee of the same company--}}
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Works Under<span class="text-danger">*</span></b> </label>
@@ -81,7 +80,7 @@
 										<select name="parent_id" class="form-control" id="">
 											<option value="">Select Employee</option>	
 											@foreach($parent_ids as $parent)
-											<option value="{{$parent->emp_id}}" {{old('parent_id',$employee->parent_id) == $parent->emp_id ? 'selected' : ''}}>{{$parent->emp_name}}</option>
+											<option value="{{$parent->id}}" {{old('parent_id',$employee->parent_id) == $parent->id ? 'selected' : ''}}>{{$parent->emp_name}}</option>
 											@endforeach
 										</select>
 									</div>
@@ -187,7 +186,7 @@
 											<select name="emp_desg" class="form-control" id="">
 												<option value="">Select designation</option>	
 												@foreach($designations as $designation)
-												<option value="{{$designation->id}}" {{old('emp_desg',$employee->emp_desg) == $designation->id ? 'selected' : ''}}>{{$designation->title}}</option>
+												<option value="{{$designation->id}}" {{old('emp_desg',$employee->desg_id) == $designation->id ? 'selected' : ''}}>{{$designation->desg_name}}</option>
 												@endforeach
 											</select>
 										</div>
@@ -238,16 +237,17 @@
 
 	<script>
 		$(document).ready(function(){
-			fetchDesignation();
+			//fetchDesignation();
 		});
 		function fetchDesignation(){
-			var comp_code  = $('#comp_code').val();
+			var comp_id  = $('#comp_id').val();
+			console.log('comp_id',comp_id);
 			 $.ajax({
 			 	type:'POST',
     		url:"{{route('employees.fetch_designation')}}",
     		data: {
     			 "_token": "{{ csrf_token() }}",
-    			 "comp_code":comp_code
+    			 "comp_id":comp_id
     		},
     		success:function(data){
     			console.log(data);

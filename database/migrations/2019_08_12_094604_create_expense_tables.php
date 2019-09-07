@@ -13,19 +13,22 @@ class CreateExpenseTables extends Migration
      */
     public function up()
     {
-        Schema::create('comp_grp', function (Blueprint $table) {
-            $table->string('grp_code', 1)->primary();
-            $table->string('grp_name', 100);
-            $table->string('grp_desc', 250)->nullable();
+        Schema::create('comp_mast', function (Blueprint $table) {
+        		$table->bigIncrements('id');
+            $table->string('comp_name', 50);
+            $table->string('comp_desc', 200)->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
 
-        Schema::create('comp_mast', function (Blueprint $table) {
-            $table->string('comp_code', 3)->primary();
-            $table->string('grp_code', 1);
-            $table->string('comp_name', 100);
-            $table->string('comp_desc', 250)->nullable();
-            $table->boolean('enabled')->default(1);
-             $table->integer('tour_enable')->default(0);
+        Schema::create('dept_mast', function (Blueprint $table) {
+        		$table->bigIncrements('id');
+            $table->unsignedInteger('comp_id');
+            $table->string('dept_name', 50);
+            $table->string('dept_desc', 200)->nullable();
+            $table->integer('tour_enabled')->default(0);
+            $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('vendors', function (Blueprint $table) {
@@ -328,8 +331,8 @@ class CreateExpenseTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comp_grp');
         Schema::dropIfExists('comp_mast');
+        Schema::dropIfExists('dept_mast');
         Schema::dropIfExists('vendors');
         Schema::dropIfExists('payments');
         Schema::dropIfExists('account_mast');

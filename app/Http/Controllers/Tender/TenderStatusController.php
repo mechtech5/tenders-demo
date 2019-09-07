@@ -66,8 +66,8 @@ class TenderStatusController extends Controller
 		 if($tender_master){
 		 	return redirect()->route('tender_status.index')->with('error','It is being used by Tender, Unable to delete!');
 		 }
-		 $tender_status = TenderStatus::find($id);
-      $tender_status->delete();
-    	return redirect()->route('tender_status.index')->with('success','Deleted Successfully.');
+			$tender_status = TenderStatus::find($id);
+	    $tender_status->delete();
+	  	return redirect()->route('tender_status.index')->with('success','Deleted Successfully.');
 	}
 }

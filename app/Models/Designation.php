@@ -12,10 +12,10 @@ class Designation extends Model
   protected $fillable = ['title'];
 
   public function employees(){
- 		return $this->hasMany('App\Models\EmployeeMast', 'emp_desg', 'id');
+ 		return $this->hasMany('App\Models\EmployeeMast', 'desg_id');
  	}
 
  	public function company(){
- 		return $this->belongsTo('App\Models\CompMast','comp_code');
+ 		return $this->belongsTo('App\Models\CompMast','comp_id');
  	}
 }

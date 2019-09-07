@@ -45,24 +45,24 @@
 							<tbody>
 							@foreach($employees as $employee)
 								<tr>
-									<td>{{$employee->emp_id}}</td>
+									<td>{{$employee->id}}</td>
 									<td>{{$employee->emp_name}}</td>
 									<td>{{$employee->emp_code}}</td>
 									<td>{{$employee->company->comp_name}}</td>
 									<td>{{$employee->grade_code}}</td>
 									<td>{{$employee->emp_gender}}</td>
 									<td>{{$employee->emp_dob}}</td>
-									<td>{{$employee->designation->title}}</td>
+									<td>{{$employee->designation->desg_name}}</td>
 									<td>{{$employee->active}}</td>
 									<td class='d-flex'>
 										<span>
-												<a href="{{route('employees.edit',$employee->emp_id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+												<a href="{{route('employees.edit',$employee->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
-											<form action="{{route('employees.destroy',$employee->emp_id)}}" method="POST" id="delform_{{ $employee->emp_id}}">
+											<form action="{{route('employees.destroy',$employee->id)}}" method="POST" id="delform_{{ $employee->id}}">
 													@csrf
 													@method('DELETE')
-												<a href="javascript:$('#delform_{{$employee->emp_id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>			
+												<a href="javascript:$('#delform_{{$employee->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>			
 											</form>
 										</span>
 									</td>

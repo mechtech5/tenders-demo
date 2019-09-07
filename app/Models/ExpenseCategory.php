@@ -8,7 +8,7 @@ class ExpenseCategory extends Model
 {
    	protected $table = 'expense_catg_mast'; 
    	public $timestamps = false;
-	protected $guarded = [] ;
+		protected $guarded = [] ;
  	
 
 }

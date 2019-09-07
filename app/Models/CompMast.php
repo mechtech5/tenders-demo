@@ -2,24 +2,17 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 class CompMast extends Model
 {
-  protected $table = 'comp_mast'; 
-  protected $primaryKey = 'comp_code';
- 	public $incrementing = false; 	
+    protected $table = 'comp_mast'; 
  	
- 	public function employees(){
- 		return $this->hasMany('App\Models\EmployeeMast', 'comp_code', 'comp_code');
- 	}
+ 	public function expense_users(){
+        return $this->belongsToMany('App\Models\ExpenseInUser', 'exp_in_user', 'comp_id','emp_id');
+    }
 
- 	public function tours(){
- 		return $this->hasMany('App\Models\Tours', 'comp_code', 'comp_code');
- 	}
-
- 	public function designations(){
- 		return $this->hasMany('App\Models\Designation', 'comp_code', 'comp_code');
- 	}
+    public function expense_permit_users(){
+        return $this->belongsToMany('App\Models\ExpensePermitUser', 'exp_permit_user', 'comp_id','emp_id');
+    }
 }

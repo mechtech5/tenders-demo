@@ -72,9 +72,9 @@ class EmployeesController extends Controller
     {
         $data['employee'] = EmployeeMast::with('company','designation')->findOrFail($id);
   			$data['companies'] = CompMast::all();
-  			$data['parent_ids'] = EmployeeMast::where('comp_code',$data['employee']->comp_code)->where('emp_id','!=',$data['employee']->emp_id)->get();
+  			$data['parent_ids'] = EmployeeMast::where('comp_id',$data['employee']->comp_id)->where('id','!=',$data['employee']->id)->get();
   			$data['grades'] = Grade::all();
-  			$data['designations'] = Designation::where('comp_code',$data['employee']->comp_code)->get();
+  			$data['designations'] = Designation::where('comp_id',$data['employee']->comp_id)->get();
         return view('HRD.employees.edit',$data);
     }
 
@@ -90,9 +90,7 @@ class EmployeesController extends Controller
     	$data =  $request->validate([
     						'name'	=> 'required|string|max:50',
 				   			'emp_code'	=> 'required|string|max:191',
-				   			'comp_code'	=> 'required',
 				   			'emp_gender'	=> 'required',
-				   			'grade_code'	=> 'required',
 				   			'emp_dob'	=> 'required',
 				   			'join_dt'	=> 'required',
 				   			'emp_desg'	=> 'required',
@@ -104,20 +102,19 @@ class EmployeesController extends Controller
     	 $employee = EmployeeMast::find($id);
        $employee->emp_name = trim($data['name']);
        $employee->emp_code = $data['emp_code'];
-       $employee->comp_code = $data['comp_code'];
        $employee->emp_gender = $data['emp_gender'];
-       $employee->grade_code = $data['grade_code'];
+       $employee->grade_id = isset($data['grade_code']) ? $data['grade_code'] : null;
        $employee->emp_dob = $data['emp_dob'];
        $employee->join_dt = $data['join_dt'];
-       $employee->emp_desg = $data['emp_desg'];
+       $employee->desg_id = $data['emp_desg'];
        $employee->parent_id = $request->parent_id;
-       $employee->active = $request->active;
+       $employee->status_id = 1;
        $employee->save();
 	   	return redirect()->route('employees.index')->with('success','Employee details Updated Successfully');
     }
 
     public function fetch_designation(Request $request){
-    		$designations = Designation::where('comp_code',$request->comp_code)->get();
+    		$designations = Designation::where('comp_id',$request->comp_id)->get();
     		return $designations;
 
     }

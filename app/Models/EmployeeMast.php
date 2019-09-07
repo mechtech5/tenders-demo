@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmployeeMast extends Model
 {
 	use SoftDeletes;
-  protected $table = 'emp_mast';  	
-  protected $primaryKey = 'emp_id';
- 	public $incrementing =false;
+  protected $table = 'emp_mast';  
 
 	public function company(){
- 		return $this->belongsTo('App\Models\CompMast', 'comp_code');
+ 		return $this->belongsTo('App\Models\CompMast', 'comp_id');
  	}
 
  	public function tours(){
@@ -21,7 +19,7 @@ class EmployeeMast extends Model
  	}
 
  	public function designation(){
- 		return $this->belongsTo('App\Models\Designation', 'emp_desg');
+ 		return $this->belongsTo('App\Models\Designation', 'desg_id');
  	}
 
  	public function user(){
