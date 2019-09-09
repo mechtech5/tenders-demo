@@ -14,11 +14,12 @@ class CreateTenderTypesTable extends Migration
     public function up()
     {
         Schema::create('tender_type_mast', function (Blueprint $table) {
-            $table->integer('id');
-            $table->string('account_code', 5);
+            $table->bigIncrements('id');
+            $table->string('account_code', 5)->nullable();
             $table->string('type_name');
             $table->text('type_desc')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

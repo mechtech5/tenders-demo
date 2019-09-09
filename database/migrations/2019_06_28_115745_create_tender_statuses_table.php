@@ -15,10 +15,11 @@ class CreateTenderStatusesTable extends Migration
     {
         Schema::create('tender_status_mast', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('account_code', 5);
+            $table->string('account_code', 5)->nullable();
             $table->string('status_name');
             $table->text('status_desc')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

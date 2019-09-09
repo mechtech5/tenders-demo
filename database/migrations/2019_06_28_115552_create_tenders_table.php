@@ -19,7 +19,7 @@ class CreateTendersTable extends Migration
             $table->string('tender_no');
             $table->string('title');     
             $table->string('place');    
-            $table->boolean('eligible')->default(1);
+            $table->boolean('is_eligible')->default(1);
             $table->unsignedInteger('status_id'); // FK (Supply/Execution/Supply+Execution)
             $table->unsignedInteger('type_id'); // FK (New/Existing/Pending)
             $table->tinyInteger('priority');
