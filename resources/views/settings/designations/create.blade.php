@@ -31,7 +31,7 @@
                 	@enderror
 								</div>
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
-									<label for="name"><b>Company<span class="text-danger">*</span></b> </label>
+									{{-- <label for="name"><b>Company<span class="text-danger">*</span></b> </label>
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text">
@@ -49,7 +49,7 @@
                     <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
-                	@enderror
+                	@enderror --}}
 								</div>
 							<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Description <span class="text-danger">*</span></b> </label>

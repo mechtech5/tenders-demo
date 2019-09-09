@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Models\CompMast;
+use App\Models\DeptMast;
 use App\Models\Designation;
 use Illuminate\Http\Request;
 
@@ -28,9 +28,8 @@ class DesignationController extends Controller
      */
     public function create()
     {
-    		$companies = CompMast::where('enabled',1)->get();
         $designations = Designation::all();
-        return view('settings.designations.create',compact('designations','companies'));
+        return view('settings.designations.create',compact('designations'));
     }
 
     /**
@@ -43,16 +42,15 @@ class DesignationController extends Controller
     {
         $data = $request->validate([
 	   			'title'	=> 'required|string|max:100',
-	   			'company'	=> 'required',
 	   			'description'	=> 'required',
 	   		]);
 				$designation  = new Designation;
-				$designation->title = $data['title'];
-				$designation->comp_code = $data['company'];
-				$designation->description = $data['description'];
+				$designation->desg_name = $data['title'];
+				$designation->comp_id =1;
+				$designation->desg_desc = $data['description'];
 				$designation->save();
 
-	   		$designations = Designation::with('company')->get();
+	   		$designations = Designation::all();
       	return view('settings.designations.index',compact('designations'));
     }
 
@@ -76,8 +74,7 @@ class DesignationController extends Controller
     public function edit($id)
     {
         $designation = Designation::find($id);
-        $companies = CompMast::where('enabled',1)->get();
-   			return view('settings.designations.edit',compact('designation','companies'));
+   			return view('settings.designations.edit',compact('designation'));
     }
 
     /**
@@ -91,13 +88,11 @@ class DesignationController extends Controller
     {
          $data = $request->validate([
 	   			'title'	=> 'required|string|max:100',
-	   			'company'	=> 'required',
 	   			'description'	=> 'required',
 	   		]);
          $designation = Designation::find($id);
-         $designation->title = $data['title'];
-         $designation->comp_code = $data['company'];
-         $designation->description = $data['description'];
+         $designation->desg_name = $data['title'];
+         $designation->desg_desc = $data['description'];
          $designation->save();
 	   		return redirect()->route('designations.index')->with('success','Designation Updated Successfully');
     }

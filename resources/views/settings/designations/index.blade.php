@@ -27,7 +27,6 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Company Code</th>
 									<th>Title</th>
 									<th>Description</th>
 									<th>Action</th>
@@ -37,9 +36,8 @@
 								@foreach($designations as $designation)
 								<tr>
 									<td>{{$designation->id}}</td>
-									<td>{{$designation->company->comp_name}}</td>
-									<td>{{$designation->title}}</td>
-									<td>{{$designation->description}}</td>
+									<td>{{$designation->desg_name}}</td>
+									<td>{{$designation->desg_desc}}</td>
 									<td class="d-flex">
 										<span>
 												<a href="{{route('designations.edit',$designation->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>

@@ -24,7 +24,7 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<input type="text" name="title" class="form-control" value="{{old('title',$designation->title)}}">
+										<input type="text" name="title" class="form-control" value="{{old('title',$designation->desg_name)}}">
 									</div>
 									@error('title')
                     <span class="text-danger" role="alert">
@@ -32,7 +32,9 @@
                     </span>
                 	@enderror
 								</div>
-								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
+									<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
+									</div>
+							{{-- 	<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Company<span class="text-danger">*</span></b> </label>
 									<div class="input-group">
 										<div class="input-group-prepend">
@@ -52,7 +54,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 	@enderror
-								</div>
+								</div> --}}
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Description <span class="text-danger">*</span></b> </label>
 									<div class="input-group">
@@ -61,7 +63,7 @@
 												<i class="fa fa-asterisk"></i>	
 											</span>
 										</div>
-										<textarea class="form-control" name="description" id="" cols="30" rows="5">{{old('description',$designation->description)}}</textarea>
+										<textarea class="form-control" name="description" id="" cols="30" rows="5">{{old('description',$designation->desg_desc)}}</textarea>
 									</div>
 									@error('description')
                     <span class="text-danger" role="alert">
