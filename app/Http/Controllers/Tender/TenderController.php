@@ -12,9 +12,14 @@ class TenderController extends Controller
 {
 	public function index()
 	{
-		 $tenders = Tender::with('status','type')->get();
+		$tenders = Tender::with('status','type')->get();
 		return view('tender.master.index', compact('tenders'));
 	}
+
+	public function getForm(Request $request, $type)
+	 {
+	  return view('tender.master.forms.'.$type);
+	 }
 
 	public function create()
 	{
@@ -43,9 +48,10 @@ class TenderController extends Controller
  		return redirect()->route('tender_master.index')->with('success','Created Successfully.');
 	}
 
-	public function show()
+	public function show($id)
 	{
-		return view('tender.master.show');
+		$tender = Tender::find($id);
+		return view('tender.master.show',compact('tender'));
 	}
 
 	public function edit($id)

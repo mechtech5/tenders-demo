@@ -20,6 +20,7 @@ Route::resource('/expenses/vendors','Expenses\VendorsController');
 Route::resource('/expenses/tours','Expenses\ToursController');
 Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
+Route::post('hrd/employees/{type}', 'HRD\EmployeesController@getForm');
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
 Route::post('/hrd/employees/insert_employee','HRD\EmployeesController@insert_employee');
 Route::resource('/expenses/payments','Expenses\PaymentsController');
@@ -45,6 +46,7 @@ Route::resource('/settings/designations','Settings\DesignationController');
 Route::resource('/settings/grades','Settings\GradesController');
 
 Route::resource('/tender_master', 'Tender\TenderController');
+Route::post('tender_master/{type}', 'Tender\TenderController@getForm');
 Route::resource('/tender_type', 'Tender\TenderTypeController');
 Route::resource('/tender_status', 'Tender\TenderStatusController');
 Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {

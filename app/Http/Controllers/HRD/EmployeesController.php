@@ -59,9 +59,15 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        //
+      $employee = EmployeeMast::with('company','designation')->findOrFail($id);
+      return view('HRD.employees.show',compact('employee'));
     }
 
+   public function getForm(Request $request, $type)
+   {
+    return view('HRD.employees.forms.'.$type);
+   }
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -71,7 +77,6 @@ class EmployeesController extends Controller
     public function edit($id)
     {
         $data['employee'] = EmployeeMast::with('company','designation')->findOrFail($id);
-  			$data['companies'] = CompMast::all();
   			$data['parent_ids'] = EmployeeMast::where('comp_id',$data['employee']->comp_id)->where('id','!=',$data['employee']->id)->get();
   			$data['grades'] = Grade::all();
   			$data['designations'] = Designation::where('comp_id',$data['employee']->comp_id)->get();

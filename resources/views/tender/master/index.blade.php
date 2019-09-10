@@ -78,6 +78,9 @@ function display_priority($int){
 										<span>
 												<a href="{{route('tender_master.edit',$row->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
+											<span class="ml-2">
+												<a href="{{route('tender_master.show',$row->id)}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
+										</span>
 										<span class="ml-2">
 											<form  action="{{route('tender_master.destroy',$row->id)}}" method="POST" id="delform_{{ $row->id}}">
 													@csrf
