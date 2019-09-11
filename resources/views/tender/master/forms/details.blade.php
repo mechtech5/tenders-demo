@@ -10,6 +10,22 @@
 	    	<input type="text" class="form-control datepicker" name="publish_date"/>
 	    </div>
 	    <div class="col-3 form-group">
+	    	<label for="">Tender fill in Office</label>
+	    	<select name="type" id="" class="select2 form-control">
+	    		<option value="">--Select Company--</option>
+	    		<option value="indore">Indore</option>
+	    		<option value="ratlam">Ratlam</option>
+	    	</select>
+	    </div>
+	    <div class="col-3 form-group">
+	    	<label for="">Total Cost</label>
+	    	<input type="text" class="form-control" name="title">
+	    </div>
+	    <div class="col-3 form-group">
+	    	<label for="">Document Cost</label>
+	    	<input type="text" class="form-control" name="title">
+	    </div>
+	    <div class="col-3 form-group">
 	    	<label for="">Type</label>
 	    	<select name="type" id="" class="select2 form-control">
 	    		<option value="">--Select Type--</option>
@@ -43,7 +59,7 @@
 			</div>
 			<div class="col-2 pull-right">
 				<a href="javascript:void(0)" onclick="add_client()" class="btn btn-info btn-xs add_client"><i class="fa fa-plus"></i>Add</a>
-				<span class="btn btn-info btn-xs save_client d-none">Save</span>
+				<span class="btn btn-success btn-xs save_client d-none">Save</span>
 				<a href="javascript:void(0)" onclick="add_client()" class="btn btn-danger btn-xs cancel_save_client d-none">Cancel</a>
 			</div>
 		</div>

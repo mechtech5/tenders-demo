@@ -13,20 +13,18 @@ class CreateMasterTables extends Migration
      */
     public function up()
     {
-		   Schema::create('approval_detail', function (Blueprint $table) {
+		   Schema::create('approval_template', function (Blueprint $table) {
 			    $table->bigIncrements('id');
-			    $table->bigInteger('approval_id');
+			    $table->bigInteger('appr_id');
 			    $table->string('title',255);
-			    $table->string('approve',255);
-			    $table->string('decline',255);
-			    $table->string('cancel',255);
-			    $table->string('hold',255);
 			    $table->text('description')->nullable();
+			    $table->string('permits',255);
+			    $table->integer('is_mandatory')->default(0);
 			    $table->timestamps();
 			    $table->softDeletes();   
 		  });
 		   
-		  Schema::create('activity', function (Blueprint $table) {
+		  Schema::create('approval_mast', function (Blueprint $table) {
 			    $table->bigIncrements('id');
 			    $table->string('title',100);
 			    $table->text('description')->nullable();
@@ -41,14 +39,6 @@ class CreateMasterTables extends Migration
 			    $table->timestamps();
 			    $table->softDeletes();  
 		  });
-
-		   Schema::create('approval', function (Blueprint $table) {
-			    $table->bigIncrements('id');
-			    $table->bigInteger('activity_id');
-			    $table->text('description')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();   
-		  });
     }
 
     /**
@@ -58,9 +48,8 @@ class CreateMasterTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('approval_detail');
-        Schema::dropIfExists('activity');
-        Schema::dropIfExists('approval');
+        Schema::dropIfExists('approval_template');
+        Schema::dropIfExists('approval_mast');
         Schema::dropIfExists('emp_status_mast');
     }
 }

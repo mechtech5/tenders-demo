@@ -48,7 +48,7 @@ class CreateTourTables extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('tours', function (Blueprint $table) {
+        Schema::create('tour_mast', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('comp_code', 3);
             $table->unsignedBigInteger('emp_id');

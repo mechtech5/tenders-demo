@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Activity extends Model
+class ApprovalMast extends Model
 {
   use SoftDeletes;
-  protected $table = 'activity';
+  protected $table = 'approval_mast';
 
   public function approval()
   {
-    return $this->hasOne('App\Models\Approval');
+    return $this->hasMany('App\Models\ApprovalTemplate');
   }
 }
