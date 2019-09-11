@@ -16,9 +16,9 @@ class CreateTendersTable extends Migration
         Schema::create('tender_mast', function (Blueprint $table) {
             $table->increments('id');
             $table->string('account_code', 5);
-            $table->string('tender_no');
+            $table->string('tender_no')->nullable();
             $table->string('title');     
-            $table->string('place');    
+            $table->string('place')->nullable();    
             $table->boolean('is_eligible')->default(1);
             $table->unsignedInteger('status_id'); // FK (Supply/Execution/Supply+Execution)
             $table->unsignedInteger('type_id'); // FK (New/Existing/Pending)
