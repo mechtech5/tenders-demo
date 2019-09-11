@@ -13,12 +13,12 @@ class TenderStatusController extends Controller
 	public function index()
 	{
 		$tender_statuses  = TenderStatus::get();
-		return view('tender.status.index',compact('tender_statuses'));
+		return view('tender.category.index',compact('tender_statuses'));
 	}
 
 	public function create()
 	{
-		return view('tender.status.create');
+		return view('tender.category.create');
 	}
 
 	public function store(Request $request)
@@ -37,13 +37,13 @@ class TenderStatusController extends Controller
 
 	public function show()
 	{
-		return view('tender.status.show');
+		return view('tender.category.show');
 	}
 
 	public function edit($id)
 	{
 		$tender_status = TenderStatus::find($id);
-		return view('tender.status.edit',compact('tender_status'));
+		return view('tender.category.edit',compact('tender_status'));
 	}
 
 	public function update(Request $request, $id)

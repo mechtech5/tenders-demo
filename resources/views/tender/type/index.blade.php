@@ -1,17 +1,16 @@
 @extends('layouts.master')
 @section('content')
 	<main class="app-content">
-		<div class="row">
-			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 20px">Tender Type
-					<span class="ml-2">
-						<a href="{{route('tender_type.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-							<span class="fa fa-plus "></span> Add New</a>
-					</span>
-					
-				</h1>
-				<hr>
+		<div class="app-title">
+			<div class="div">
+				<h1><i class="fa fa-laptop"></i> Tender Type</h1>
 			</div>
+			<ul class="app-breadcrumb breadcrumb">
+				<span class="ml-2">
+					<a href="{{route('tender_type.create')}}" class="btn btn-outline-success" style="font-size: 13px">
+					<span class="fa fa-plus"></span> Add New</a>
+				</span>
+			</ul>
 		</div>
 		@if($message = Session::get('success'))
 			<div class="alert alert-success">
@@ -34,7 +33,7 @@
 									<th>ID</th>
 									<th>Name</th>
 									<th>Description</th>
-									<th>Action</th>
+									<th>Actions</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -44,18 +43,17 @@
 								<td>{{$tender_type->type_name}}</td>
 								<td>{{$tender_type->type_desc}}</td>
 								<td class="d-flex">
-										<span>
-												<a href="{{route('tender_type.edit',$tender_type->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
-										</span>
-										<span class="ml-2">
-											<form  action="{{route('tender_type.destroy',$tender_type->id)}}" method="POST" id="delform_{{ $tender_type->id}}">
-													@csrf
-												@method('DELETE')
-												<a href="javascript:$('#delform_{{ $tender_type->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-										
-											</form>
-										</span>
-									</td>
+									<span>
+										<a href="{{route('tender_type.edit',$tender_type->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
+									</span>
+									<span class="ml-2">
+										<form  action="{{route('tender_type.destroy',$tender_type->id)}}" method="POST" id="delform_{{ $tender_type->id}}">
+												@csrf
+											@method('DELETE')
+											<a href="javascript:$('#delform_{{ $tender_type->id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
+										</form>
+									</span>
+								</td>
 							</tr>
 							@endforeach
 							</tbody>

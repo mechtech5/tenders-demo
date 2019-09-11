@@ -1,17 +1,16 @@
 @extends('layouts.master')
 @section('content')
 	<main class="app-content">
-		<div class="row">
-			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 20px">Tender Status
-					<span class="ml-2">
-						<a href="{{route('tender_status.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
-							<span class="fa fa-plus "></span> Add New</a>
-					</span>
-					
-				</h1>
-				<hr>
+		<div class="app-title">
+			<div class="div">
+				<h1><i class="fa fa-laptop"></i> Tender Category</h1>
 			</div>
+			<ul class="app-breadcrumb breadcrumb">
+				<span class="ml-2">
+					<a href="{{route('tender_status.create')}}" class="btn btn-outline-success" style="font-size: 13px">
+					<span class="fa fa-plus"></span> Add New</a>
+					</span>		
+			</ul>
 		</div>
 		@if($message = Session::get('success'))
 			<div class="alert alert-success">
@@ -28,7 +27,7 @@
 				<div class="card shadow-xs">
 					
 					<div class="card-body table-responsive">
-						<table class="table table-stripped table-bordered">
+						<table class="table table-striped table-bordered">
 							<thead>
 								<tr>
 									<th>ID</th>
@@ -45,14 +44,13 @@
 								<td>{{$tender_status->status_desc}}</td>
 								<td class="d-flex">
 										<span>
-												<a href="{{route('tender_status.edit',$tender_status->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+											<a href="{{route('tender_status.edit',$tender_status->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
 										</span>
 										<span class="ml-2">
 											<form  action="{{route('tender_status.destroy',$tender_status->id)}}" method="POST" id="delform_{{ $tender_status->id}}">
 													@csrf
 												@method('DELETE')
-												<a href="javascript:$('#delform_{{ $tender_status->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-										
+												<a href="javascript:$('#delform_{{ $tender_status->id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash" ></i> Delete</a>
 											</form>
 										</span>
 									</td>
