@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    {{-- <script src="{{ asset('js/main.js') }}"></script> --}}
     <script src="{{ asset('js/app.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/main.css') }}">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
     @yield('title')
-    <link rel="stylesheet" href="{{asset('css/parts-selector.css')}}">
+    <link rel="stylesheet" href="{{asset('themes/vali/css/parts-selector.css')}}">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    @stack('styles')
   </head>
   <style>
   	.active_subtab{
@@ -30,9 +30,10 @@
 
     @yield('content')
     
-    <script src="{{asset('js/popper.min.js')}}"></script>
-    <script src="{{asset('js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('js/main.js')}}"></script>
-    <script src="{{asset('js/plugins/parts-selector.js')}}"></script>
+    <script src="{{asset('themes/vali/js/popper.min.js')}}"></script>
+    <script src="{{asset('themes/vali/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('themes/vali/js/main.js')}}"></script>
+    <script src="{{asset('themes/vali/js/plugins/parts-selector.js')}}"></script>
+    @stack('scripts')
   </body>
 </html>

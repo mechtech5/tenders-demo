@@ -1,4 +1,9 @@
 @extends('layouts.master')
+
+@push('styles')
+	<link rel="stylesheet" href="{{ asset('themes/vali/css/') }}">
+@endpush
+
 @section('content')
 <?php
 function display_priority_text($int){
@@ -56,39 +61,52 @@ function display_priority_class($int){
 			<div class="col-2">
 				<div class="form-group">
 					<select class="form-control" name="" id="">
-						<option value="">Category</option>
+						<option value="">Any Category</option>
+						@foreach($categories as $row)
+							<option value="{{ $row->id }}">{{ $row->status_name }}</option>
+						@endforeach
 					</select>
 				</div>
 			</div>
 			<div class="col-2">
 				<div class="form-group">
 					<select class="form-control" name="" id="">
-						<option value="">Type</option>
+						<option value="">Any Type</option>
+						@foreach($types as $row)
+							<option value="{{ $row->id }}">{{ $row->type_name }}</option>
+						@endforeach
 					</select>
 				</div>
 			</div>
 			<div class="col-2">
 				<div class="form-group">
 					<select class="form-control" name="" id="">
-						<option value="">Priority</option>
+						<option value="">Any Priority</option>
+						<option value="1">Very Low</option>
+						<option value="2">Low</option>
+						<option value="3">Medium</option>
+						<option value="4">High</option>
+						<option value="5">Very High</option>
 					</select>
 				</div>
 			</div>
 			<div class="col-2">
 				<div class="form-group">
 					<select class="form-control" name="" id="">
-						<option value="">Eligibility</option>
+						<option value="">Any Eligibility</option>
+						<option value="1">Yes</option>
+						<option value="0">No</option>
 					</select>
 				</div>
 			</div>
 			<div class="col-2">
 				<div class="form-group">
-						<input class="form-control" id="demoDate1" type="text" placeholder="After Date">
+						<input class="form-control" id="demoDate1" type="text" placeholder="Published After">
 				</div>
 			</div>
 			<div class="col-2">
 				<div class="form-group">
-						<input class="form-control" id="demoDate2" type="text" placeholder="Before Date">
+						<input class="form-control" id="demoDate2" type="text" placeholder="Published Before">
 				</div>
 			</div>
 		</div>
@@ -163,3 +181,19 @@ function display_priority_class($int){
 
 	</main>
 @endsection
+
+@push('scripts')
+	<script src="{{ asset('themes/vali/js/plugins/bootstrap-datepicker.min.js') }}"></script>
+	<script>
+		$('#demoDate1').datepicker({
+			format: "dd/mm/yyyy",
+			autoclose: true,
+			todayHighlight: true
+		});
+		$('#demoDate2').datepicker({
+			format: "dd/mm/yyyy",
+			autoclose: true,
+			todayHighlight: true
+		});
+	</script>
+@endpush

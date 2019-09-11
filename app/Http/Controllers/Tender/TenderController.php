@@ -12,8 +12,10 @@ class TenderController extends Controller
 {
 	public function index()
 	{
-		$tenders = Tender::with('status','type')->get();
-		return view('tender.master.index', compact('tenders'));
+		$types = TenderType::all();
+		$categories = TenderStatus::all();
+		$tenders = Tender::with('status', 'type')->get();
+		return view('tender.master.index', compact('tenders', 'types', 'categories'));
 	}
 
 	public function getForm(Request $request, $type)
