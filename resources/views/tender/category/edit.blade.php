@@ -12,7 +12,7 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card shadow-xs">
 					<div class="card-body">
-						<form action="{{route('tender_status.update', ['id'=>$tender_status->id])}}" method="post">
+						<form action="{{route('tender_category.update', ['id'=>$tender_category->id])}}" method="post">
 							@csrf
 							@method('PATCH')
 							<div class="row form-group">
@@ -24,7 +24,7 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<input type="text" name="account_code" class="form-control" value="{{old('account_code',$tender_status->account_code)}}" readonly>
+										<input type="text" name="account_code" class="form-control" value="{{old('account_code',$tender_category->account_code)}}" readonly>
 									</div>
 									@error('title')
                     <span class="text-danger" role="alert">
@@ -40,7 +40,7 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<input type="text" name="name" class="form-control" value="{{old('name',$tender_status->status_name)}}">
+										<input type="text" name="name" class="form-control" value="{{old('name',$tender_category->category_name)}}">
 									</div>
 									@error('title')
                     <span class="text-danger" role="alert">
@@ -56,7 +56,7 @@
 												<i class="fa fa-asterisk"></i>	
 											</span>
 										</div>
-										<textarea class="form-control" name="description" id="" cols="30" rows="5">{{old('description',$tender_status->status_desc)}}</textarea>
+										<textarea class="form-control" name="description" id="" cols="30" rows="5">{{old('description',$tender_category->category_desc)}}</textarea>
 									</div>
 									@error('description')
                     <span class="text-danger" role="alert">
@@ -67,7 +67,7 @@
 							<div class="col-md-12 mt-3 text-center">
 								<input type="hidden" name="grp_code" value="1">
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Submit</button>
-								<span class="ml-2" ><a href="{{route('tender_status.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
+								<span class="ml-2" ><a href="{{route('tender_category.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
 							</div>
 						</div>
 							</div>

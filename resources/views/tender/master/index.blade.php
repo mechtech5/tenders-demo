@@ -63,7 +63,7 @@ function display_priority_class($int){
 					<select class="form-control" name="" id="">
 						<option value="">Any Category</option>
 						@foreach($categories as $row)
-							<option value="{{ $row->id }}">{{ $row->status_name }}</option>
+							<option value="{{ $row->id }}">{{ $row->category_name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -143,7 +143,7 @@ function display_priority_class($int){
 							<tr class="text-center">
 								<td>{{$row->id}}</td>
 								<td>{{$row->title}}</td>
-								<td>{{$row->status->status_name}}</td>
+								<td>{{$row->category->category_name}}</td>
 								<td>{{$row->type->type_name}}</td>
 								<td>{{$row->created_at}}</td>
 								<td class="text-white font-weight-bold {{ display_priority_class($row->priority) }}">

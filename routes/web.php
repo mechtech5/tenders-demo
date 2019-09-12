@@ -48,7 +48,7 @@ Route::resource('/settings/grades','Settings\GradesController');
 Route::resource('/tender_master', 'Tender\TenderController');
 Route::post('tender_master/{type}', 'Tender\TenderController@getForm');
 Route::resource('/tender_type', 'Tender\TenderTypeController');
-Route::resource('/tender_status', 'Tender\TenderStatusController');
+Route::resource('/tender_category', 'Tender\TenderCategoryController');
 Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
 	
 });

@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Tours extends Model
+class TourMast extends Model
 {
   use SoftDeletes;
-  protected $table = 'tours';
+  protected $table = 'tour_mast';
 
   public function employee(){
  		return $this->belongsTo('App\Models\EmployeeMast','emp_id');

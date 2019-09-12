@@ -7,7 +7,7 @@
 			</div>
 			<ul class="app-breadcrumb breadcrumb">
 				<span class="ml-2">
-					<a href="{{route('tender_status.create')}}" class="btn btn-outline-success" style="font-size: 13px">
+					<a href="{{route('tender_category.create')}}" class="btn btn-outline-success" style="font-size: 13px">
 					<span class="fa fa-plus"></span> Add New</a>
 					</span>		
 			</ul>
@@ -37,20 +37,20 @@
 								</tr>
 							</thead>
 							<tbody>
-							@foreach($tender_statuses as $tender_status)
+							@foreach($tender_categories as $tender_category)
 							<tr>
-								<td>{{$tender_status->id}}</td>
-								<td>{{$tender_status->status_name}}</td>
-								<td>{{$tender_status->status_desc}}</td>
+								<td>{{$tender_category->id}}</td>
+								<td>{{$tender_category->category_name}}</td>
+								<td>{{$tender_category->category_desc}}</td>
 								<td class="d-flex">
 										<span>
-											<a href="{{route('tender_status.edit',$tender_status->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
+											<a href="{{route('tender_category.edit',$tender_category->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
 										</span>
 										<span class="ml-2">
-											<form  action="{{route('tender_status.destroy',$tender_status->id)}}" method="POST" id="delform_{{ $tender_status->id}}">
+											<form  action="{{route('tender_category.destroy',$tender_category->id)}}" method="POST" id="delform_{{ $tender_category->id}}">
 													@csrf
 												@method('DELETE')
-												<a href="javascript:$('#delform_{{ $tender_status->id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash" ></i> Delete</a>
+												<a href="javascript:$('#delform_{{ $tender_category->id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash" ></i> Delete</a>
 											</form>
 										</span>
 									</td>

@@ -50,28 +50,29 @@ class CreateTourTables extends Migration
 
         Schema::create('tour_mast', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('comp_code', 3);
             $table->unsignedBigInteger('emp_id');
-            $table->unsignedBigInteger('activity_id');
-            $table->unsignedBigInteger('current_stage');
-            $table->string('purpose');
-             $table->decimal('adv_amt', 15, 4)->default(0.00);
+            $table->unsignedBigInteger('apr_id');
+            $table->string('title');
+            $table->integer('current_stage')->nullable();
+          	$table->decimal('adv_amt', 15, 4)->default(0.00);
+          	$table->text('purpose');
             $table->string('start_loc');
-            $table->date('start_date');
+            $table->date('start_dt');
             $table->string('end_loc');
-            $table->date('end_date');
-            $table->text('note')->nullable();
+            $table->date('end_dt');
             $table->timestamps();
             $table->softDeletes();
         });
 
-        
-        Schema::create('tour_stages', function (Blueprint $table) {
+        Schema::create('tour_approval_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
            	$table->unsignedBigInteger('tour_id');
-           	$table->unsignedBigInteger('creator_id');
-            $table->text('note')->nullable();
-            $table->Integer('status');
+           	$table->integer('act_id');
+           	$table->integer('state_id');
+           	$table->string('permits',255);   //Copying permits because in future may be permits get changed so it won't be possible to change history, if we store permits in this table too... then we can preserve the history
+           	$table->date('date');
+            $table->char('status',1)->nullable();
+            $table->text('remark');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -87,7 +88,7 @@ class CreateTourTables extends Migration
         Schema::dropIfExists('emp_mast');
         Schema::dropIfExists('desg_mast');
         Schema::dropIfExists('tours');
-        Schema::dropIfExists('tour_stages');
+        Schema::dropIfExists('tour_approval_detail');
         Schema::dropIfExists('emp_grade_mast');     
     }
 }

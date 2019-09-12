@@ -10,8 +10,8 @@ class Tender extends Model
  	protected $table = 'tender_mast';
  	use SoftDeletes;
 
- 	public function status(){
-		return $this->belongsTo('App\Models\Tenders\TenderStatus');
+ 	public function category(){
+		return $this->belongsTo('App\Models\Tenders\TenderCategory');
  	}
 
  	public function type(){

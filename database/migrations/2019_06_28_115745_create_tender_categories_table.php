@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTenderStatusesTable extends Migration
+class CreateTenderCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTenderStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tender_status_mast', function (Blueprint $table) {
+        Schema::create('tender_category_mast', function (Blueprint $table) {
             $table->increments('id');
             $table->string('account_code', 5)->nullable();
-            $table->string('status_name');
-            $table->text('status_desc')->nullable();
+            $table->string('category_name');
+            $table->text('category_desc')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +30,6 @@ class CreateTenderStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tender_status_mast');
+        Schema::dropIfExists('tender_category_mast');
     }
 }

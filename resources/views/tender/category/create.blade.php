@@ -11,7 +11,7 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card shadow-xs">
 					<div class="card-body">
-						<form action="{{route('tender_status.store')}}" method="post">
+						<form action="{{route('tender_category.store')}}" method="post">
 							@csrf
 							<div class="row form-group">
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2 offset-3">
@@ -48,7 +48,7 @@
 							</div>
 							<div class="col-md-12 mt-3 text-center">
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Submit</button>
-								<span class="ml-2" ><a href="{{route('tender_status.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
+								<span class="ml-2" ><a href="{{route('tender_category.index')}}" class="btn btn-md btn-default" style="background-color: #f4f4f4;color: #444;    border-color: #ddd;"><span class="fa fa-times-circle"></span> Cancel</a></span>
 							</div>
 						</div>
 							</div>

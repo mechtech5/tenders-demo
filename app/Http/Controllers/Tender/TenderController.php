@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Tender;
 
 use App\Http\Controllers\Controller;
 use App\Models\Tenders\Tender;
-use App\Models\Tenders\TenderStatus;
+use App\Models\Tenders\TenderCategory;
 use App\Models\Tenders\TenderType;
 use Illuminate\Http\Request;
 
@@ -13,8 +13,8 @@ class TenderController extends Controller
 	public function index()
 	{
 		$types = TenderType::all();
-		$categories = TenderStatus::all();
-		$tenders = Tender::with('status', 'type')->get();
+		$categories = TenderCategory::all();
+		$tenders = Tender::with('category', 'type')->get();
 		return view('tender.master.index', compact('tenders', 'types', 'categories'));
 	}
 
@@ -26,15 +26,15 @@ class TenderController extends Controller
 	public function create()
 	{
 		$tender_types = TenderType::all();
-		$tender_statuses = TenderStatus::all();
-		return view('tender.master.create',compact('tender_types','tender_statuses'));
+		$tender_categories = TenderCategory::all();
+		return view('tender.master.create',compact('tender_types','tender_categories'));
 	}
 
 	public function store(Request $request)
 	{
 		$data = $request->validate([
  			'title'	=> 'required|string|max:255',
- 			'status_id'	=> 'required',
+ 			'category_id'	=> 'required',
  			'type_id'	=> 'required',
  			'priority'	=> 'required'
  		]);
@@ -43,7 +43,7 @@ class TenderController extends Controller
  		$tender->title = $data['title'];
  		$tender->account_code = 12345;
  		$tender->is_eligible = $is_eligible;
- 		$tender->status_id = $data['status_id'];
+ 		$tender->category_id = $data['category_id'];
  		$tender->type_id = $data['type_id'];
  		$tender->priority = $data['priority'];
  		$tender->save();
@@ -59,16 +59,16 @@ class TenderController extends Controller
 	public function edit($id)
 	{
 		$tender_types = TenderType::all();
-		$tender_statuses = TenderStatus::all();
+		$tender_categories = TenderCategory::all();
 		$tender = Tender::find($id);
-		return view('tender.master.edit',compact('tender','tender_types','tender_statuses'));
+		return view('tender.master.edit',compact('tender','tender_types','tender_categories'));
 	}
 
 	public function update(Request $request,$id)
 	{
 		$data = $request->validate([
  			'title'	=> 'required|string|max:255',
- 			'status_id'	=> 'required',
+ 			'category_id'	=> 'required',
  			'type_id'	=> 'required',
  			'priority'	=> 'required'
  		]);
@@ -76,7 +76,7 @@ class TenderController extends Controller
  		 $tender = Tender::find($id);
      $tender->title = $data['title'];
      $tender->is_eligible = $is_eligible;
-     $tender->status_id = $data['status_id'];
+     $tender->category_id = $data['category_id'];
      $tender->type_id = $data['type_id'];
      $tender->priority = $data['priority'];
      $tender->save();

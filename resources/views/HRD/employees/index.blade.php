@@ -52,7 +52,7 @@
 									<td>{{$employee->grade_code}}</td>
 									<td>{{$employee->emp_gender}}</td>
 									<td>{{$employee->emp_dob}}</td>
-									<td>{{$employee->designation->desg_name}}</td>
+									<td>{{$employee->designation['desg_name']}}</td>
 									<td>{{$employee->active}}</td>
 									<td class='d-flex'>
 										<span>

@@ -48,21 +48,21 @@
                 	@enderror
 								</div>
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2 ">
-									<label for="name"><b>Status ID <span class="text-danger">*</span></b> </label>
+									<label for="name"><b>category ID <span class="text-danger">*</span></b> </label>
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text">
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<select name="status_id" id="" class="form-control">
-											<option value="">Select status</option>
-											@foreach($tender_statuses as $tender_status)
-											<option value="{{$tender_status->id}}" {{old('status_id',$tender->status_id) == $tender_status->id ? 'selected' : ''}}>{{$tender_status->status_name}}</option>
+										<select name="category_id" id="" class="form-control">
+											<option value="">Select category</option>
+											@foreach($tender_categories as $tender_category)
+											<option value="{{$tender_category->id}}" {{old('category_id',$tender->category_id) == $tender_category->id ? 'selected' : ''}}>{{$tender_category->category_name}}</option>
 											@endforeach
 										</select>
 									</div>
-									@error('status_id')
+									@error('category_id')
                     <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

@@ -28,8 +28,8 @@
 												<i class="fa fa-user"></i>	
 											</span>
 										</div>
-										<input type="text" name="name" class="form-control" value="{{$logged_emp->emp_name}}" readonly>
-										<input type="hidden" name="emp_id" class="form-control" value="{{$logged_emp->emp_id}}" readonly>
+										<input type="text" name="name" class="form-control" value="{{$logged_emp->name}}" readonly>
+										<input type="hidden" name="emp_id" class="form-control" value="{{$logged_emp->id}}" readonly>
 									</div>
 									@error('name')
                     <span class="text-danger" role="alert">
@@ -48,27 +48,6 @@
 										<input type="text" name="purpose" class="form-control" value="{{old('purpose')}}">
 									</div>
 									@error('purpose')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                	@enderror
-								</div>
-								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
-									<label for="name"><b>Company<span class="text-danger">*</span></b> </label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">
-												<i class="fa fa-building-o"></i>	
-											</span>
-										</div>
-										<select name="company" id="" class="form-control">
-											<option value="">Select Company</option>
-											@foreach($companies as $company)
-											<option value="{{$company->comp_code}}" {{old('company') == $company->comp_code ? 'selected' : ''}}>{{$company->comp_name}}</option>
-											@endforeach
-										</select>
-									</div>
-									@error('company')
                     <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

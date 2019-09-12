@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Expenses;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Approval;
-use App\Models\Tours;
+use App\Models\TourMast;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class ToursController extends Controller
      */
     public function index()
     {
-    	$tours = Tours::with('current_stage_info','activity.approval.details','stages','company','employee')->get();
+    	$tours = TourMast::with('current_stage_info','activity.approval.details','stages','company','employee')->get();
       return view('expenses.tours.index',compact('tours'));
     }
 
@@ -29,7 +29,8 @@ class ToursController extends Controller
      */
     public function create()
     {
-        //
+    	$logged_emp = auth()->user();
+      return view('expenses.tours.create',compact('logged_emp'));
     }
 
     /**
@@ -58,7 +59,7 @@ class ToursController extends Controller
     {
     	$users = User::with('employee')->get();
     	
-      $tour = Tours::with('current_stage_info','activity.approval.details','stages.employee','stages.approval_detail','company','employee')
+      $tour = TourMast::with('current_stage_info','activity.approval.details','stages.employee','stages.approval_detail','company','employee')
       				->where('id',$id)
       				->first();
       return view('expenses.tours.stages',compact('tour','users'));
