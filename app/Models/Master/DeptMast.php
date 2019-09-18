@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Master;
 
 
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +10,7 @@ class DeptMast extends Model
   protected $table = 'dept_mast'; 
  	
  	public function employees(){
- 		return $this->hasMany('App\Models\EmployeeMast', 'comp_id');
+ 		return $this->hasMany('App\Models\Employees\EmployeeMast', 'comp_id');
  	}
 
  	public function tours(){
@@ -18,6 +18,6 @@ class DeptMast extends Model
  	}
 
  	public function designations(){
- 		return $this->hasMany('App\Models\Designation', 'comp_id');
+ 		return $this->hasMany('App\Models\Master\Designation', 'comp_id');
  	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Master;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +9,8 @@ class Grade extends Model
 {
   use SoftDeletes;
   protected $table = 'emp_grade_mast'; 
-  protected $primaryKey = 'grade_code'; 
-  public $incrementing = false;	
 
+  public function employees(){
+  	return $this->hasMany('App\Models\Employees\EmployeeMast');
+  }
 }

@@ -37,6 +37,7 @@
 			getForm('main');
 			$('.main').addClass('active');
 		});
+		
 		function getForm(type){
 			let emp_id = '<?php echo $employee->id;?>';
 			let img = $('.img_parent').html();

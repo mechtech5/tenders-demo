@@ -14,12 +14,13 @@ Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
 
-
+Route::get('/hrd/employees/inactiveEmployees','HRD\EmployeesController@inactiveEmployees')->name('employees.inactiveEmployees');
 Route::resource('/expenses/bills','Expenses\BillsController');
 Route::resource('/expenses/vendors','Expenses\VendorsController');
 Route::resource('/expenses/tours','Expenses\ToursController');
 Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
+
 Route::post('hrd/employees/{type}', 'HRD\EmployeesController@getForm');
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
 Route::post('/hrd/employees/insert_employee','HRD\EmployeesController@insert_employee');

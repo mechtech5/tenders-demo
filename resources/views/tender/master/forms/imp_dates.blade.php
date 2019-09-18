@@ -7,17 +7,17 @@
 	    	<div class="col-4">Timer</div>
 	    </div>
 	    <div class="row col-12 text-center mt-2">
-	    	<label for="" class="col-4"><b>Tender last submission Date online</b></label>
+	    	<label for="" class="col-4"><b>Tender last submission Date physical (Hard Copy)</b></label>
 	    	<input type="text" class="form-control datepicker col-4" name="title">
 	    	<div class="col-4">Timer</div>
 	    </div>
 	    <div class="row col-12 text-center mt-2">
-	    	<label for="" class="col-4"><b>Tender last submission Date online</b></label>
+	    	<label for="" class="col-4"><b>Tender opening technical Date & Time</b></label>
 	    	<input type="text" class="form-control datepicker col-4" name="title">
 	    	<div class="col-4">Timer</div>
 	    </div>
 	    <div class="row col-12 text-center mt-2">
-	    	<label for="" class="col-4"><b>Tender last submission Date online</b></label>
+	    	<label for="" class="col-4"><b>Tender opening financial Date & Time</b></label>
 	    	<input type="text" class="form-control datepicker col-4" name="title">
 	    	<div class="col-4">Timer</div>
 	    </div>
@@ -30,11 +30,11 @@
 			</div>
 			<div class="myForm row col-12 mt-2 d-none">
 		    <div class="col-4 form-group">
-		    	<label for="">Column Name</label>
+		    	<label for="">Title</label>
 		    	<input type="text" class="form-control" name="time"/>
 		    </div>
 			   <div class="col-4 form-group">
-		    	<label for="">Column Value</label>
+		    	<label for="">Date</label>
 		    	<input type="text" class="form-control datepicker" name="time"/>
 		    </div>
 	    </div>

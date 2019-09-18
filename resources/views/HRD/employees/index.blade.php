@@ -3,7 +3,7 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Emlpoyees
+				<h1 style="font-size: 24px">Employees
 					<span class="ml-2">
 						<button  class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px">
 							<span class="fa fa-upload"></span> Import
@@ -26,6 +26,16 @@
 			<div class="row ">
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
+				<div class="card-header">
+					<ul class="nav nav-pills">
+					  <li class="nav-item">
+					    <a class="nav-link {{call_user_func_array('Request::is', (array)['*/employees']) ? 'active' : ''}}" href="{{route('employees.index')}}">Active Employees</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link {{call_user_func_array('Request::is', (array)['*inactiveEmployees*']) ? 'active' : ''}}"  href="{{route('employees.inactiveEmployees')}}">Inactive Employees</a>
+					  </li>
+					</ul>
+				</div>
 					<div class="card-body table-responsive">
 						<table class="table table-stripped table-bordered">
 							<thead>
@@ -33,7 +43,7 @@
 									<th>Employee ID</th>
 									<th>Employee Name</th>
 									<th>Employee Code</th>									
-									<th>Company Code</th>
+									<th>Company Name</th>
 									<th>Grade Code</th>
 									<th>Gender</th>
 									<th>DOB</th>
@@ -48,13 +58,13 @@
 									<td>{{$employee->id}}</td>
 									<td>{{$employee->emp_name}}</td>
 									<td>{{$employee->emp_code}}</td>
-									<td>{{$employee->company->comp_name}}</td>
-									<td>{{$employee->grade_code}}</td>
+									<td>@if($employee->company!=null) {{$employee->company->comp_name}} @endif</td>
+									<td>@if($employee->grade!=null) {{$employee->grade->name}} @endif</td>
 									<td>{{$employee->emp_gender}}</td>
-									<td>{{$employee->emp_dob}}</td>
+									<td>{{$employee->dobFormated($employee->emp_dob)}}</td>
 									<td>{{$employee->designation['desg_name']}}</td>
-									<td>{{$employee->active}}</td>
-									<td class='d-flex'>
+									<td>{{$employee->active ==1 ? 'Active' : 'Inactive'}}</td>
+									<td class='d-flex' style="border-bottom:none">
 										<span>
 												<a href="{{route('employees.edit',$employee->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>

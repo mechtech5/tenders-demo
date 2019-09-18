@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@push('styles')
+    <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
+@endpush
 @section('content')
 	<main class="app-content">
 		<div class="row">
@@ -99,10 +102,10 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<select name="grade_code" class="form-control" id="">
+										<select name="grade_id" class="form-control" id="">
 											<option value="">Select Grade</option>	
 											@foreach($grades as $grade)
-											<option value="{{$grade->grade_code}}" {{old('grade_code',$employee->grade_code) == $grade->grade_code ? 'selected' : ''}}>{{$grade->grade_code}}</option>
+											<option value="{{$grade->id}}" {{old('grade_id',$employee->grade_id) == $grade->id ? 'selected' : ''}}>{{$grade->id}}</option>
 											@endforeach
 										</select>
 									</div>
@@ -150,7 +153,7 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<input type="date" name="emp_dob" class="form-control" value="{{old('emp_dob',$employee->emp_dob)}}">
+										<input type="text" name="emp_dob" class="datepicker form-control" value="{{old('emp_dob',$employee->emp_dob)}}">
 									</div>
 									@error('emp_dob')
                     <span class="text-danger" role="alert">
@@ -166,7 +169,7 @@
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<input type="date" name="join_dt" value="{{old('join_dt',$employee->join_dt)}}" class="form-control" >
+										<input type="text" name="join_dt" value="{{old('join_dt',$employee->join_dt)}}" class="datepicker form-control" >
 									</div>
 									@error('join_dt')
                     <span class="text-danger" role="alert">
@@ -235,9 +238,16 @@
 		</div>
 	</main>
 
-	<script>
+
+<script type="text/javascript">
+
 		$(document).ready(function(){
-			//fetchDesignation();
+			$('.datepicker').datepicker({
+				orientation: "bottom",
+				format: "yyyy-mm-dd",
+				autoclose: true,
+				todayHighlight: true
+			});
 		});
 		function fetchDesignation(){
 			var comp_id  = $('#comp_id').val();

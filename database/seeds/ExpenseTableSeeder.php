@@ -12,44 +12,40 @@ class ExpenseTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('comp_mast')->insert([
-            'comp_name' => 'Laxyo Group'
+        DB::table('comp_grp')->insert([
+            'grp_name' => 'Laxyo Group'
         ]);
 
         DB::table('dept_mast')->insert([
+            'dept_name' => 'HR'
+        ]);
+        DB::table('comp_mast')->insert([
         		[
-                'comp_id' => 1,
-                'dept_name' => 'Management',
+                'comp_name' => 'Management',
                 'tour_enabled' => 0
             ],
             [
-                'comp_id' => 1,
-                'dept_name' => 'LEL',
+                'comp_name' => 'LEL',
                 'tour_enabled' => 1
             ],
             [
-                'comp_id' => 1,
-                'dept_name' => 'YIPL',
+                'comp_name' => 'YIPL',
                 'tour_enabled' => 1
             ],
             [
-                'comp_id' => 1,
-                'dept_name' => 'LIS',
+                'comp_name' => 'LIS',
                 'tour_enabled' => 0
             ],
             [
-                'comp_id' => 1,
-                'dept_name' => 'DBF',
+                'comp_name' => 'DBF',
                 'tour_enabled' => 0
             ],
             [
-                'comp_id' => 1,
-                'dept_name' => 'AMAZON',
+                'comp_name' => 'AMAZON',
                 'tour_enabled' => 0
             ],
             [
-                'comp_id' => 1,
-                'dept_name' => 'APNAGPS',
+                'comp_name' => 'APNAGPS',
                 'tour_enabled' => 0
             ]
         ]);
@@ -62,7 +58,6 @@ class ExpenseTableSeeder extends Seeder
                 'grp_code' => '1',
                 'name' => 'NEFT'
             ],
-            
         ]);
          
         DB::table('account_mast')->insert([
@@ -84,73 +79,55 @@ class ExpenseTableSeeder extends Seeder
             ],
         ]);
         DB::table('emp_mast')->insert([
-        	//1
         	 [ 
-                'comp_id'  => '1',
                 'emp_name'   => 'Y Sir',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1994-06-26',
                 'desg_id'   => '1'
             ],
-            //2
              [ 
-                'comp_id'  => '1',
                 'emp_name'   => 'HS Sir',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1994-06-26',
                 'desg_id'   => '2'
             ],
-            //3
              [ 
-                'comp_id'  => '1',
                 'emp_name'   => 'HR - User',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1994-06-26',
                 'desg_id'   => '3'
             ],
-            //4
              [ 
-                'comp_id'  => '1',
                 'emp_name'   => 'TL comp 1',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1994-06-26',
                 'desg_id'   => '4'
             ],
-            //5
              [ 
-                'comp_id'  => '1',
                 'emp_name'   => 'TL Comp 2',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1994-06-26',
                 'desg_id'   => '5'
             ],
-            //6
             [ 
-                'comp_id'  => '1',
                 'emp_name'   => 'Aayush Likhar',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1993-06-26',
                 'desg_id'   => '1'
             ],
-            //7
             [ 
-                'comp_id'  => '1',
                 'emp_name'   => 'Vinod Kurmi',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1993-06-26',
                 'desg_id'   => '1'
             ],
-            //8
             [ 
-                'comp_id'  => '1',
                 'emp_name'   => 'Ritesh Panchal',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1996-06-26',
                 'desg_id'   => '1'
             ],
-            //9
             [ 
-                'comp_id'  => '1',
                 'emp_name'   => 'Abhishek Soni',
                 'emp_gender' => 'M',
                 'emp_dob'    => '1994-06-26',
@@ -159,19 +136,15 @@ class ExpenseTableSeeder extends Seeder
         ]);     
          DB::table('desg_mast')->insert([
             [ 
-                'comp_id'  => 1,
                 'desg_name'  => 'Director1 (Y Sir)',
             ],
             [ 
-                'comp_id'  => 1,
                 'desg_name'  => 'Director2 (HS Sir)',
             ],
             [ 
-                'comp_id'  => 1,
                 'desg_name'  => 'HR',
             ],
             [ 
-                'comp_id'  => 1,
                 'desg_name'  => 'TL',
             ],
 

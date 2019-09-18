@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Master;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,10 +12,10 @@ class Designation extends Model
   protected $fillable = ['title'];
 
   public function employees(){
- 		return $this->hasMany('App\Models\EmployeeMast', 'desg_id');
+ 		return $this->hasMany('App\Models\Employees\EmployeeMast', 'desg_id');
  	}
 
  	public function company(){
- 		return $this->belongsTo('App\Models\CompMast','comp_id');
+ 		return $this->belongsTo('App\Models\Master\CompMast','comp_id');
  	}
 }

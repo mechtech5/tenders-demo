@@ -13,20 +13,35 @@ class CreateExpenseTables extends Migration
      */
     public function up()
     {
+        Schema::create('comp_grp', function (Blueprint $table) {
+        		$table->bigIncrements('id');
+            $table->string('grp_name', 50);
+            $table->string('grp_desc', 200)->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
         Schema::create('comp_mast', function (Blueprint $table) {
         		$table->bigIncrements('id');
             $table->string('comp_name', 50);
             $table->string('comp_desc', 200)->nullable();
+            $table->integer('tour_enabled')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
 
         Schema::create('dept_mast', function (Blueprint $table) {
         		$table->bigIncrements('id');
-            $table->unsignedInteger('comp_id');
             $table->string('dept_name', 50);
             $table->string('dept_desc', 200)->nullable();
-            $table->integer('tour_enabled')->default(0);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+         Schema::create('comp_dept', function (Blueprint $table) {
+        		$table->bigIncrements('id');
+            $table->integer('comp_id');
+            $table->integer('dept_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -331,6 +346,7 @@ class CreateExpenseTables extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('comp_grp');
         Schema::dropIfExists('comp_mast');
         Schema::dropIfExists('dept_mast');
         Schema::dropIfExists('vendors');
