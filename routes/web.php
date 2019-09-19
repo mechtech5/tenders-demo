@@ -13,8 +13,6 @@
 Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/hrd/employees/inactiveEmployees','HRD\EmployeesController@inactiveEmployees')->name('employees.inactiveEmployees');
 Route::resource('/expenses/bills','Expenses\BillsController');
 Route::resource('/expenses/vendors','Expenses\VendorsController');
 Route::resource('/expenses/tours','Expenses\ToursController');
@@ -44,6 +42,7 @@ Route::resource('/settings/expense_in_user','Settings\ExpenseUserController');
 Route::resource('/settings/expense_permit_user','Settings\ExpensePermitUserController');
 Route::resource('/settings/categories','Settings\CategoryController');
 Route::resource('/settings/designations','Settings\DesignationController');
+Route::resource('/settings/statuses','Settings\StatusController');
 Route::resource('/settings/grades','Settings\GradesController');
 
 Route::resource('/tender_master', 'Tender\TenderController');

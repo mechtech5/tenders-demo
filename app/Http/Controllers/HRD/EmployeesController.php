@@ -15,14 +15,9 @@ class EmployeesController extends Controller
    	public function __construct(){
         $this->middleware('auth');
     }
-    public function inactiveEmployees()
-    {		
-  		$employees = EmployeeMast::with('company','grade','designation')->where('active',"!=",1)->get();
-      return view('HRD.employees.index',compact('employees'));
-    }
     public function index()
     {		
-  		$employees = EmployeeMast::with('company','grade','designation')->where('active',1)->get();
+  		$employees = EmployeeMast::with('company','grade','designation')->get();
       return view('HRD.employees.index',compact('employees'));
     }
     public function export(){
@@ -119,7 +114,6 @@ class EmployeesController extends Controller
        $employee->join_dt = $data['join_dt'];
        $employee->desg_id = $data['emp_desg'];
        $employee->parent_id = $request->parent_id;
-       $employee->active = $request->active;
        $employee->save();
 	   	return redirect()->route('employees.index')->with('success','Employee details Updated Successfully');
     }

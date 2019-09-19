@@ -34,8 +34,8 @@ class CreateMasterTables extends Migration
 
 		  Schema::create('emp_status_mast',function(Blueprint $table){
 		  	 	$table->bigIncrements('id');
-		  	 	$table->string('status_name',50);
-		  	 	$table->string('status_desc',200);
+		  	 	$table->string('name',50);
+		  	 	$table->text('desc')->nullable();
 			    $table->timestamps();
 			    $table->softDeletes();  
 		  });
@@ -50,15 +50,9 @@ class CreateMasterTables extends Migration
 			    $table->softDeletes();  
 		  });
 
-		  Schema::create('emp_type_mast',function(Blueprint $table){
-		  	 	$table->bigIncrements('id');
-		  	 	$table->string('name',50);
-		  	 	$table->text('desc')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();  
-		  });
 
-		   Schema::create('emp_status',function(Blueprint $table){
+
+		  Schema::create('emp_type_mast',function(Blueprint $table){
 		  	 	$table->bigIncrements('id');
 		  	 	$table->string('name',50);
 		  	 	$table->text('desc')->nullable();
@@ -111,7 +105,6 @@ class CreateMasterTables extends Migration
         Schema::dropIfExists('emp_status_mast');
         Schema::dropIfExists('emp_grade_mast');
         Schema::dropIfExists('emp_type_mast');
-        Schema::dropIfExists('emp_status');
         Schema::dropIfExists('event_mast');
         Schema::dropIfExists('domain_mast');
         Schema::dropIfExists('asset_mast');

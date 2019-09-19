@@ -26,7 +26,7 @@
 			<div class="row ">
 			<div class="col-md-12 col-xl-12">
 				<div class="card">
-				<div class="card-header">
+			{{-- 	<div class="card-header">
 					<ul class="nav nav-pills">
 					  <li class="nav-item">
 					    <a class="nav-link {{call_user_func_array('Request::is', (array)['*/employees']) ? 'active' : ''}}" href="{{route('employees.index')}}">Active Employees</a>
@@ -35,7 +35,7 @@
 					    <a class="nav-link {{call_user_func_array('Request::is', (array)['*inactiveEmployees*']) ? 'active' : ''}}"  href="{{route('employees.inactiveEmployees')}}">Inactive Employees</a>
 					  </li>
 					</ul>
-				</div>
+				</div> --}}
 					<div class="card-body table-responsive">
 						<table class="table table-stripped table-bordered">
 							<thead>

@@ -105,7 +105,7 @@
 										<select name="grade_id" class="form-control" id="">
 											<option value="">Select Grade</option>	
 											@foreach($grades as $grade)
-											<option value="{{$grade->id}}" {{old('grade_id',$employee->grade_id) == $grade->id ? 'selected' : ''}}>{{$grade->id}}</option>
+											<option value="{{$grade->id}}" {{old('grade_id',$employee->grade_id) == $grade->id ? 'selected' : ''}}>{{$grade->name}}</option>
 											@endforeach
 										</select>
 									</div>
@@ -200,7 +200,7 @@
                     </span>
                 	@enderror
 								</div>
-								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
+							{{-- 	<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
 									<label for="name"><b>Status<span class="text-danger">*</span></b> </label>
 									<div class="input-group">
 										<div class="input-group-prepend">
@@ -208,13 +208,13 @@
 															value="1" 
 															name="active" 
 															class="mt-1 mr-2" 
-															{{old('active',$employee->active) == '1' ? 'checked' : ''}}
+															{{old('active',$employee->active) == 1 ? 'checked' : ''}}
 														>Active
 												<input type="radio" 
 													value="0" 
 													name="active" 
 													class="mt-1 mr-2 ml-3" 
-													{{old('active',$employee->active) == '0' ? 'checked' : ''}}
+													{{old('active',$employee->active) == 0 ? 'checked' : ''}}
 												>Inactive
 										</div>
 									</div>
@@ -223,7 +223,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 	@enderror
-								</div>
+								</div> --}}
 								<div class="col-md-12 mt-3">
 								<input type="hidden" name="grp_code" value="1">
 								<button class="btn btn-md btn-success" type="submit"><span class="fa fa-save"></span> Submit</button>
