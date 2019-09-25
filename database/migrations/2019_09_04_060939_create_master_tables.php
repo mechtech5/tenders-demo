@@ -68,14 +68,6 @@ class CreateMasterTables extends Migration
 			    $table->softDeletes();  
 		  });
 
-		   Schema::create('domain_mast',function(Blueprint $table){
-		  	 	$table->bigIncrements('id');
-		  	 	$table->string('name',50);
-		  	 	$table->text('desc')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();  
-		  });
-
 		   Schema::create('asset_mast',function(Blueprint $table){
 		  	 	$table->bigIncrements('id');
 		  	 	$table->string('name',50);
@@ -106,7 +98,6 @@ class CreateMasterTables extends Migration
         Schema::dropIfExists('emp_grade_mast');
         Schema::dropIfExists('emp_type_mast');
         Schema::dropIfExists('event_mast');
-        Schema::dropIfExists('domain_mast');
         Schema::dropIfExists('asset_mast');
         Schema::dropIfExists('doc_type_mast');
     }

@@ -35,18 +35,18 @@
 							<tbody>
 								@foreach($grades as $grade)
 								<tr>
-									<td>{{$grade->grade_code}}</td>
+									<td>{{$grade->name}}</td>
 									<td>{{$grade->entitled_amt}}</td>
-									<td>{{$grade->description}}</td>
+									<td>{{$grade->desc}}</td>
 									<td class="d-flex">
 										<span>
-												<a href="{{route('grades.edit',$grade->grade_code)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+												<a href="{{route('grades.edit',$grade->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
-											<form  action="{{route('grades.destroy',$grade->grade_code)}}" method="POST" id="delform_{{ $grade->grade_code}}">
+											<form  action="{{route('grades.destroy',$grade->id)}}" method="POST" id="delform_{{ $grade->id}}">
 													@csrf
 												@method('DELETE')
-												<a href="javascript:$('#delform_{{ $grade->grade_code}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
+												<a href="javascript:$('#delform_{{ $grade->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
 										
 											</form>
 										</span>

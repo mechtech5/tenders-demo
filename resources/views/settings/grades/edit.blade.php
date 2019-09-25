@@ -11,21 +11,21 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card shadow-xs">
 					<div class="card-body">
-						<form action="{{route('grades.update', ['id'=>$grade->grade_code])}}" method="post">
+						<form action="{{route('grades.update', ['id'=>$grade->id])}}" method="post">
 							@csrf
 							@method("PATCH")
 							<div class="row form-group">
 								<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
-									<label for="code"><b>Code <span class="text-danger">*</span></b> </label>
+									<label for="code"><b>Name <span class="text-danger">*</span></b> </label>
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text">
 												<i class="fa fa-id-card-o"></i>	
 											</span>
 										</div>
-										<input type="text" name="grade_code" class="form-control" value="{{old('grade_code',$grade->grade_code)}}">
+										<input type="text" name="name" class="form-control" value="{{old('name',$grade->name)}}">
 									</div>
-									@error('grade_code')
+									@error('name')
                     <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -50,16 +50,16 @@
 								</div>
 
 							<div class="col-md-6 col-lg-6 col-xl-6 mt-2">
-									<label for="description"><b>Description <span class="text-danger">*</span></b> </label>
+									<label for="desc"><b>Description <span class="text-danger">*</span></b> </label>
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text">
 												<i class="fa fa-asterisk"></i>	
 											</span>
 										</div>
-										<textarea class="form-control" name="description" id="" cols="30" rows="5">{{old('description',$grade->description)}}</textarea>
+										<textarea class="form-control" name="desc" id="" cols="30" rows="5">{{old('desc',$grade->desc)}}</textarea>
 									</div>
-									@error('description')
+									@error('desc')
                     <span class="text-danger" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

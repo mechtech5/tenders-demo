@@ -90,7 +90,7 @@ class CreateEmployeeTables extends Migration
         Schema::create('emp_academics', function (Blueprint $table) {
           $table->bigIncrements('id');
           $table->unsignedInteger('emp_id');
-          $table->unsignedInteger('domain_of_study');
+          $table->string('domain_of_study',255);
           $table->string('name_of_unversity',100);
           $table->string('completed_in',10);
           $table->string('grade_per',50);
