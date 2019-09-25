@@ -3,7 +3,7 @@
 	<main class="app-content">
 		<div class="app-title">
 			<div class="div">
-				<h1><i class="fa fa-laptop"></i> Mast Entity: {{ $db_table }}</h1>
+				<h4><i class="fa fa-asterisk"></i> Entity :  {{ $table_name }}</h4>
 			</div>
 			<ul class="app-breadcrumb breadcrumb">
 				<span class="ml-2">

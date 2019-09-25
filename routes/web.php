@@ -54,7 +54,8 @@ Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
 });
 
 // Master CRUD
-Route::get('/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');
-Route::get('/mast_entity/{method}/{db_table}/{id?}', 'MasterController@createOrEditOrShow')->name('mast_entity.get');
-Route::post('/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
-Route::delete('/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
+Route::get('settings/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');
+Route::get('settings/mast_entity', 'MasterController@start_page')->name('mast_entity.home');
+Route::get('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@createOrEditOrShow')->name('mast_entity.get');
+Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
+Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');

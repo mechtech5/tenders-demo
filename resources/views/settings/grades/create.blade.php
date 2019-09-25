@@ -79,9 +79,9 @@
 <script>
 $(".amount").keypress(function (e) {
     if(e.which == 46){
-        if($(this).val().indexOf('.') != -1) {
-            return false;
-        }
+      if($(this).val().indexOf('.') != -1) {
+        return false;
+      }
     }
 
     if (e.which != 8 && e.which != 0 && e.which != 46 && (e.which < 48 || e.which > 57)) {
