@@ -13,9 +13,10 @@ class CreateTendersTable extends Migration
      */
     public function up()
     {
-        Schema::create('tender_mast', function (Blueprint $table) {
+        // Master Tables
+         Schema::create('tender_mast', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('account_code', 5);
+            $table->string('account_code', 5)->default(10001);
             $table->string('tender_no')->nullable();
             $table->string('title');     
             $table->string('place')->nullable();    
@@ -36,8 +37,69 @@ class CreateTendersTable extends Migration
             $table->unsignedInteger('synopsis_creation_resp')->nullable();
             $table->unsignedInteger('filling_resp')->nullable();
             $table->unsignedInteger('ref_or_priority_no')->nullable();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('tender_type_mast', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('account_code', 5)->default(10001);
+            $table->string('name', 100);
+            $table->text('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('tender_catg_mast', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('account_code', 5)->default(10001);
+            $table->string('name', 100);
+            $table->text('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('tender_client_mast', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('account_code', 5)->default(10001);
+            $table->string('name', 100);
+            $table->text('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+
+        // Detail Tables
+        Schema::create('tender_docs', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('account_code', 5)->default(10001);
+            $table->unsignedInteger('tender_id');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('tender_reviews', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('account_code', 5)->default(10001);
+            $table->unsignedInteger('tender_id');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('tender_meetings', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('account_code', 5)->default(10001);
+            $table->unsignedInteger('tender_id');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('tender_expenses', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('account_code', 5)->default(10001);
+            $table->unsignedInteger('tender_id');
+            $table->timestamps();
+            $table->softDeletes();      
         });
     }
 
@@ -48,6 +110,16 @@ class CreateTendersTable extends Migration
      */
     public function down()
     {
+        // Master Tables
         Schema::dropIfExists('tender_mast');
+        Schema::dropIfExists('tender_type_mast');
+        Schema::dropIfExists('tender_catg_mast');
+        Schema::dropIfExists('tender_client_mast');
+
+        // Detail Tables
+        Schema::dropIfExists('tender_docs');
+        Schema::dropIfExists('tender_reviews');
+        Schema::dropIfExists('tender_meetings');
+        Schema::dropIfExists('tender_expenses');
     }
 }

@@ -52,3 +52,9 @@ Route::resource('/tender_category', 'Tender\TenderCategoryController');
 Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
 	
 });
+
+// Master CRUD
+Route::get('/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');
+Route::get('/mast_entity/{method}/{db_table}/{id?}', 'MasterController@createOrEditOrShow')->name('mast_entity.get');
+Route::post('/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
+Route::delete('/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');

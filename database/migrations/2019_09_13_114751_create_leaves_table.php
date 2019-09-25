@@ -58,5 +58,7 @@ class CreateLeavesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('leaves');
+        Schema::dropIfExists('leave_types');
+        Schema::dropIfExists('leave_approval_detail');
     }
 }

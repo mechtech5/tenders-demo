@@ -13,84 +13,110 @@ class CreateMasterTables extends Migration
      */
     public function up()
     {
-		   Schema::create('approval_template', function (Blueprint $table) {
-			    $table->bigIncrements('id');
-			    $table->bigInteger('appr_id');
-			    $table->string('title',255);
-			    $table->text('description')->nullable();
-			    $table->string('permits',255);
-			    $table->integer('is_mandatory')->default(0);
-			    $table->timestamps();
-			    $table->softDeletes();   
-		  });
+    	Schema::create('comp_mast', function (Blueprint $table) {
+  				$table->increments('id');
+  				$table->string('account_code', 5)->default(10001);
+          $table->string('name', 100);
+          $table->text('description')->nullable();
+          $table->timestamps();
+          $table->softDeletes();
+      });
+
+      Schema::create('dept_mast', function (Blueprint $table) {
+    			$table->increments('id');
+    			$table->string('account_code', 5)->default(10001);
+	        $table->string('name', 100);
+	        $table->string('description')->nullable();
+	        $table->timestamps();
+	        $table->softDeletes();
+      });
+
+  		Schema::create('desg_mast', function (Blueprint $table) {
+	        $table->increments('id');
+	        $table->string('account_code', 5)->default(10001);
+	        $table->string('name', 100);
+	        $table->text('description')->nullable();
+	        $table->timestamps();
+	        $table->softDeletes();
+    	});
+
+	   	
 		   
 		  Schema::create('approval_mast', function (Blueprint $table) {
-			    $table->bigIncrements('id');
-			    $table->string('title',100);
+			    $table->increments('id');
+			    $table->string('account_code', 5)->default(10001);
+			    $table->string('name', 100);
 			    $table->text('description')->nullable();
 			    $table->timestamps();
 			    $table->softDeletes();   
-		  });
-
-		  Schema::create('emp_status_mast',function(Blueprint $table){
-		  	 	$table->bigIncrements('id');
-		  	 	$table->string('name',50);
-		  	 	$table->text('desc')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();  
 		  });
 
 		  Schema::create('emp_grade_mast',function(Blueprint $table){
-		  	 	$table->bigIncrements('id');
-		  	 	$table->string('name',50);
+		  	 	$table->increments('id');
+		  	 	$table->string('account_code', 5)->default(10001);
 		  	 	$table->unsignedInteger('comp_id');
-		  	 	$table->decimal('entitled_amt',8,2);
-		  	 	$table->text('desc')->nullable();
+		  	 	$table->string('name', 100);
+		  	 	$table->text('description')->nullable();
 			    $table->timestamps();
 			    $table->softDeletes();  
 		  });
 
-
+		  Schema::create('emp_status_mast',function(Blueprint $table){
+	  	 	$table->increments('id');
+	  	 	$table->string('account_code', 5)->default(10001);
+	  	 	$table->string('name', 100);
+	  	 	$table->text('description')->nullable();
+		    $table->timestamps();
+		    $table->softDeletes();  
+		  });
 
 		  Schema::create('emp_type_mast',function(Blueprint $table){
-		  	 	$table->bigIncrements('id');
-		  	 	$table->string('name',50);
-		  	 	$table->text('desc')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();  
+	  	 	$table->increments('id');
+	  	 	$table->string('account_code', 5)->default(10001);
+	  	 	$table->string('name', 100);
+	  	 	$table->text('description')->nullable();
+		    $table->timestamps();
+		    $table->softDeletes();  
 		  });
 
 		  Schema::create('event_mast',function(Blueprint $table){
-		  	 	$table->bigIncrements('id');
-		  	 	$table->string('name',50);
-		  	 	$table->text('desc')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();  
+	  	 	$table->increments('id');
+	  	 	$table->string('account_code', 5)->default(10001);
+	  	 	$table->string('name', 100);
+	  	 	$table->text('description')->nullable();
+		    $table->timestamps();
+		    $table->softDeletes();  
 		  });
 
-		   Schema::create('domain_mast',function(Blueprint $table){
-		  	 	$table->bigIncrements('id');
-		  	 	$table->string('name',50);
-		  	 	$table->text('desc')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();  
+	   	Schema::create('asset_mast',function(Blueprint $table){
+	  	 	$table->increments('id');
+	  	 	$table->string('account_code', 5)->default(10001);
+	  	 	$table->string('name', 100);
+	  	 	$table->text('description')->nullable();
+		    $table->timestamps();
+		    $table->softDeletes();  
 		  });
 
-		   Schema::create('asset_mast',function(Blueprint $table){
-		  	 	$table->bigIncrements('id');
-		  	 	$table->string('name',50);
-		  	 	$table->text('desc')->nullable();
-			    $table->timestamps();
-			    $table->softDeletes();  
+	    Schema::create('doc_type_mast',function(Blueprint $table){
+	  	 	$table->increments('id');
+	  	 	$table->string('account_code', 5)->default(10001);
+	  	 	$table->string('name', 100);
+	  	 	$table->text('description')->nullable();
+		    $table->timestamps();
+		    $table->softDeletes();  
 		  });
 
-		    Schema::create('doc_type_mast',function(Blueprint $table){
-		  	 	$table->bigIncrements('id');
-		  	 	$table->string('name',50);
-		  	 	$table->text('desc')->nullable();
+		  Schema::create('approval_template', function (Blueprint $table) {
+			    $table->increments('id');
+			    $table->string('account_code', 5)->default(10001);
+			    $table->unsignedInteger('appr_id');
+			    $table->string('title', 100);
+			    $table->text('description')->nullable();
+			    $table->string('permits', 255);
+			    $table->integer('is_mandatory')->default(0);
 			    $table->timestamps();
-			    $table->softDeletes();  
-		  });
+			    $table->softDeletes();   
+	  	});
     }
 
     /**
