@@ -88,6 +88,7 @@ class CreateMasterTables extends Migration
 		    $table->softDeletes();  
 		  });
 
+
 	   	Schema::create('asset_mast',function(Blueprint $table){
 	  	 	$table->increments('id');
 	  	 	$table->string('account_code', 5)->default(10001);
@@ -104,8 +105,7 @@ class CreateMasterTables extends Migration
 	  	 	$table->text('description')->nullable();
 		    $table->timestamps();
 		    $table->softDeletes();  
-		  });
-
+		    
 		  Schema::create('approval_template', function (Blueprint $table) {
 			    $table->increments('id');
 			    $table->string('account_code', 5)->default(10001);
@@ -132,7 +132,6 @@ class CreateMasterTables extends Migration
         Schema::dropIfExists('emp_grade_mast');
         Schema::dropIfExists('emp_type_mast');
         Schema::dropIfExists('event_mast');
-        Schema::dropIfExists('domain_mast');
         Schema::dropIfExists('asset_mast');
         Schema::dropIfExists('doc_type_mast');
     }

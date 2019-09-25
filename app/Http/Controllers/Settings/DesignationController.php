@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Models\DeptMast;
-use App\Models\Designation;
+use App\Models\Master\Designation;
 use Illuminate\Http\Request;
 
 class DesignationController extends Controller
@@ -88,11 +88,10 @@ class DesignationController extends Controller
     {
          $data = $request->validate([
 	   			'title'	=> 'required|string|max:100',
-	   			'description'	=> 'required',
 	   		]);
          $designation = Designation::find($id);
          $designation->desg_name = $data['title'];
-         $designation->desg_desc = $data['description'];
+         $designation->desg_desc = $request->description;
          $designation->save();
 	   		return redirect()->route('designations.index')->with('success','Designation Updated Successfully');
     }

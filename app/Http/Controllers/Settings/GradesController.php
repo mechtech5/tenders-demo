@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Models\Grade;
+use App\Models\Master\Grade;
 use Illuminate\Http\Request;
 
 class GradesController extends Controller
@@ -38,18 +38,15 @@ class GradesController extends Controller
      */
     public function store(Request $request)
     {
-
     	$data = $request->validate([
-	   			'grade_code'	=> 'required|string|max:2|unique:emp_grade_mast',
+	   			'name'	=> 'required|string|max:50|unique:emp_grade_mast',
 	   			'amount'	=> 'required',
-	   			'description'	=> 'required',
 	   		]);
-
     	$grade = new grade();
-    	$grade->grade_code = $data['grade_code'];
+    	$grade->name = $data['name'];
     	$grade->comp_id = 1;
     	$grade->entitled_amt = $data['amount'];
-    	$grade->description = $data['description'];
+    	$grade->desc = $request->desc;
     	$grade->save();
   	 $data['grades'] = Grade::all();
      return view('settings.grades.index',$data);
@@ -74,7 +71,7 @@ class GradesController extends Controller
      */
     public function edit($id)
     {
-        $data['grade'] = Grade::where('grade_code',$id)->first();
+        $data['grade'] = Grade::where('id',$id)->first();
         return view('settings/grades/edit',$data);
     }
 
@@ -88,14 +85,13 @@ class GradesController extends Controller
     public function update(Request $request, $id)
     {
       $data = $request->validate([
-   			'grade_code'	=> 'required|string|max:2|unique:emp_grade_mast,grade_code,'.$id.',grade_code',
+   			'name'	=> 'required|string|max:50|unique:emp_grade_mast,name,'.$id,
    			'amount'	=> 'required',
-   			'description'	=> 'required',
    		]);
       $grade = Grade::findOrFail($id);
-      $grade->grade_code = $request->grade_code;
+      $grade->name = $request->name;
       $grade->entitled_amt = $request->amount;
-      $grade->description = $request->description;
+      $grade->desc = $request->desc;
       $grade->save();
       $data['grades'] = Grade::all();
     	return redirect()->route('grades.index')->with('success','Designation Updated Successfully');
@@ -107,9 +103,9 @@ class GradesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($grade_code)
+    public function destroy($id)
     {
-    		Grade::where('grade_code',$grade_code)->delete();
+    		Grade::where('id',$id)->delete();
        return redirect()->route('grades.index')->with('success','Designation Deleted Successfully!');
     }
 }
