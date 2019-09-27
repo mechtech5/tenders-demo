@@ -13,7 +13,7 @@ class CreateEmployeeTables extends Migration
      */
     public function up()
     {
-        Schema::create('emp_mast', function (Blueprint $table) {
+        Schema::create('emp_mast', function (Blueprint $table) { //single row
           $table->increments('id');
           $table->unsignedInteger('parent_id')->nullable();
           $table->string('emp_code', 15)->nullable();
@@ -51,7 +51,7 @@ class CreateEmployeeTables extends Migration
           $table->softDeletes();			
         });
 
-        Schema::create('emp_nominee', function (Blueprint $table) {
+        Schema::create('emp_nominee', function (Blueprint $table) { //multiple rows
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->string('name', 100);
@@ -59,42 +59,45 @@ class CreateEmployeeTables extends Migration
           $table->string('aadhar_no', 20);
           $table->string('contact', 20)->nullable();
           $table->text('addr')->nullable();
+          $table->string('file_path',200)->nullable(); // aadhar
           $table->string('relation', 20)->nullable();
           $table->timestamps();
           $table->softDeletes();
         });
 
-        Schema::create('emp_events', function (Blueprint $table) {
+        Schema::create('emp_events', function (Blueprint $table) { //mul rows
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->unsignedInteger('event');
           $table->date('date');
-          $table->text('note')->nullbale();
+          $table->string('file_path',200)->nullable();
+          $table->text('note')->nullable();
           $table->timestamps();
           $table->softDeletes();
         });
 
-        Schema::create('emp_bank_details', function (Blueprint $table) {
+        Schema::create('emp_bank_details', function (Blueprint $table) { //mul rows
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->string('acc_no', 50);
           $table->string('bank_name', 50);
           $table->string('ifsc', 50);
           $table->string('branch_name', 50);
-          $table->unsignedInteger('doc_id');
+          $table->string('file_path',200)->nullable();
           $table->text('note')->nullbale();
           $table->boolean('is_primary')->default(0);
           $table->timestamps();
           $table->softDeletes();
         });
 
-        Schema::create('emp_academics', function (Blueprint $table) {
+        Schema::create('emp_academics', function (Blueprint $table) { //mul rows
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->string('domain_of_study',90);
           $table->string('name_of_unversity', 90)->nullable();
           $table->string('completed_in_year', 4)->nullable();
           $table->string('grade_or_pct', 10)->nullable();
+          $table->string('file_path',200)->nullable();
           $table->text('note')->nullable();
           $table->timestamps();
           $table->softDeletes();
@@ -119,6 +122,7 @@ class CreateEmployeeTables extends Migration
           $table->string('assign_note', 200);
           $table->string('return_note', 200)->nullable();
           $table->decimal('estimated_cost', 8, 2);
+          $table->string('file_path',200)->nullable();
           $table->timestamps();
           $table->softDeletes();
         });
@@ -136,6 +140,7 @@ class CreateEmployeeTables extends Migration
          	$table->date('start_dt')->nullable();
           $table->date('end_dt')->nullable();
           $table->text('reason_of_leaving')->nullable();
+          $table->string('file_path',200)->nullable();
           $table->timestamps();
           $table->softDeletes();
         });
@@ -144,7 +149,6 @@ class CreateEmployeeTables extends Migration
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->unsignedInteger('doc_type_id');
-          $table->unsignedInteger('doc_id');
           $table->text('remark')->nullable();
           $table->date('date');
           $table->char('doc_status', 1);  //S (submitted), P (provided)

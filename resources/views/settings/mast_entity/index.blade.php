@@ -16,7 +16,7 @@
 	<div class="row">
     @foreach($tables as $key => $val)
     	<div class="col-md-6 col-lg-3">
-          <a href="{{route('mast_entity.all',['db_table'=>$key])}}" class="widget-small bg-white" style="color:#000">
+          <a href="{{route('mast_entity.all',['db_table'=>$val['table_name']])}}" class="widget-small bg-white" style="color:#000">
           	<i class="icon {{$val['icon']}} fa-3x" style="background:{{$val['bg_color']}};color:#fff"></i>
             <div class="info">
               <h4>{{$val['display_name']}}</h4>

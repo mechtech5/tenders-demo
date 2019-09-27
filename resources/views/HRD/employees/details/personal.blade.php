@@ -146,11 +146,11 @@
 						<div class="col form-group">
 							<label for="">Contact Number</label>
 							<input type="text" name="Contact_number" class="form-control" value="{{old('Contact_number',$employee->contact)}}">
-							@error('Contact_number')
-                  <span class="text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                  </span>
-              @enderror
+								@error('Contact_number')
+	                  <span class="text-danger" role="alert">
+	                    <strong>{{ $message }}</strong>
+	                  </span>
+	              @enderror
 						</div>
 						<div class="col form-group">
 							<label for="">Alternate Contact Number</label>
