@@ -18,12 +18,24 @@ Route::resource('/expenses/vendors','Expenses\VendorsController');
 Route::resource('/expenses/tours','Expenses\ToursController');
 Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
+Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
 
-Route::post('hrd/employees/{type}', 'HRD\EmployeesController@getForm');
+
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
-Route::post('/hrd/employees/insert_employee','HRD\EmployeesController@insert_employee');
+
 Route::resource('/expenses/payments','Expenses\PaymentsController');
 
+//Employee Save or Update Methods
+Route::prefix('hrd')->namespace('HRD')->group(function () {
+	Route::post('/employees/{type}', 'EmployeesController@getForm');
+	Route::post('/employees/insert_employee','EmployeesController@insert_employee');
+	Route::post('/employee/save_main/{id}', 'EmployeesController@save_main')->name('employees.main');
+	Route::post('/employee/save_personal/{id}', 'EmployeesController@save_personal')->name('employees.personal');
+	Route::post('/employee/save_official/{id}', 'EmployeesController@save_official')->name('employees.official');
+	Route::post('/employee/save_academics/{id}', 'EmployeesController@save_academics')->name('employees.academics');
+	Route::post('/employee/save_experience/{id}', 'EmployeesController@save_experience')->name('employees.experience');
+	Route::post('/employee/save_documents/{id}', 'EmployeesController@save_documents')->name('employees.documents');
+});
 Route::post('/expenses/accounts','Expenses\PaymentsController@account_mast')->name('account_mast');
 Route::post('/expenses/vendor_mast','Expenses\PaymentsController@vendor_mast')->name('vendor_mast');
 Route::get('payments/export/', 'Expenses\PaymentsController@export')->name('payments.export');

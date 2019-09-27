@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\HRD;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employees\EmpAcademic;
+use App\Models\Employees\EmpExp;
+use App\Models\Employees\EmployeeMast;
 use App\Models\Master\CompMast;
 use App\Models\Master\Designation;
-use App\Models\Employees\EmployeeMast;
+use App\Models\Master\EmpStatus;
+use App\Models\Master\EmpType;
 use App\Models\Master\Grade;
 use Illuminate\Http\Request;
 
@@ -35,8 +39,7 @@ class EmployeesController extends Controller
 
     public function insert_employee(Request $request){
     	$employee = new EmployeeMast();
-    	$employee->emp_name = $request->name;
-    	$employee->login_user = $request->id;
+    	$employee->emp_name = $request->name; //emp ID will updated in users
     	$employee->save();
     	return redirect()->route('employees.index')->with('success','Employee Created Successfully');
     }
@@ -46,6 +49,106 @@ class EmployeesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function save_main(Request $request,$id){
+  	  $vdata = request()->validate([
+				'name' => 'required|max:50',
+				'email' => 'required|email|max:50',
+				'contact' => 'required|max:10',
+			],[
+				'contact.required' => 'The contact number field is required.',
+				'contact.max' => 'The contact number may not be greater than 10 digits.',
+			]);
+			$employee = EmployeeMast::findOrfail($id);
+			$employee->emp_name = $vdata['name'];
+			$employee->email = $vdata['email'];
+			$employee->contact = $vdata['contact'];
+			$employee->save();
+			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'main'])->with('success','Updated Successfully.');
+    }
+
+    public function save_academics(Request $request,$id){
+  	  $vdata = request()->validate([
+				'domain_of_study' => 'max:90',
+				'board_name' => 'max:90',
+				'year_of_completion' => 'max:4',
+				'grade_or_percent' => 'max:10',
+			]);
+			$employee = new EmpAcademic();
+			$employee->emp_id = $id;
+			$employee->domain_of_study = $vdata['domain_of_study'];
+			$employee->name_of_unversity = $vdata['board_name'];
+			$employee->completed_in_year = $vdata['year_of_completion'];
+			$employee->grade_or_pct = $vdata['grade_or_percent'];
+			$employee->note = $request->note;
+			$employee->save();
+			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'academics'])->with('success','Updated Successfully.');
+    }
+
+    public function save_experience(Request $request,$id){
+  	  $vdata = request()->validate([
+				'company_name' => 'required|max:100',
+				'job_type' => 'max:50',
+				'designation' => 'max:50',
+				'comp_loc' => 'max:50',
+				'comp_email' => 'max:100',
+				'comp_website' => 'required|max:100',
+				'monthly_ctc' => 'max:11|regex:/^\d{0,8}(\.\d{1,2})?$/'
+			]);
+			$academic = new EmpExp();
+			$academic->emp_id = $id;
+			$academic->comp_name = $vdata['company_name'];
+			$academic->job_type = $vdata['job_type'];
+			$academic->monthly_ctc = $vdata['monthly_ctc'];
+			$academic->desg = $vdata['designation'];
+			$academic->comp_loc = $vdata['comp_loc'];
+			$academic->comp_email = $vdata['comp_email'];
+			$academic->comp_website = $vdata['comp_website'];
+			$academic->start_dt = $request->start_date;
+			$academic->end_dt = $request->end_date;
+			$academic->reason_of_leaving = $request->reason_of_leaving;
+			$academic->save();
+			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'experience'])->with('success','Updated Successfully.');
+    }
+
+     public function save_official(Request $request,$id){
+  	  $vdata = request()->validate([
+				'emp_code' => 'max:15',
+				'emp_status' => 'max:10',
+				'emp_type' => 'max:10',
+				'bank_acc_name' => 'max:50',
+				'bank_acc_no' => 'max:50',
+				'bank_ifsc' => 'max:50',
+				'bank_branch' => 'max:50',
+			],[
+				'contact.required' => 'The contact number field is required.',
+				'contact.max' => 'The contact number may not be greater than 10 digits.',
+			]);
+			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'official'])->with('success','Updated Successfully.');
+    }
+
+    public function save_personal(Request $request,$id){
+  	  $vdata = request()->validate([
+				'emp_title' => 'required',
+				'full_name' => 'required|max:45',
+				'Contact_number' => 'max:15',
+				'alternate_contact_number' => 'max:15',
+				'email' => 'nullable|email|max:50',
+				'alternate_email' => 'nullable|email|max:50',
+			]);
+			$employee = EmployeeMast::findOrfail($id);
+			$employee->emp_name = $vdata['emp_title']." ".$vdata['full_name'];
+			$employee->emp_gender = $request->emp_gender;
+			$employee->emp_dob = $request->emp_dob;
+			$employee->blood_grp = $request->blood_group;
+			$employee->curr_addr = $request->curr_addr;
+			$employee->perm_addr = $request->perm_addr;
+			$employee->contact = $vdata['Contact_number'];
+			$employee->alt_contact = $vdata['alternate_contact_number'];
+			$employee->email = $vdata['email'];
+			$employee->alt_email = $vdata['alternate_email'];
+			$employee->save();
+			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated Successfully.');
+    }
     public function store(Request $request)
     {
         //
@@ -57,11 +160,29 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-      $employee = EmployeeMast::findOrFail($id);
-      return view('HRD.employees.show',compact('employee'));
-    }
+    // public function show($id)
+    // {
+    //   $employee = EmployeeMast::findOrFail($id);
+    //   return view('HRD.employees.show',compact('employee'));
+    // }
+
+	  public function show_page($id,$tab)
+	  {
+	  	$meta = array();
+	    $employee = EmployeeMast::findOrFail($id);
+	    $path = "HRD.employees.details.".$tab;
+	    if($tab == 'official'){
+	    	$meta['emp_types'] = EmpType::all();
+	    	$meta['emp_statuses'] = EmpStatus::all();
+	    }
+	    if($tab == 'academics'){
+	    	$employee = EmployeeMast::with('academics')->where('id',$id)->first();
+	    }
+	    if($tab == 'experience'){
+	    	$employee = EmployeeMast::with('experiences')->where('id',$id)->first();
+	    }
+	    return view($path,compact('employee','meta'));
+	  }
 
    public function getForm(Request $request, $type)
    {

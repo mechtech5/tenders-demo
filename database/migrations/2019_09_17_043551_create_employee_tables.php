@@ -91,10 +91,10 @@ class CreateEmployeeTables extends Migration
         Schema::create('emp_academics', function (Blueprint $table) {
           $table->increments('id');
           $table->unsignedInteger('emp_id');
-          $table->string('domain_of_study');
-          $table->string('name_of_unversity', 150);
-          $table->string('completed_in_year', 4);
-          $table->string('grade_or_pct', 50);
+          $table->string('domain_of_study',90);
+          $table->string('name_of_unversity', 90)->nullable();
+          $table->string('completed_in_year', 4)->nullable();
+          $table->string('grade_or_pct', 10)->nullable();
           $table->text('note')->nullable();
           $table->timestamps();
           $table->softDeletes();
@@ -127,14 +127,14 @@ class CreateEmployeeTables extends Migration
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->string('comp_name', 100);
-          $table->string('job_type', 50); // Part-time, contract, full-time, etc
-          $table->decimal('monthly_ctc', 8, 2);
-          $table->string('desg', 50);
-          $table->string('comp_loc', 50);
+          $table->string('job_type', 50)->nullable(); // Part-time, contract, full-time, etc
+          $table->decimal('monthly_ctc', 8, 2)->nullable();
+          $table->string('desg', 50)->nullable();
+          $table->string('comp_loc', 50)->nullable();
           $table->string('comp_email', 100)->nullable();
           $table->string('comp_website', 100)->nullable();
-         	$table->date('start_dt');
-          $table->date('end_dt');
+         	$table->date('start_dt')->nullable();
+          $table->date('end_dt')->nullable();
           $table->text('reason_of_leaving')->nullable();
           $table->timestamps();
           $table->softDeletes();

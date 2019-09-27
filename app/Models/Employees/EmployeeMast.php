@@ -37,4 +37,13 @@ class EmployeeMast extends Model
  	// public function stages(){
  	// 	return $this->hasMany('App\Models\TourStages','emp_id');
  	// }
+
+ 	public function academics(){
+ 		return $this->hasMany('App\Models\Employees\EmpAcademic','emp_id');
+ 	}
+
+ 	public function experiences(){
+ 		return $this->hasMany('App\Models\Employees\EmpExp','emp_id');
+ 	}
+
 }

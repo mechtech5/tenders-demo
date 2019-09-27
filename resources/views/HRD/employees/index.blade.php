@@ -69,7 +69,7 @@
 												<a href="{{route('employees.edit',$employee->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
-												<a href="{{route('employees.show',$employee->id)}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
+												<a href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'official'])}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
 											<form action="{{route('employees.destroy',$employee->id)}}" method="POST" id="delform_{{ $employee->id}}">
