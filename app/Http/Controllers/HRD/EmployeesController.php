@@ -92,7 +92,7 @@ class EmployeesController extends Controller
 				'comp_loc' => 'max:50',
 				'comp_email' => 'max:100',
 				'comp_website' => 'required|max:100',
-				'monthly_ctc' => 'max:11|regex:/^\d{0,8}(\.\d{1,2})?$/'
+				'monthly_ctc' => 'max:11|regex:/^\d{0,6}(\.\d{1,2})?$/'
 			]);
 			$academic = new EmpExp();
 			$academic->emp_id = $id;
@@ -123,6 +123,7 @@ class EmployeesController extends Controller
 				'contact.required' => 'The contact number field is required.',
 				'contact.max' => 'The contact number may not be greater than 10 digits.',
 			]);
+			
 			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'official'])->with('success','Updated Successfully.');
     }
 

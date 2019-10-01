@@ -151,18 +151,27 @@
 							<label for="">Company's Reference Contact</label>
 							<input type="text" class="form-control" value="" name="co_ref_contact">
 						</div>
+						<div class="col-6"></div>
 						<div class="W-100"></div>
-						<div class="col-4 form-group">
+						<div class="col-3 form-group">
 							<label for="">Nominee Name</label>
 							<input type="text" class="form-control" value="" name="nominee_name">
 						</div>
-						<div class="col-4 form-group">
+						<div class="col-3 form-group">
 							<label for="">Nominee Aadhar</label>
 							<input type="text" class="form-control" value="" name="nominee_aadhar">
 						</div>
-						<div class="col-4 form-group">
+						<div class="col-3 form-group">
 							<label for="">Nominee Contact</label>
 							<input type="text" class="form-control" value="" name="nominee_contact">
+						</div>
+						<div class="col-3 form-group">
+							<label for="">Nominee Relation</label>
+							<input type="text" class="form-control" value="" name="nominee_contact">
+						</div>
+						<div class="col-6 form-group">
+							<label for="">Nominee Address</label>
+							<textarea name="" id="" cols="30" rows="5" class="form-control"></textarea>
 						</div>
 						<div class="col-12 form-group text-center">
 								<button class="btn btn-info btn-sm">Update</button>
@@ -189,6 +198,11 @@
 				autoclose: true,
 				todayHighlight: true
 			});
+
+		$(":input").each(function(){
+		 var input = $(this); // This is the jquery object of the input, do what you will
+		 console.log();
+		});
 	});
 </script>
 @endsection

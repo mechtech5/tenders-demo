@@ -84,7 +84,7 @@
 						
 						<div class="col-3 form-group">
 							<label for="">Date of Birth</label>
-							<input type="text" name="emp_dob" class="form-control datepicker" value="">
+							<input type="text" name="emp_dob" class="form-control datepicker" value="{{old('emp_dob',$employee->emp_dob)}}">
 							@error('emp_dob')
                   <span class="text-danger" role="alert">
                       <strong>{{ $message }}</strong>
