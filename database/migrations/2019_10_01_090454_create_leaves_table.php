@@ -54,7 +54,7 @@ class CreateLeavesTable extends Migration
           $table->softDeletes();
       });
 
-      Schema::create('emp_leave_allotment', function (Blueprint $table) {
+      Schema::create('emp_leave_applies', function (Blueprint $table) {
           $table->bigIncrements('id');
       		$table->integer('emp_id');
       		$table->integer('leave_type');
@@ -64,6 +64,7 @@ class CreateLeavesTable extends Migration
       		$table->text('reason');
       		$table->text('addr_during_leave');
       		$table->string('contact_no',12);
+      		$table->char('status',1)->nullable()
       		$table->text('applicant_remark')->nullable();
       		$table->text('approver_remark')->nullable();
       		$table->text('hr_remark')->nullable();
@@ -82,5 +83,7 @@ class CreateLeavesTable extends Migration
     {
       Schema::dropIfExists('leave_type_mast');
       Schema::dropIfExists('leave_mast');
+      Schema::dropIfExists('emp_leave_allotment');
+      Schema::dropIfExists('emp_leave_applies');
     }
 }
