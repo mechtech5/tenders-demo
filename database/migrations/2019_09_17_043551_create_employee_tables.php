@@ -56,6 +56,7 @@ class CreateEmployeeTables extends Migration
           $table->unsignedInteger('emp_id');
           $table->string('name', 100);
           $table->string('email', 100)->nullable();
+          $table->text('address');
           $table->string('aadhar_no', 20);
           $table->string('contact', 20)->nullable();
           $table->text('addr')->nullable();
