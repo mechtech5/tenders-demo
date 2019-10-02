@@ -23,7 +23,7 @@
               <p><b>{{$val['count']}}</b></p>
             </div>
           </a>
-        </div>
+      </div>
     @endforeach
   </div>
 	</main>
