@@ -21,6 +21,11 @@ Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
 
 
+//delete employees info
+
+Route::delete('/hrd/employees/delete_row/{id}', 'HRD\EmployeesController@deleteEmp_detail')->name('emp_detail.delete');
+
+
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
 
 Route::resource('/expenses/payments','Expenses\PaymentsController');
@@ -35,6 +40,7 @@ Route::prefix('hrd')->namespace('HRD')->group(function () {
 	Route::post('/employee/save_academics/{id}', 'EmployeesController@save_academics')->name('employees.academics');
 	Route::post('/employee/save_experience/{id}', 'EmployeesController@save_experience')->name('employees.experience');
 	Route::post('/employee/save_documents/{id}', 'EmployeesController@save_documents')->name('employees.documents');
+	Route::post('/employee/save_nominee/{id}', 'EmployeesController@save_nominee')->name('employees.nominee');
 });
 Route::post('/expenses/accounts','Expenses\PaymentsController@account_mast')->name('account_mast');
 Route::post('/expenses/vendor_mast','Expenses\PaymentsController@vendor_mast')->name('vendor_mast');

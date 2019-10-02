@@ -15,6 +15,9 @@
 		<a class="nav-link experience" href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'experience'])}}">Experience</a>
 	</li>
 	<li class="nav-item">
+		<a class="nav-link nominee" href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'nominee'])}}">Nominee</a>
+	</li>
+	<li class="nav-item">
 		<a class="nav-link documents" href="{{route('employee.show_page',['id'=>$employee->id,'tab'=>'documents'])}}">Documents</a>
 	</li>
 </ul>

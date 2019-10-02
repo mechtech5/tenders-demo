@@ -58,6 +58,10 @@
 							@endforeach
 							</tbody>
 						</table>
+
+						@php
+							//dd($db_table);
+						@endphp
 					</div>
 				</div>
 			</div>
