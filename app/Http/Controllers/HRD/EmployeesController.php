@@ -12,6 +12,11 @@ use App\Models\Master\EmpStatus;
 use App\Models\Master\EmpType;
 use App\Models\Master\Grade;
 use Illuminate\Http\Request;
+use App\Models\Employees\EmpDocument;
+use App\Models\Master\DocTypeMast;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Employees\EmpNominee;
+use DB;
 
 class EmployeesController extends Controller
 {
@@ -150,9 +155,89 @@ class EmployeesController extends Controller
 			$employee->save();
 			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated Successfully.');
     }
+
+
+    public function save_nominee(Request $request, $id){
+
+//dd(EmpNominee::all());
+      $vdata = request()->validate([
+        'nominee_name'  => 'required',
+        'email'         => 'email',
+        'adhar_no'      => 'required|digits:12',
+        'contact'       => 'regex:/^[0-9]+$/',
+        'relation'      => 'required',
+      ]);
+
+
+      $nominee = new EmpNominee;
+      $nominee->emp_id    = $id;
+      $nominee->name      = $vdata['nominee_name'];
+      $nominee->email     = $vdata['email'];
+      $nominee->aadhar_no = $vdata['adhar_no'];
+      $nominee->contact   = $vdata['contact'];
+      $nominee->addr      = $request->address;
+      $nominee->file_path = $request->file_path;
+      $nominee->relation  = $vdata['relation'];
+      $nominee->save();
+
+      return redirect()->route('employee.show_page', ['id' => $id, '  tab' => 'nominee'])->with('success', 'Updated Successfully.');
+
+    }
+
+    public function save_documents(Request $request, $id){
+
+
+
+      dd(Storage::disk('local')->exist('z95ndM5OQ44WZS2kbYc7vhxZOmZoumCff7ysNzPx.png'));
+
+      /*$file = $request->file('file_path');
+       
+        $filename =  time().'_'.$file->getClientOriginalName();
+      
+        $path = $file->storeAs('public/image', $filename);
+            $data['file_path'] = $filename ;
+            EmpDocument::create($data);
+            dd($data);
+            return redirect('company');*/
+
+      $vdata = request()->validate([
+        'doc_title' => 'required',
+        'file_path' => 'required|max:5120',
+        'doc_status'=> 'required|max:1'
+      ]);
+
+      $doc_name = strtolower(str_replace(' ', '', DocTypeMast::find($request->doc_title)->name));
+      $doc_ext = $request->file('file_path')->getClientOriginalExtension();
+      $emp_name = strtolower(str_replace(' ', '', EmployeeMast::find($id)->emp_name));
+      $time = date('mdY:hi', time());
+
+      $dir = "hrm/employees/".$emp_name."_".$id;
+      $new_name = $doc_name.'_'.$time.'.'.$doc_ext;
+
+    /*$path = $request->file('file_path')->store($dir);
+      Storage::putFile('public', $request->file('file_path'));
+      $path = $request->file('file_path')->storeAs($dir, $doc_name.'_'.$time.'.'.$doc_ext); 
+    */
+
+      /*return "<img src="{{asset('storage/image/'}}">";*/
+      $path = $request->file('file_path')->storeAs('public/hrm/employees/'.$emp_name.'_'.$id, $new_name);
+
+      $document = new EmpDocument;
+      $document->emp_id       = $id;
+      $document->doc_type_id  = $vdata['doc_title'];
+      $document->file_path    = $new_name;
+      $document->doc_status   = $vdata['doc_status'];
+      $document->remark       = $request->remark;
+      $document->date         = date('Y-m-d', time());
+      $document->save();
+
+      return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])->with('success', 'Updated Successfully.');
+
+    }
+
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -176,12 +261,26 @@ class EmployeesController extends Controller
 	    	$meta['emp_types'] = EmpType::all();
 	    	$meta['emp_statuses'] = EmpStatus::all();
 	    }
+
 	    if($tab == 'academics'){
 	    	$employee = EmployeeMast::with('academics')->where('id',$id)->first();
 	    }
+
 	    if($tab == 'experience'){
 	    	$employee = EmployeeMast::with('experiences')->where('id',$id)->first();
 	    }
+
+      if($tab == 'documents'){
+        $meta['doc_types'] = DocTypeMast::all();
+        $employee = EmployeeMast::with('documents')->where('id',$id)->first();
+      }
+
+      if($tab == 'nominee'){
+
+      $employee = EmployeeMast::with('nominee')->where('id',$id)->first();
+      }
+
+      //dd($meta);
 	    return view($path,compact('employee','meta'));
 	  }
 
@@ -257,5 +356,15 @@ class EmployeesController extends Controller
       $employee->delete();
 			$employees = EmployeeMast::all();
       return view('HRD.employees.index',compact('employees'));
+    }
+
+    public function deleteEmp_detail(Request $request, $id){
+
+      //dd($request->db_table);
+
+      DB::table($request->db_table)->where('id', $id)->update(['deleted_at' => date('Y-m-d H:i:s',time())]);
+
+      return redirect()->route('employee.show_page');    
+
     }
 }

@@ -46,4 +46,11 @@ class EmployeeMast extends Model
  		return $this->hasMany('App\Models\Employees\EmpExp','emp_id');
  	}
 
+ 	public function documents(){
+ 		return $this->hasMany('App\Models\Employees\EmpDocument', 'emp_id');
+ 	}
+
+ 	public function nominee(){
+ 		return $this->hasMany('App\Models\Employees\EmpNominee', 'emp_id');
+ 	}
 }
