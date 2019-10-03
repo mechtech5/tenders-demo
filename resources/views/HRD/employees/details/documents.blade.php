@@ -20,12 +20,23 @@
 		    		<option value="">--- Please Select ---</option>
 		    		@foreach($meta['doc_types'] as $doc_type)
 		    			<option value="{{ $doc_type->id }}">{{ $doc_type->name }}</option>
-					@endforeach
+						@endforeach
 		    	</select>
+		    	@error('doc_title')
+						<span class="text-danger" role="alert">
+							<strong>* {{ $message }}</strong>
+						</span>
+					@enderror
 		    </div>
 	    <div class="col-4 form-group">
 	    	<label for="">Attachment</label>
 	    	<input type="file" name="file_path" id="file_path">
+	    	<br>
+	    	@error('file_path')
+					<span class="text-danger" role="alert">
+						<strong>* {{ $message }}</strong>
+					</span>
+				@enderror
 	    </div>
 	    <div class="col-4 form-group">
 		    	<label for="">Document Status</label>
@@ -42,7 +53,12 @@
 		    </div>
 	    <div class="col-12 form-group ">
 	    	<label for="">Remark</label>
-	    	<textarea name="remark" id="remark" class="form-control" cols="10" rows="10"></textarea>
+	    	<textarea name="remarks" id="remark" class="form-control" cols="10" rows="10"></textarea>
+	    	@error('remarks')
+					<span class="text-danger" role="alert">
+						<strong>* {{ $message }}</strong>
+					</span>
+				@enderror
 	    </div>
 
 	    <div class="col-12 form-group text-center">

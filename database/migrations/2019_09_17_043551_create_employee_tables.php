@@ -150,6 +150,7 @@ class CreateEmployeeTables extends Migration
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->unsignedInteger('doc_type_id');
+          $table->text('file_path');
           $table->string('remarks');
           $table->char('doc_status', 1);  //S (submitted), P (provided)
           $table->timestamps();

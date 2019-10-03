@@ -172,10 +172,12 @@ class EmployeesController extends Controller
       'doc_status'=> 'required|max:1',
       'remarks'=> 'required|string'
     ]);
-
-    $dir = 'hrms_uploads/'.date("Y").'/'.date("F");
-    $path = $request->file('file_path')->store($dir);
-
+    $doc_title = DB::table('doc_type_mast')->where('id', $vdata['doc_title'])->first();
+		$dir = 'hrms_uploads/'.date("Y").'/'.date("F");
+		$filename = $id.'_'.time().'_'.$doc_title->name;
+		$path = $request->file('file_path')->storeAs(
+							$dir, $filename
+						);
     $document = new EmpDocument;
     $document->emp_id       = $id;
     $document->doc_type_id  = $vdata['doc_title'];
