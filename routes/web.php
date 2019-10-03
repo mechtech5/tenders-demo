@@ -23,7 +23,8 @@ Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_p
 
 //delete employees info
 
-Route::delete('/hrd/employees/delete_row/{id}', 'HRD\EmployeesController@deleteEmp_detail')->name('emp_detail.delete');
+Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
+
 
 
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
@@ -41,6 +42,7 @@ Route::prefix('hrd')->namespace('HRD')->group(function () {
 	Route::post('/employee/save_experience/{id}', 'EmployeesController@save_experience')->name('employees.experience');
 	Route::post('/employee/save_documents/{id}', 'EmployeesController@save_documents')->name('employees.documents');
 	Route::post('/employee/save_nominee/{id}', 'EmployeesController@save_nominee')->name('employees.nominee');
+	Route::post('/employees/save_bankdetails/{id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 });
 Route::post('/expenses/accounts','Expenses\PaymentsController@account_mast')->name('account_mast');
 Route::post('/expenses/vendor_mast','Expenses\PaymentsController@vendor_mast')->name('vendor_mast');
@@ -77,3 +79,8 @@ Route::get('settings/mast_entity', 'MasterController@start_page')->name('mast_en
 Route::get('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@createOrEditOrShow')->name('mast_entity.get');
 Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
 Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
+
+//Download documents
+
+Route::get('hrd/employees/download/{file}', 'HRD\EmployeesController@download')->name('employees.download');
+

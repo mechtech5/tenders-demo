@@ -112,7 +112,7 @@
 						<div class="col">
 							<span><p class="text-center">Current Residence</p></span>
 							<div class="form-group col-md-8 offset-md-2">
-								<textarea onkeydown="match_addr('curr')" name="curr_addr" id="curr_addr" class="form-control" cols="30" rows="10">{{$employee->curr_addr}}</textarea>
+<textarea onkeydown="match_addr('curr')" name="curr_addr" id="curr_addr" class="form-control" cols="30" rows="10">{{$employee->curr_addr}}</textarea>
 								@error('curr_addr')
                   <span class="text-danger" role="alert">
                       <strong>{{ $message }}</strong>

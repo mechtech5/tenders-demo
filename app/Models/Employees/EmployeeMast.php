@@ -50,6 +50,10 @@ class EmployeeMast extends Model
  		return $this->hasMany('App\Models\Employees\EmpDocument', 'emp_id');
  	}
 
+ 	public function bankdetails(){
+ 		return $this->hasMany('App\Models\Employees\EmpBankDetail', 'emp_id');
+ 	}
+
  	public function nominee(){
  		return $this->hasMany('App\Models\Employees\EmpNominee', 'emp_id');
  	}

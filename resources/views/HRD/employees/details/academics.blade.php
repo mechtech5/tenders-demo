@@ -7,10 +7,10 @@
 		<div class="alert alert-success">
 			{{$message}}
 		</div>
-		@endif 
+		@endif
 	<form action="{{route('employees.academics', ['id'=>$employee->id])}}" method="POST">
 		@csrf
-		<div class="row">
+		<div class="row"
 	    <div class="col-6 form-group">
 	    	<label for="">Domain of Study</label>
 	    	<input type="text" class="form-control" name="domain_of_study" placeholder="Eg. 10th, 12th, BE, MCA..." value="{{old('domain_of_study',isset($academic->domain_of_study) ? $academic->domain_of_study : '')}}">

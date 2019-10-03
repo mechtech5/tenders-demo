@@ -64,7 +64,7 @@ class CreateLeavesTable extends Migration
       		$table->text('reason');
       		$table->text('addr_during_leave');
       		$table->string('contact_no',12);
-      		$table->char('status',1)->nullable()
+      		$table->char('status',1)->nullable();
       		$table->text('applicant_remark')->nullable();
       		$table->text('approver_remark')->nullable();
       		$table->text('hr_remark')->nullable();

@@ -19,19 +19,30 @@
 		    	<select name="doc_title" id="doc_title" class="form-control select2">
 		    		<option value="">--- Please Select ---</option>
 		    		@foreach($meta['doc_types'] as $doc_type)
-		    			<option value="{{ $doc_type->id }}">{{ $doc_type->name }}</option>
+<option value="{{ $doc_type->id }}" {{old('doc_title') == $doc_type->id ? 'selected' : ''}}
+		    			>{{ $doc_type->name }}</option>
 					@endforeach
 		    	</select>
+		    	@error('doc_title')
+					<span class="text-danger" role="alert">
+						<strong>* {{ $message }}</strong>
+					</span>
+				@enderror
 		    </div>
 	    <div class="col-4 form-group">
 	    	<label for="">Attachment</label>
-	    	<input type="file" name="file_path" id="file_path">
+	    	<input type="file" name="file_path" id="file_path" value="{{ old('file_path') }}">
+	    	@error('file_path')
+				<span class="text-danger" role="alert">
+					<strong> {{ $message }}</strong>
+				</span>
+			@enderror
 	    </div>
 	    <div class="col-4 form-group">
 		    	<label for="">Document Status</label>
 		    	<select name="doc_status" id="doc_status" class="form-control select2">
 		    		<option value="">--- Please Select ---</option>
-		    		<option value="s">Submitted</option>
+		    		<option value="s"  {{ old('doc_status') == 's' ? 'selected' : ''}} >Submitted</option>
 		    		<option value="p">Provided</option>
 		    	</select>
 		    	@error('doc_status')
@@ -42,7 +53,8 @@
 		    </div>
 	    <div class="col-12 form-group ">
 	    	<label for="">Remark</label>
-	    	<textarea name="remark" id="remark" class="form-control" cols="10" rows="10"></textarea>
+	    	<textarea name="remark" id="remark" class="form-control" cols="10" rows="10" value="{{old('remark')}}"></textarea>
+
 	    </div>
 
 	    <div class="col-12 form-group text-center">
@@ -70,20 +82,28 @@
 	  	<tr>
 	  		<td>{{ $emp_documents->id }}</td>
 	  		<td>{{ $emp_documents->name }}</td>
-<td> <img src="{{ asset('storage/app/public/hrm/employees/ysir_1/'.$emp_documents->file_path) }}" > </td>
-	  		<td>{{ $emp_documents->doc_status }}</td>
-	  		<td>{{ $emp_documents->remark }}</td>
-	  		<td><span class="ml-2">
-							<form action="" method="POST" id="delform_">
-								@csrf
-								@method('DELETE')
-								<a href="javascript:$('#delform_').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
-							</form>
-						</span></td>
-</tr>
+			<td><img src="{{ asset('storage/hrm/employees/'.$emp_documents->file_path) }}" height="20" width="20">
+			<!-- <form action="{{route('employees.download', ['id'=>$employee->id])}}">
+				
+			</form> -->
+			<a href="{{ route('employees.download', ['file'=> $emp_documents->file_path]) }}" target="_blank">Download</a>
+			</td>
+		  		<td>{{ $emp_documents->doc_status }}</td>
+		  		<td>{{ $emp_documents->remark }}</td>
+		  		<td>{{$emp_documents->file_path}}</td>
+		  		<td>
+				<form action="{{route('employee.delete_row', ['db_table'=>'emp_docs', 'id'=>$emp_documents->id])}}" method="GET" id="delform_{{ $emp_documents->id}}">
+
+				<a href="javascript:$('#delform_{{ $emp_documents->id }}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
+				</form>
+				</td>
+		</tr>
 	  		@endforeach
 	  </tbody>
 	</table>
+	@php
+	//dd($request->input());
+	@endphp
 	</div>
 </main>
 <script>
@@ -92,3 +112,5 @@ $(document).ready(function(){
 });
 </script>
 @endsection
+
+

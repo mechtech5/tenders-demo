@@ -17,6 +17,8 @@ use App\Models\Master\DocTypeMast;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Employees\EmpNominee;
 use DB;
+use App\Models\Employees\EmpBankDetail;
+
 
 class EmployeesController extends Controller
 {
@@ -159,11 +161,10 @@ class EmployeesController extends Controller
 
     public function save_nominee(Request $request, $id){
 
-//dd(EmpNominee::all());
       $vdata = request()->validate([
         'nominee_name'  => 'required',
         'email'         => 'email',
-        'adhar_no'      => 'required|digits:12',
+        'aadhaar_no'      => 'required|digits:12',
         'contact'       => 'regex:/^[0-9]+$/',
         'relation'      => 'required',
       ]);
@@ -173,7 +174,7 @@ class EmployeesController extends Controller
       $nominee->emp_id    = $id;
       $nominee->name      = $vdata['nominee_name'];
       $nominee->email     = $vdata['email'];
-      $nominee->aadhar_no = $vdata['adhar_no'];
+      $nominee->aadhar_no = $vdata['aadhaar_no'];
       $nominee->contact   = $vdata['contact'];
       $nominee->addr      = $request->address;
       $nominee->file_path = $request->file_path;
@@ -181,57 +182,94 @@ class EmployeesController extends Controller
       $nominee->save();
 
       return redirect()->route('employee.show_page', ['id' => $id, '  tab' => 'nominee'])->with('success', 'Updated Successfully.');
+    }
 
+
+    public function save_bankdetails(Request $request, $id){
+
+      $vdata = request()->validate([
+        'acc_holder'=> 'required',
+        'acc_no' => 'required',
+        'bank_name' => 'required',
+        'ifsc' => 'required',
+        'branch' => 'required',
+        'note'  => 'required'
+        ],
+        [
+          'acc_holder.required' => 'Account holder name is required.',
+          'acc_no.required'     => 'Account no is required',
+          'bank_name.required'  => 'Bank name is required',
+          'ifsc.required'       => 'IFSC code is required',
+          'branch.required'     => 'Branch name is required',
+        ]);
+
+      if(empty($request->is_primary)){
+
+        $is_primary = 0;
+      }
+
+      $ext = $request->file('file_path')->getClientOriginalExtension();
+      $emp_name = strtolower(str_replace(' ', '', EmployeeMast::find($id)->emp_name));
+      $time = date('mdY:hi', time());
+      $new_name = 'nominee_'.$time.'.'.$ext;
+
+      $path = $request->file('file_path')->storeAs('public/hrm/employees/'.$emp_name.'_'.$id, $new_name);
+
+
+      $bankdetails              = new EmpBankDetail;
+      $bankdetails->emp_id      = $id;
+      $bankdetails->acc_holder  = $vdata['acc_holder'];
+      $bankdetails->acc_no      = $vdata['acc_no'];
+      $bankdetails->bank_name   = $vdata['bank_name'];
+      $bankdetails->ifsc        = $vdata['ifsc'];
+      $bankdetails->branch_name = $vdata['branch'];
+      $bankdetails->file_path   = $emp_name.'_'.$id.'/'.$new_name;
+      $bankdetails->is_primary  = $is_primary;
+      $bankdetails->note        = $vdata['note'];
+      $bankdetails->save();
+
+      return back()->with('success', 'Updated Successfully.');
     }
 
     public function save_documents(Request $request, $id){
 
 
-
-      dd(Storage::disk('local')->exist('z95ndM5OQ44WZS2kbYc7vhxZOmZoumCff7ysNzPx.png'));
-
-      /*$file = $request->file('file_path');
-       
-        $filename =  time().'_'.$file->getClientOriginalName();
-      
-        $path = $file->storeAs('public/image', $filename);
-            $data['file_path'] = $filename ;
-            EmpDocument::create($data);
-            dd($data);
-            return redirect('company');*/
-
       $vdata = request()->validate([
         'doc_title' => 'required',
         'file_path' => 'required|max:5120',
-        'doc_status'=> 'required|max:1'
+        'doc_status' => 'required'
+      ], [
+
+          'doc_title.required' => 'This field is required',
+          'file_path.required' => 'This field is required',
+          'doc_status.required'  => 'This field is reqiured'
+
       ]);
 
+
       $doc_name = strtolower(str_replace(' ', '', DocTypeMast::find($request->doc_title)->name));
+
       $doc_ext = $request->file('file_path')->getClientOriginalExtension();
+
       $emp_name = strtolower(str_replace(' ', '', EmployeeMast::find($id)->emp_name));
       $time = date('mdY:hi', time());
 
-      $dir = "hrm/employees/".$emp_name."_".$id;
+
       $new_name = $doc_name.'_'.$time.'.'.$doc_ext;
 
-    /*$path = $request->file('file_path')->store($dir);
-      Storage::putFile('public', $request->file('file_path'));
-      $path = $request->file('file_path')->storeAs($dir, $doc_name.'_'.$time.'.'.$doc_ext); 
-    */
-
-      /*return "<img src="{{asset('storage/image/'}}">";*/
       $path = $request->file('file_path')->storeAs('public/hrm/employees/'.$emp_name.'_'.$id, $new_name);
 
       $document = new EmpDocument;
       $document->emp_id       = $id;
       $document->doc_type_id  = $vdata['doc_title'];
-      $document->file_path    = $new_name;
+      $document->file_path    = $emp_name."_".$id.'/'.$new_name;
       $document->doc_status   = $vdata['doc_status'];
       $document->remark       = $request->remark;
       $document->date         = date('Y-m-d', time());
       $document->save();
 
-      return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])->with('success', 'Updated Successfully.');
+      return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])
+            ->with('success', 'Updated Successfully.');
 
     }
 
@@ -239,18 +277,6 @@ class EmployeesController extends Controller
     {
         
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function show($id)
-    // {
-    //   $employee = EmployeeMast::findOrFail($id);
-    //   return view('HRD.employees.show',compact('employee'));
-    // }
 
 	  public function show_page($id,$tab)
 	  {
@@ -275,12 +301,15 @@ class EmployeesController extends Controller
         $employee = EmployeeMast::with('documents')->where('id',$id)->first();
       }
 
-      if($tab == 'nominee'){
-
-      $employee = EmployeeMast::with('nominee')->where('id',$id)->first();
+      if($tab == 'bankdetails'){
+        $employee = EmployeeMast::with('bankdetails')->where('id',$id)->first();
       }
 
-      //dd($meta);
+      if($tab == 'nominee'){
+
+        $employee = EmployeeMast::with('nominee')->where('id',$id)->first();
+      }
+
 	    return view($path,compact('employee','meta'));
 	  }
 
@@ -358,13 +387,34 @@ class EmployeesController extends Controller
       return view('HRD.employees.index',compact('employees'));
     }
 
-    public function deleteEmp_detail(Request $request, $id){
+    /*
+      Delete Employees data
 
-      //dd($request->db_table);
+    */
+    public function delete_row($db_table, $id){
 
-      DB::table($request->db_table)->where('id', $id)->update(['deleted_at' => date('Y-m-d H:i:s',time())]);
+      if($db_table == 'emp_nominee'){
+        $nominee = EmpNominee::find($id);
+        $nominee->delete();
+      }
+      if($db_table == 'emp_bank_details'){
+        $bankdetails = EmpBankDetail::find($id);
+        $bankdetails->delete();
+      }
+      if($db_table == 'emp_docs'){
 
-      return redirect()->route('employee.show_page');    
+        $documents = EmpDocument::find($id);
+        $documents->delete();
+      }
+      
+      return back()->with('success','Status deleted successfully.');
 
+    }
+
+    public function download($file){
+
+      //dd($path);
+
+     /* return response()->download('http://localhost:8000/storage/hrm/employees/ysir_1/adharcard_10022019:0840.png');*/
     }
 }
