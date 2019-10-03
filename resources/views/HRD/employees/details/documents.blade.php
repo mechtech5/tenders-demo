@@ -1,4 +1,4 @@
-`@extends('layouts.master')
+@extends('layouts.master')
 @push('styles')
   <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
 @endpush
@@ -11,7 +11,7 @@
 			{{$message}}
 		</div>
 		@endif 
-	<form action="{{route('employees.documents', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data" id="deldoc_{{ $employee->id }}">
+	<form action="{{route('employees.documents', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
 		@csrf
 		<div class="row">
 		    <div class="col-4 form-group">
@@ -19,6 +19,7 @@
 		    	<select name="doc_title" id="doc_title" class="form-control select2">
 		    		<option value="">--- Please Select ---</option>
 		    		@foreach($meta['doc_types'] as $doc_type)
+
 <option value="{{ $doc_type->id }}" {{old('doc_title') == $doc_type->id ? 'selected' : ''}}
 		    			>{{ $doc_type->name }}</option>
 					@endforeach
@@ -53,8 +54,12 @@
 		    </div>
 	    <div class="col-12 form-group ">
 	    	<label for="">Remark</label>
-	    	<textarea name="remark" id="remark" class="form-control" cols="10" rows="10" value="{{old('remark')}}"></textarea>
-
+	    	<textarea name="remarks" id="remark" class="form-control" cols="10" rows="10">{{old('remark')}}</textarea>
+	    	@error('remarks')
+					<span class="text-danger" role="alert">
+						<strong>* {{ $message }}</strong>
+					</span>
+				@enderror
 	    </div>
 
 	    <div class="col-12 form-group text-center">

@@ -34,6 +34,11 @@
         <li class={{call_user_func_array('Request::is', (array)['hrd/employees*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('employees.index')}}"><i class="icon fa fa-angle-double-right"></i>Employees</a></li>
           <li class={{call_user_func_array('Request::is', (array)['hrd/approvals*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('approvals.index')}}"><i class="icon fa fa-angle-double-right"></i>Approvals</a></li>
       </ul>
+    {{-- Employees tab --}}
+      <li class="treeview {{call_user_func_array('Request::is', (array)['employee*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Employee</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+      <ul class="treeview-menu">
+        <li class={{call_user_func_array('Request::is', (array)['employee/leaves*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('leaves.index')}}"><i class="icon fa fa-angle-double-right"></i>Leaves</a></li>
+      </ul>
     </li>
     {{-- end of module --}}
     <li class="treeview {{call_user_func_array('Request::is', (array)['tender*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-group "></i><span class="app-menu__label">Tenders</span><i class="treeview-indicator fa fa-angle-right"></i></a>
