@@ -1,4 +1,4 @@
-`@extends('layouts.master')
+@extends('layouts.master')
 @push('styles')
   <script src="{{asset('themes/vali/js/plugins/bootstrap-datepicker.min.js')}}"></script>
 @endpush
@@ -11,7 +11,7 @@
 			{{$message}}
 		</div>
 		@endif 
-	<form action="{{route('employees.documents', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data" id="deldoc_{{ $employee->id }}">
+	<form action="{{route('employees.documents', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
 		@csrf
 		<div class="row">
 		    <div class="col-4 form-group">

@@ -150,8 +150,7 @@ class CreateEmployeeTables extends Migration
           $table->increments('id');
           $table->unsignedInteger('emp_id');
           $table->unsignedInteger('doc_type_id');
-          $table->text('remark')->nullable();
-          $table->date('date');
+          $table->string('remarks');
           $table->char('doc_status', 1);  //S (submitted), P (provided)
           $table->timestamps();
           $table->softDeletes();
