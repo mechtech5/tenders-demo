@@ -174,7 +174,9 @@ class EmployeesController extends Controller
     ]);
     $doc_title = DB::table('doc_type_mast')->where('id', $vdata['doc_title'])->first();
 		$dir = 'hrms_uploads/'.date("Y").'/'.date("F");
-		$filename = $id.'_'.time().'_'.$doc_title->name;
+		$title = str_replace(' ', '_', $doc_title->name);
+		$file_ext = $request->file('file_path')->extension();
+		$filename = $id.'_'.time().'_'.$title.'.'.$file_ext;
 		$path = $request->file('file_path')->storeAs(
 							$dir, $filename
 						);
@@ -185,7 +187,6 @@ class EmployeesController extends Controller
     $document->doc_status   = $vdata['doc_status'];
     $document->remarks      = $request->remarks;
     $document->save();
-
     return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])->with('success', 'Updated Successfully.');
   }
 
