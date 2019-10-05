@@ -264,7 +264,7 @@ class EmployeesController extends Controller
 			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated Successfully.');
     }
 
-
+/*
     public function save_nominee(Request $request, $id){
 
       $vdata = request()->validate([
@@ -288,7 +288,7 @@ class EmployeesController extends Controller
       $nominee->save();
 
       return redirect()->route('employee.show_page', ['id' => $id, '  tab' => 'nominee'])->with('success', 'Updated Successfully.');
-    }
+    }*/
 
 
     public function save_bankdetails(Request $request, $id){
@@ -337,7 +337,7 @@ class EmployeesController extends Controller
       return back()->with('success', 'Updated Successfully.');
     }
 
-    public function save_documents(Request $request, $id){
+    /*public function save_documents(Request $request, $id){
 
 
       $vdata = request()->validate([
@@ -377,14 +377,14 @@ class EmployeesController extends Controller
       return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])
             ->with('success', 'Updated Successfully.');
 
-    }
+    }*/
 
     public function store(Request $request)
     {
         
     }
 
-	  public function show_page($id,$tab)
+	  /*public function show_page($id,$tab)
 	  {
 	  	$meta = array();
 	    $employee = EmployeeMast::findOrFail($id);
@@ -418,7 +418,7 @@ class EmployeesController extends Controller
 
 	    return view($path,compact('employee','meta'));
 	  }
-
+*/
    public function getForm(Request $request, $type)
    {
    	$data['employee'] = EmployeeMast::findOrFail($request->emp_id);
@@ -431,14 +431,14 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    /*public function edit($id)
     {
        $data['employee'] = EmployeeMast::with('company','designation')->findOrFail($id);
   			$data['parent_ids'] = EmployeeMast::where('comp_id',$data['employee']->comp_id)->where('id','!=',$data['employee']->id)->get();
   			 $data['grades'] = Grade::all();
   			$data['designations'] = Designation::all();
         return view('HRD.employees.edit',$data);
-    }
+    }*/
 
     /**
      * Update the specified resource in storage.
@@ -447,7 +447,7 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    /*public function update(Request $request, $id)
     {	
     	$data =  $request->validate([
     						'name'	=> 'required|string|max:50',
@@ -473,7 +473,7 @@ class EmployeesController extends Controller
        $employee->save();
 	   	return redirect()->route('employees.index')->with('success','Employee details Updated Successfully');
     }
-
+*/
     public function fetch_designation(Request $request){
     		$designations = Designation::where('comp_id',$request->comp_id)->get();
     		return $designations;

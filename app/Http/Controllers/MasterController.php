@@ -159,6 +159,7 @@ class MasterController extends Controller
 		}
 
 	}
+	
 	public function index($db_table)
 	{
 		$table_name = $this->fetch_name($db_table);
