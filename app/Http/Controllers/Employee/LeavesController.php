@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
+use App\Models\Employees\LeaveType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class LeavesController extends Controller
 {
@@ -38,7 +40,19 @@ class LeavesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+      'leave_type' => 'required|not_in:0',
+      'count' => 'required',
+      'generates_in'=> 'required',
+      'max_apply_once'=> 'required',
+      'min_apply_once'=> 'required',
+      'max_days_month'=> 'required',
+      'max_apply_month'=> 'required',
+      'max_apply_year'=> 'required',
+      'carry_forward'=> 'required',
+    ]);
+       LeaveType::create($data);
+       return redirect('emp_leave')->with('status','Successfully Inserted..!');
     }
 
     /**
@@ -49,7 +63,7 @@ class LeavesController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     public function apply_leaves($id){
@@ -87,5 +101,11 @@ class LeavesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function emp_leave()
+    {
+        $leave_type = DB::table('leave_type_mast')->get();
+        return view('employee.leaves.emp_leave',compact('leave_type'));
     }
 }

@@ -15,7 +15,7 @@
 						</a>
 					</span>
 					<span class="ml-2">
-						<a href="{{route('employee.apply_leaves',['id'=>$employee->id])}}" class="btn btn-sm btn-success" style="font-size:13px">
+						<a href="{{-- {{route('employee.apply_leaves',['id'=>$employee->id])}} --}}" class="btn btn-sm btn-success" style="font-size:13px">
 							<span class="fa fa-arrows"></span> Apply
 						</a>
 					</span>

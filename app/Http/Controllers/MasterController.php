@@ -114,6 +114,13 @@ class MasterController extends Controller
 							'bg_color' => '#22615fa6',
 							'count' => DB::table('tender_type_mast')->get()->count()
 							),
+				 array(
+								'table_name' => 'leave_type_mast',
+							'display_name' => 'Leave Type',
+							'icon' => 'fa fa-users',
+							'bg_color' => '#22615fa6',
+							'count' => DB::table('leave_type_mast')->get()->count()
+							),
 				  
 				);
 			//sort array
@@ -149,7 +156,8 @@ class MasterController extends Controller
 					'tender_catg_mast' => 'Tender Categories',
 					'tender_client_mast' => 'Tender Clients',
 					'tender_type_mast' => 'Tender Types',
-					'emp_grade_mast' => 'Employee Grades'
+					'emp_grade_mast' => 'Employee Grades',
+					'leave_type_mast' => 'Leave Types',
 				);
 		foreach($tables as $key => $val){
 			if($key == $tbl_name){
