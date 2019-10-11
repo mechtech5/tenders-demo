@@ -61,12 +61,22 @@
 					</div>
 					
 					
-					<div class="col-1 form-group check">
-						<div class="form-check">
+					<div class="col-5 form-group">
+						<div class="form-check" >
 						<label class="form-check-label">
-						  <input class="form-check-input" type="checkbox">Check me out
+						  <input class="form-check-input" type="checkbox" >Check me out
 						</label>
 						</div>
+					</div>
+
+					<div class="col-5 form-group offset-1" >
+						<label for="file_path">Upload Documents</label>
+				    	<input type="file" name="file_path" id="file_path" value="{{ old('file_path') }}" >
+				    	@error('file_path')
+							<span class="text-danger" role="alert">
+								<strong> {{ $message }}</strong>
+							</span>
+						@enderror
 					</div>
 					<div class="col-10 offset-1">
 						<div class="col-12 form-group ">
@@ -107,13 +117,13 @@
 					<td>{{ $bank_details->ifsc }}</td>
 					<td>{{ $bank_details->branch_name }}</td>
 					<td>{{ $bank_details->is_primary }}</td>
-					<td>Download</td>
+					<td><a href="{{ route('employees.download', ['db_table'=>'emp_bank_details', $bank_details->id]) }}" ><i class="fa fa-arrow-down"></i>download</a></td>
 					<td>{{ $bank_details->note }}</td>
-					<td><span class="ml-2">
+					<td>
 			<form action="{{ route('employee.delete_row', ['db_table' => 'emp_bank_details', $bank_details->id]) }}" method="GET" id="delform_{{$bank_details->id}}">
 				<a href="javascript:$('#delform_{{$bank_details->id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
 			</form>
-		</span></td>
+		</td>
 				</tr>
 			@endforeach
 				</tbody>

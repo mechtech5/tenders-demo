@@ -12,7 +12,7 @@
 		</div>
 		@endif 
 		
-			<form action="{{ route('employees.nominee', ['id' => $employee->id]) }}" method="POST">
+			<form action="{{ route('employees.nominee', ['id' => $employee->id]) }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				<div class="row">
 					<div class="col-4 form-group">
@@ -64,8 +64,8 @@
 					</div>
 					<div class="col-5">
 						<div class="col-5 form-group">
-							<label for="">Attachment</label>
-	    	<input type="file" name="file_path" id="file_path" value="{{ old('file_path')}}">
+							<label for="file_path">Upload Documents</label>
+	    	<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
 						</div>
 					</div>
 					</div>
@@ -104,7 +104,7 @@
 						<td>{{$nominees->aadhar_no}}</td>
 						<td>{{$nominees->contact}}</td>
 						<td>{{$nominees->relation}}</td>
-						<td>{{$nominees->file_path}}</td>
+						<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
 						<td>{{$nominees->addr}}</td>
 						<td>
 						<form action="{{ route('employee.delete_row', ['db_table' => 'emp_nominee' ,$nominees->id]) }}" method="GET" id="delform_{{ $nominees->id }}">

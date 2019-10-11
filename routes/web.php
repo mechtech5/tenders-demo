@@ -22,7 +22,7 @@ Route::resource('/employee/leaves','Employee\LeavesController');
 Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves')->name('employee.apply_leaves');
 Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
 
-
+Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 //delete employees info
 
 Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
@@ -84,5 +84,5 @@ Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy'
 
 //Download documents
 
-Route::get('hrd/employees/download/{file}', 'HRD\EmployeesController@download')->name('employees.download');
+Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
 

@@ -50,6 +50,10 @@ class EmployeeMast extends Model
  		return $this->hasMany('App\Models\Employees\EmpDocument', 'emp_id');
  	}
 
+ 	public function doctype(){
+ 		return $this->hasMany('App\Models\Master\DocTypeMast', 'id');
+ 	}
+
  	public function bankdetails(){
  		return $this->hasMany('App\Models\Employees\EmpBankDetail', 'emp_id');
  	}

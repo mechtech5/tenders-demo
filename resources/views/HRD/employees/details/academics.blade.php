@@ -8,9 +8,9 @@
 			{{$message}}
 		</div>
 		@endif
-	<form action="{{route('employees.academics', ['id'=>$employee->id])}}" method="POST">
+	<form action="{{route('employees.academics', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
 		@csrf
-		<div class="row"
+		<div class="row">
 	    <div class="col-6 form-group">
 	    	<label for="">Domain of Study</label>
 	    	<input type="text" class="form-control" name="domain_of_study" placeholder="Eg. 10th, 12th, BE, MCA..." value="{{old('domain_of_study',isset($academic->domain_of_study) ? $academic->domain_of_study : '')}}">
@@ -29,8 +29,8 @@
           </span>
       	@enderror
 	    </div>
-			<div class="W-100"></div>
-	    <div class="col-2 form-group">
+			{{-- <div class="W-100"></div> --}}
+	    <div class="col-4 form-group">
 	    	<label for="">Completed In</label>
 	    	<input type="text" class="form-control" name="year_of_completion" placeholder="Eg. 2016" value="{{old('year_of_completion',isset($academic->completed_in_year) ? $academic->completed_in_year : '')}}"/>
 	    	@error('year_of_completion')
@@ -39,7 +39,7 @@
           </span>
       	@enderror
 	    </div>
-	    <div class="col-2 form-group">
+	    <div class="col-4 form-group">
 	    	<label for="">Grade or %</label>
 	    	<input type="text" class="form-control" name="grade_or_percent" placeholder="" value="{{old('grade_or_percent',isset($academic->grade_or_pct) ? $academic->grade_or_pct : '')}}" />
 	    	@error('grade_or_percent')
@@ -48,7 +48,16 @@
           </span>
       	@enderror
 	    </div>
-	    <div class="col form-group">
+	    <div class="col-8 form-group">
+	    	<label for="file_path">Upload Documents</label>
+	    	<input type="file" class="form-control-file" name="file_path" id="file_path" value="{{ old('file_path') }}">
+	    	@error('file_path')
+				<span class="text-danger" role="alert">
+					<strong> {{ $message }}</strong>
+				</span>
+			@enderror
+	    </div>
+	    <div class="col-12 form-group">
 	    	<label for="">Special Note</label>
 	    	<textarea name="special_note" class="form-control" id="" cols="30" rows="10">{{old('special_note',isset($academic->domain_of_study) ? $academic->domain_of_study : '')}}</textarea>
 	    	@error('special_note')
@@ -56,7 +65,7 @@
             <strong>* {{ $message }}</strong>
           </span>
       	@enderror
-	    </div>
+	    </div> 
     	<div class="col-12 form-group text-center">
 				<button class="btn btn-info btn-sm">Save</button>
 				<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>
@@ -71,9 +80,10 @@
 		    <tr>
 		      <th>#</th>
 		      <th>Domain of Study</th>
-		      <th>Completed In</th>
 		      <th>Name of Board</th>
+		      <th>Completed In</th>
 		      <th>Grade</th>
+		      <th>Documents</th>
 		      <th>Special Note</th>
 		      <th class="text-center">Actions</th>
 		    </tr>
@@ -83,13 +93,15 @@
 		  		<tr>
 		  			<td>{{$row->id}}</td>
 		  			<td>{{$row->domain_of_study}}</td>
-		  			<td>{{$row->completed_in_year}}</td>
 		  			<td>{{$row->name_of_unversity}}</td>
-		  			<td>{{$row->grade_or_pct}}</td>
+		  			<td>{{$row->completed_in_year}}</td>
+		  			<td>{{$row->grade_or_pct}}</td>		  			
+		  			<td><a href="{{route('employees.download', ['db_table' => 'emp_academics', $row->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
 		  			<td>{{$row->note}}</td>
-		  			<td class="flex">
-		  				
-		  			</td>
+		  			<td><form action="{{route('employee.delete_row', ['db_table' => 'emp_academics', $row->id])}}" method="GET" id="delform_{{$row->id}}">
+				<a href="javascript:$('#delform_{{$row->id}}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
+				</form></td>
+
 		  		</tr>
 		  	@endforeach
 		  </tbody>
