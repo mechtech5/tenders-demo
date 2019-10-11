@@ -12,12 +12,12 @@
 		</div>
 		@endif 
 		
-			<form action="{{ route('employees.nominee', ['id' => $employee->id]) }}" method="POST">
+			<form action="{{ route('employees.nominee', ['id' => $employee->id]) }}" method="POST" enctype="multipart/form-data">
 				@csrf
 				<div class="row">
 					<div class="col-4 form-group">
 						<label for="">Nominee's Name</label>
-						<input type="text" class="form-control" name="nominee_name" >
+						<input type="text" class="form-control" name="nominee_name" value="{{old('nominee_name')}}">
 						@error('nominee_name')
 		          <span class="text-danger" role="alert">
 		            <strong>* {{ $message }}</strong>
@@ -26,7 +26,7 @@
 					</div>
 					<div class="col-4 form-group">
 						<label for="">Nominee's Email</label>
-						<input type="email" class="form-control" name="email">
+						<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 						@error('email')
 		          <span class="text-danger" role="alert">
 		            <strong>* {{ $message }}</strong>
@@ -35,8 +35,8 @@
 					</div>
 					<div class="col-4 form-group">
 						<label for="">Nominee's Aadhaar no.</label>
-						<input type="text" class="form-control" name="adhar_no">
-						@error('adhar_no')
+						<input type="text" class="form-control" name="aadhaar_no" value="{{ old('aadhaar_no') }}">
+						@error('aadhaar_no')
 		          <span class="text-danger" role="alert">
 		            <strong>* {{ $message }}</strong>
 		          </span>
@@ -44,7 +44,7 @@
 					</div>
 					<div class="col-4 form-group">
 						<label for="">Nominee's Contact</label>
-						<input type="text" class="form-control contact" name="contact">
+						<input type="text" class="form-control contact" name="contact" value="{{ old('contact')}}">
 						@error('contact')
 		          <span class="text-danger" role="alert">
 		            <strong>* {{ $message }}</strong>
@@ -54,7 +54,7 @@
 						<div class="col-4">
 						<div class="form-group">
 							<label for="">Nominee's Relation</label>
-							<input type="text" class="form-control" name="relation">
+							<input type="text" class="form-control" name="relation" value="{{ old('relation') }}">
 							@error('relation')
 			          <span class="text-danger" role="alert">
 			            <strong>* {{ $message }}</strong>
@@ -64,14 +64,14 @@
 					</div>
 					<div class="col-5">
 						<div class="col-5 form-group">
-							<label for="">Attachment</label>
-	    	<input type="file" name="file_path" id="file_path">
+							<label for="file_path">Upload Documents</label>
+	    	<input type="file" name="file_path" class="form-group-file" id="file_path" value="{{ old('file_path')}}">
 						</div>
 					</div>
 					</div>
 					<div class="col-12 form-group ">
 	    	<label for="">Nominee's Permanent Address</label>
-	    	<textarea name="address" id="address" class="form-control" cols="5" rows="5"></textarea>
+	    	<textarea name="address" id="address" class="form-control" cols="5" rows="5" value="{{old('address')}}"></textarea>
 	    </div>
 					<div class="col-12 form-group text-center">
 						<button class="btn btn-info btn-sm">Save</button>
@@ -104,16 +104,13 @@
 						<td>{{$nominees->aadhar_no}}</td>
 						<td>{{$nominees->contact}}</td>
 						<td>{{$nominees->relation}}</td>
-						<td>{{$nominees->file_path}}</td>
+						<td><a href="{{route('employees.download', ['db_table' => 'emp_nominee', $nominees->id])}}"><i class="fa fa-arrow-down" ></i> Download</a></td>
 						<td>{{$nominees->addr}}</td>
-						<td><span class="ml-2">
-<form action="{{ route('emp_detail.delete', [$nominees->id]) }}" method="POST" id="delform_{{ $nominees->id }}">
-								@csrf
-								@method('DELETE')
-								<input type="hidden" name="db_table" value="emp_nominee">
-<a href="javascript:$('#delform_{{ $nominees->id }}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
+						<td>
+						<form action="{{ route('employee.delete_row', ['db_table' => 'emp_nominee' ,$nominees->id]) }}" method="GET" id="delform_{{ $nominees->id }}">
+						<a href="javascript:$('#delform_{{ $nominees->id }}').submit();" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>
 							</form>
-						</span></td>
+						</td>
 					</tr>
 					@endforeach
 				</tbody>

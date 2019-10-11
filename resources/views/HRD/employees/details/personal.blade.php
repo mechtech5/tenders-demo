@@ -19,7 +19,7 @@
 		</div>
 		@endif 
 		<div id="form-area">
-				<form action="{{route('employees.personal', ['id'=>$employee->id])}}" method="POST">
+				<form action="{{route('employees.personal', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
 					@csrf
 				<div class="container-fluid">
 					<div class="row">
@@ -80,18 +80,18 @@
                 </span>
             	@enderror
 						</div>
-						<div class="w-100"></div>
+						{{-- <div class="w-100"></div> --}}
 						
 						<div class="col-3 form-group">
 							<label for="">Date of Birth</label>
-							<input type="text" name="emp_dob" class="form-control datepicker" value="{{old('emp_dob',$employee->emp_dob)}}">
+							<input type="text" name="emp_dob" class="form-control datepicker" value="{{old('emp_dob',$employee->emp_dob)}}" autocomplete="off">
 							@error('emp_dob')
                   <span class="text-danger" role="alert">
                       <strong>{{ $message }}</strong>
                   </span>
               	@enderror
 						</div>
-						<div class="col-2 form-group">
+						<div class="col-3 form-group">
 							<label for="">Blood Group</label>
 							<select name="blood_group" class="form-control">
 									@foreach($blood_groups as $row)
@@ -106,13 +106,22 @@
                   </span>
               @enderror
 						</div>
+							<div class="col-4 form-group">
+					    		<label for="file_path">Upload Photo</label>
+					    		<input type="file" name="file_path" id="file_path" value="{{ old('file_path') }}">
+					    		@error('file_path')
+								<span class="text-danger" role="alert">
+									<strong> {{ $message }}</strong>
+								</span>
+								@enderror
+					    	</div>
 					</div>
 					<hr/>
 					<div class="row">
 						<div class="col">
 							<span><p class="text-center">Current Residence</p></span>
 							<div class="form-group col-md-8 offset-md-2">
-								<textarea onkeydown="match_addr('curr')" name="curr_addr" id="curr_addr" class="form-control" cols="30" rows="10">{{$employee->curr_addr}}</textarea>
+<textarea onkeydown="match_addr('curr')" name="curr_addr" id="curr_addr" class="form-control" cols="30" rows="10">{{$employee->curr_addr}}</textarea>
 								@error('curr_addr')
                   <span class="text-danger" role="alert">
                       <strong>{{ $message }}</strong>
@@ -145,8 +154,8 @@
 					<div class="row">
 						<div class="col form-group">
 							<label for="">Contact Number</label>
-							<input type="text" name="Contact_number" class="form-control" value="{{old('Contact_number',$employee->contact)}}">
-								@error('Contact_number')
+							<input type="text" name="contact_number" class="form-control" value="{{old('contact_number',$employee->contact)}}">
+								@error('contact_number')
 	                  <span class="text-danger" role="alert">
 	                    <strong>{{ $message }}</strong>
 	                  </span>

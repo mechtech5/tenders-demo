@@ -9,4 +9,8 @@ class DocTypeMast extends Model
 {
     use SoftDeletes;
     protected $table = 'doc_type_mast';
+
+    public function empdocument(){
+    	return $this->hasMany('App\Models\Employees\Empdocument', 'doc_type_id');
+    }
 }

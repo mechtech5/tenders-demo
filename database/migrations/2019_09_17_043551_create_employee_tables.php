@@ -80,6 +80,7 @@ class CreateEmployeeTables extends Migration
         Schema::create('emp_bank_details', function (Blueprint $table) { //mul rows
           $table->increments('id');
           $table->unsignedInteger('emp_id');
+          $table->string('acc_holder', 50);
           $table->string('acc_no', 50);
           $table->string('bank_name', 50);
           $table->string('ifsc', 50);

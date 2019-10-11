@@ -22,10 +22,11 @@ Route::resource('/employee/leaves','Employee\LeavesController');
 Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves')->name('employee.apply_leaves');
 Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
 
-
+Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
 //delete employees info
 
-Route::delete('/hrd/employees/delete_row/{id}', 'HRD\EmployeesController@deleteEmp_detail')->name('emp_detail.delete');
+Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
+
 
 
 Route::post('/hrd/employees/fetch_designation','HRD\EmployeesController@fetch_designation')->name('employees.fetch_designation');
@@ -43,6 +44,7 @@ Route::prefix('hrd')->namespace('HRD')->group(function () {
 	Route::post('/employee/save_experience/{id}', 'EmployeesController@save_experience')->name('employees.experience');
 	Route::post('/employee/save_documents/{id}', 'EmployeesController@save_documents')->name('employees.documents');
 	Route::post('/employee/save_nominee/{id}', 'EmployeesController@save_nominee')->name('employees.nominee');
+	Route::post('/employees/save_bankdetails/{id}', 'EmployeesController@save_bankdetails')->name('employees.bankdetails');
 });
 Route::post('/expenses/accounts','Expenses\PaymentsController@account_mast')->name('account_mast');
 Route::post('/expenses/vendor_mast','Expenses\PaymentsController@vendor_mast')->name('vendor_mast');
@@ -80,6 +82,13 @@ Route::get('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@c
 Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
 Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
 
+<<<<<<< HEAD
 //  Employee Leaves
 Route::get('emp_leave','Employee\LeavesController@emp_leave')->name('emp_leave');
 Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leave_store');
+=======
+//Download documents
+
+Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
+
+>>>>>>> 93da36f135eee09f6e03cf89e2f2727dbb06de81
