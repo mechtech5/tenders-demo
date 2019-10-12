@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employees\EmployeeMast;
-use App\Models\Employees\LeaveType;
+use App\Models\Master\LeaveTypeMast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Employees\EmpLeave;
 
 
 class LeavesController extends Controller
@@ -41,17 +42,18 @@ class LeavesController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-      'leave_type' => 'required|not_in:0',
-      'count' => 'required',
-      'generates_in'=> 'required',
-      'max_apply_once'=> 'required',
-      'min_apply_once'=> 'required',
-      'max_days_month'=> 'required',
+      'leave_type'     => 'required|not_in:0',
+      'count'          => 'required',
+      'generates_in'   => 'required',
+      'max_apply_once' => 'required',
+      'min_apply_once' => 'required',
+      'max_days_month' => 'required',
       'max_apply_month'=> 'required',
-      'max_apply_year'=> 'required',
-      'carry_forward'=> 'required',
+      'max_apply_year' => 'required',
+      'carry_forward'  => 'required',
     ]);
-       LeaveType::create($data);
+       EmpLeave::create($data);
+
        return redirect('emp_leave')->with('status','Successfully Inserted..!');
     }
 

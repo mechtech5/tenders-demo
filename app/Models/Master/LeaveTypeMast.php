@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Models\Employees;
+namespace App\Models\Master;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-
-class LeaveType extends Model
+class LeaveTypeMast extends Model
 {
-
     use SoftDeletes;
-
-    protected $table = 'leave_mast';
+    protected $table = 'leave_type_mast';
     protected $guarded = [];
 }

@@ -82,13 +82,12 @@ Route::get('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@c
 Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@storeOrUpdate')->name('mast_entity.post');
 Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
 
-<<<<<<< HEAD
+
 //  Employee Leaves
 Route::get('emp_leave','Employee\LeavesController@emp_leave')->name('emp_leave');
 Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leave_store');
-=======
+
 //Download documents
 
 Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
 
->>>>>>> 93da36f135eee09f6e03cf89e2f2727dbb06de81
