@@ -14,16 +14,20 @@
 	@include ('HRD/employees/tabs')
 	<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
 		@if($message = Session::get('success'))
-		<div class="alert alert-success">
+		<div class="alert alert-success alert-block">
+		<button type="button" class="close" data-dismiss="alert">×</button>
 			{{$message}}
 		</div>
 		@endif 
+		@php
+			//dd($employee);
+		@endphp
 		<div id="form-area">
 				<form action="{{route('employees.personal', ['id'=>$employee->id])}}" method="POST" enctype="multipart/form-data">
 					@csrf
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-2 form-group">
+						 <div class="col-2 form-group">
 							<label for="">Title</label>
 							<select name="emp_title" class="form-control">
 									@foreach($emp_titles as $row)
@@ -37,7 +41,9 @@
                     <strong>{{ $message }}</strong>
                 </span>
             	@enderror
-						</div>
+						</div> 
+
+						
 						<div class="col-5 form-group">
 
 							<label for="">Full Name</label>

@@ -91,3 +91,6 @@ Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leav
 
 Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
 
+//Import Export
+
+Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');

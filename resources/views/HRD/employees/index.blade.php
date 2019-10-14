@@ -6,7 +6,11 @@
 				<h1 style="font-size: 24px">Employees
 					<span class="ml-2">
 						<button  class="btn btn-sm btn-info"  data-toggle="modal" data-target="#import-modal" style="font-size:13px">
-							<span class="fa fa-upload"></span> Import
+							{{-- <span class="fa fa-upload"> --}}</span>
+							<form action="{{route('employees.import')}}" method="POST" enctype="multipart/form-data">
+								@csrf
+								<input type="file" onchange="this.form.submit()" name="import">
+							</form>
 						</button>
 					</span>
 					<span class="ml-2">

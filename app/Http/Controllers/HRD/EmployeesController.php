@@ -19,7 +19,10 @@ use App\Models\Employees\EmpNominee;
 use DB;
 use App\Models\Employees\EmpBankDetail;
 use App\Models\Master\DeptMast;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EmployeesImport;
+use App\Exports\EmployeesExport;
+use App\Exports\ErrorEmployeeExport;
 
 class EmployeesController extends Controller
 {
@@ -37,7 +40,7 @@ class EmployeesController extends Controller
   	$employee = new EmployeeMast();
   	$employee->emp_name = $request->name; //emp ID will updated in users
   	$employee->save();
-  	return redirect()->route('employees.index')->with('success','Employee Created Successfully');
+  	return redirect()->route('employees.index')->with('success','Employee Created successfully');
   }
 
   public function save_main(Request $request,$id){
@@ -54,7 +57,7 @@ class EmployeesController extends Controller
 		$employee->email = $vdata['email'];
 		$employee->contact = $vdata['contact'];
 		$employee->save();
-		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'main'])->with('success','Updated Successfully.');
+		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'main'])->with('success','Updated successfully.');
   }
 
   public function save_academics(Request $request,$id){
@@ -89,7 +92,7 @@ class EmployeesController extends Controller
 		$employee->note               = $request->special_note;
 		$employee->save();
 
-		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'academics'])->with('success','Updated Successfully.');
+		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'academics'])->with('success','Updated successfully.');
   }
 
   public function save_experience(Request $request,$id){
@@ -128,7 +131,7 @@ class EmployeesController extends Controller
 		$academic->reason_of_leaving= $request->reason_of_leaving;
     $academic->file_path        = $path;
 		$academic->save();
-		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'experience'])->with('success','Updated Successfully.');
+		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'experience'])->with('success','Updated successfully.');
   }
 
   public function save_official(Request $request,$id){
@@ -171,7 +174,7 @@ class EmployeesController extends Controller
 
     
 		
-		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'official'])->with('success','Updated Successfully.');
+		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'official'])->with('success','Updated successfully.');
   }
 
   public function save_personal(Request $request,$id){
@@ -191,7 +194,7 @@ class EmployeesController extends Controller
       $filename = $id.'_'.time().'_personal.'.$file_ext;
       $path     = $request->file('file_path')->storeAs($dir, $filename);
     }else{
-      $path = null;
+      $path = 'emp_default_image.png';
     }
 
 		$employee = EmployeeMast::findOrfail($id);
@@ -207,7 +210,7 @@ class EmployeesController extends Controller
 		$employee->alt_email  = $vdata['alternate_email'];
     $employee->driv_lic   = $request->drive_lic;
 		$employee->save();
-		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated Successfully.');
+		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated successfully.');
   }
 
 
@@ -268,7 +271,7 @@ class EmployeesController extends Controller
     $document->remark       = $request->remarks;
     $document->date         = date('Y-m-d', time());
     $document->save();
-    return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])->with('success', 'Updated Successfully.');
+    return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])->with('success', 'Updated successfully.');
   }
 
   /*
@@ -300,7 +303,7 @@ class EmployeesController extends Controller
 
     if($tab == 'documents'){
       $meta['doc_types'] = DocTypeMast::all();
-     $employee = EmployeeMast::findOrFail($id)->with('documents')->first();
+     $employee = EmployeeMast::with('documents')->where('id',$id)->first();
     }
 
     if($tab == 'nominee'){
@@ -349,7 +352,7 @@ class EmployeesController extends Controller
 			$employee->alt_email  = $vdata['alternate_email'];
 			$employee->save();
 
-			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated Successfully.');
+			return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'personal'])->with('success','Updated successfully.');
     }
 
 
@@ -379,7 +382,7 @@ class EmployeesController extends Controller
       $nominee->relation  = $vdata['relation'];
       $nominee->save();
 
-      return redirect()->route('employee.show_page', ['id' => $id, '  tab' => 'nominee'])->with('success', 'Updated Successfully.');
+      return redirect()->route('employee.show_page', ['id' => $id, '  tab' => 'nominee'])->with('success', 'Updated successfully.');
     }
 
 
@@ -429,91 +432,14 @@ class EmployeesController extends Controller
       $bankdetails->note        = $vdata['note'];
       $bankdetails->save();
 
-      return back()->with('success', 'Updated Successfully.');
+      return back()->with('success', 'Updated successfully.');
     }
-
-    /*public function save_documents(Request $request, $id){
-
-
-      $vdata = request()->validate([
-        'doc_title' => 'required',
-        'file_path' => 'required|max:5120',
-        'doc_status' => 'required'
-      ], [
-
-          'doc_title.required' => 'This field is required',
-          'file_path.required' => 'This field is required',
-          'doc_status.required'  => 'This field is reqiured'
-
-      ]);
-
-
-      $doc_name = strtolower(str_replace(' ', '', DocTypeMast::find($request->doc_title)->name));
-
-      $doc_ext = $request->file('file_path')->getClientOriginalExtension();
-
-      $emp_name = strtolower(str_replace(' ', '', EmployeeMast::find($id)->emp_name));
-      $time = date('mdY:hi', time());
-
-
-      $new_name = $doc_name.'_'.$time.'.'.$doc_ext;
-
-      $path = $request->file('file_path')->storeAs('public/hrm/employees/'.$emp_name.'_'.$id, $new_name);
-
-      $document = new EmpDocument;
-      $document->emp_id       = $id;
-      $document->doc_type_id  = $vdata['doc_title'];
-      $document->file_path    = $emp_name."_".$id.'/'.$new_name;
-      $document->doc_status   = $vdata['doc_status'];
-      $document->remark       = $request->remark;
-      $document->date         = date('Y-m-d', time());
-      $document->save();
-
-      return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'documents'])
-            ->with('success', 'Updated Successfully.');
-
-    }*/
 
     public function store(Request $request)
     {
         
     }
 
-	  /*public function show_page($id,$tab)
-	  {
-	  	$meta = array();
-	    $employee = EmployeeMast::findOrFail($id);
-	    $path = "HRD.employees.details.".$tab;
-	    if($tab == 'official'){
-	    	$meta['emp_types'] = EmpType::all();
-	    	$meta['emp_statuses'] = EmpStatus::all();
-	    }
-
-	    if($tab == 'academics'){
-	    	$employee = EmployeeMast::with('academics')->where('id',$id)->first();
-	    }
-
-	    if($tab == 'experience'){
-	    	$employee = EmployeeMast::with('experiences')->where('id',$id)->first();
-	    }
-
-      if($tab == 'documents'){
-        $meta['doc_types'] = DocTypeMast::all();
-        $employee = EmployeeMast::with('documents')->where('id',$id)->first();
-      }
-
-      if($tab == 'bankdetails'){
-        $employee = EmployeeMast::with('bankdetails')->where('id',$id)->first();
-      }
-
-      if($tab == 'nominee'){
-
-        $employee = EmployeeMast::with('nominee')->where('id',$id)->first();
-      }
-
-	    return view($path,compact('employee','meta'));
-	  }
-*/
    public function getForm(Request $request, $type)
    {
    	$data['employee'] = EmployeeMast::findOrFail($request->emp_id);
@@ -609,6 +535,478 @@ class EmployeesController extends Controller
       return back()->with('success','Status deleted successfully.');
     }
 
+  //Employees Export
+
+    public function export(){
+      return Excel::download(new EmployeesExport, 'employee.xlsx');
+      
+    }
+
+
+  //Employees Import
+
+  public function import(Request $request){
+
+    //return 68475;
+
+    $this->validate($request, [
+          'import' => 'required|mimes:xlsx,xls'
+          ]);
+
+    $records = Excel::toCollection(new EmployeesImport, $request->file('import'));
+
+    $status = TRUE;
+    $error  = [];
+
+    foreach( $records as $record ){
+
+      foreach( $record as $data ){
+
+
+        if($status == TRUE){
+
+          if($data['id'] == ''){
+
+            $status = FALSE;
+
+          }else{
+
+            
+            $status = TRUE;
+
+          }
+
+        }
+
+
+        if($status == TRUE){
+
+          if($data['parent_id'] == '' ){
+
+            $status = TRUE;
+            $data['parent_id'] = null;
+
+          }else{
+            $status = TRUE;
+
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['emp_code'] == ''){
+
+            $status = TRUE;
+            $data['emp_code'] = null;
+
+          }else{
+
+            $status = TRUE;
+
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['comp_id'] == ''){
+            $status = TRUE;
+            $data['comp_id'] = null;
+
+          }else{
+
+            $status = TRUE;
+
+          }
+        }
+
+        if($status = TRUE){
+
+          if($data['dept_id'] == ''){
+
+            $status = TRUE;
+            $data['dept_id'] = null;
+
+          }else{
+
+            $status = TRUE;
+
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['desg_id'] == ''){
+
+            $status = FALSE;
+          }else{
+
+            $status = TRUE;
+        
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['grade_id'] == ''){
+
+            $status = TRUE;
+            $data['grade_id'] = null;
+
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['emp_name'] == ''){
+
+            $status = FALSE;
+            
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['emp_img'] == ''){
+
+            $status = TRUE;
+            $data['emp_img'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['emp_gender'] == ''){
+
+            $status = TRUE;
+            $data['emp_gender'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['emp_dob'] == ''){
+
+            $status = TRUE;
+            $data['emp_dob'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['curr_addr'] == ''){
+
+            $status = TRUE;
+            $data['curr_addr'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['perm_addr'] == ''){
+
+            $status = TRUE;
+            $data['perm_addr'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['blood_grp'] == ''){
+
+            $status = TRUE;
+            $data['blood_grp'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['contact'] == ''){
+
+            $status = TRUE;
+            $data['contact'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['alt_contact'] == ''){
+
+            $status = TRUE;
+            $data['alt_contact'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['email'] == ''){
+
+            $status = TRUE;
+            $data['email'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['alt_email'] == ''){
+
+            $status = TRUE;
+            $data['alt_email'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['driv_lic'] == ''){
+
+            $status = TRUE;
+            $data['driv_lic'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['aadhar_no'] == ''){
+
+            $status = TRUE;
+            $data['aadhar_no'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['voter_id'] == ''){
+
+            $status = TRUE;
+            $data['voter_id'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['pan_no'] == ''){
+
+            $status = TRUE;
+            $data['pan_no'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['emp_type'] == ''){
+
+            $status = TRUE;
+            $data['emp_type'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['emp_status'] == ''){
+
+            $status = TRUE;
+            $data['emp_status'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['old_uan'] == ''){
+
+            $status = TRUE;
+            $data['old_uan'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+
+        if($status == TRUE){
+
+          if($data['curr_uan'] == ''){
+
+            $status = TRUE;
+            $data['curr_uan'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['old_pf'] == ''){
+
+            $status = TRUE;
+            $data['old_pf'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['curr_pf'] == ''){
+
+            $status = TRUE;
+            $data['curr_pf'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['old_esi'] == ''){
+
+            $status = TRUE;
+            $data['old_esi'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['curr_esi'] == ''){
+
+            $status = TRUE;
+            $data['curr_esi'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['join_dt'] == ''){
+
+            $status = TRUE;
+            $data['join_dt'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['leave_dt'] == ''){
+
+            $status = TRUE;
+            $data['leave_dt'] = null;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+
+          if($data['active'] == ''){
+
+            $status = TRUE;
+            $data['active'] = 1;
+          }else{
+
+            $status = TRUE;
+          }
+        }
+
+        if($status == TRUE){
+          
+         $data = $this->array_data($data);
+
+         $emp = EmployeeMast::find($data['id']);
+
+         if(!empty($emp)){
+
+            EmployeeMast::where('id', $emp['id'])
+              ->update($data);
+
+         }else{
+            EmployeeMast::create($data);
+         }
+
+
+        }else if($status == FALSE){
+          
+          $error[] = $this->array_data($data);
+        
+        }
+       
+        $status = TRUE;
+
+      }
+    }
+
+    if(count($error) != 0){
+
+      return Excel::download(new ErrorEmployeeExport($error), 'erroremployeeexport.xlsx');
+    }
+
+    return back()->with('success', 'Data imported successfully.');
+
+  }
+
 
   public function destroy($id)
   {
@@ -638,5 +1036,44 @@ class EmployeesController extends Controller
                 ->first();
    return view('HRD.employees.details.exp_table',compact('exp'));
     
+  }
+
+
+  public function array_data($data){
+    return $data = [
+                    'id'         => $data['id'],
+                    'parent_id'  => $data['parent_id'],
+                    'emp_code'   => $data['emp_code'],
+                    'comp_id'    => $data['comp_id'],
+                    'dept_id'    => $data['dept_id'],
+                    'desg_id'    => $data['desg_id'],
+                    'grade_id'   => $data['grade_id'],
+                    'emp_name'   => $data['emp_name'],
+                    'emp_img'    => $data['emp_img'],
+                    'emp_gender' => $data['emp_gender'],
+                    'emp_dob'    => $data['emp_dob'],
+                    'curr_addr'  => $data['curr_addr'],
+                    'perm_addr'  => $data['perm_addr'],
+                    'blood_grp'  => $data['blood_grp'],
+                    'contact'    => $data['contact'],
+                    'alt_contact'=> $data['alt_contact'],
+                    'email'      => $data['email'],
+                    'alt_email'  => $data['alt_email'],
+                    'driv_lic'   => $data['driv_lic'],
+                    'aadhar_no'  => $data['aadhar_no'],
+                    'voter_id'   => $data['voter_id'],
+                    'pan_no'     => $data['pan_no'],
+                    'emp_type'   => $data['emp_type'],
+                    'emp_status' => $data['emp_status'],
+                    'old_uan'    => $data['old_uan'],
+                    'curr_uan'   => $data['curr_uan'],
+                    'old_pf'     => $data['old_pf'],
+                    'curr_pf'    => $data['curr_pf'],
+                    'old_esi'    => $data['old_esi'],
+                    'curr_esi'   => $data['curr_esi'],
+                    'join_dt'    => $data['join_dt'],
+                    'leave_dt'   => $data['leave_dt'],
+                    'active'     => $data['active'],
+                  ];
   }
 }

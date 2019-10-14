@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class EmployeeMast extends Model
 {
 	use SoftDeletes;
-  protected $table = 'emp_mast';  
+  protected $table = 'emp_mast';
+
+  	protected $fillable = ['id', 'parent_id', 'emp_code', 'comp_id', 'dept_id', 'desg_id', 'grade_id', 'emp_name', 'emp_img', 'emp_gender', 'emp_dob', 'curr_addr', 'perm_addr', 'blood_grp', 'contact', 'alt_contact', 'email', 'alt_email', 'driv_lic', 'aadhar_no', 'voter_id', 'pan_no', 'emp_type', 'emp_status', 'old_uan', 'curr_uan', 'old_pf', 'curr_pf', 'old_esi', 'curr_esi', 'join_dt', 'leave_dt','active'];
 
 	public function company(){
  		return $this->belongsTo('App\Models\Master\CompMast','comp_id');

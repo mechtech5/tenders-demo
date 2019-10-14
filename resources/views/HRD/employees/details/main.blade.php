@@ -4,7 +4,8 @@
 		@include ('HRD/employees/tabs')
 		<div style="margin-top: 1.5rem; padding: 1.5rem; border: 1px solid grey;">
 			@if($message = Session::get('success'))
-				<div class="alert alert-success">
+				<div class="alert alert-success alert-block">
+		<button type="button" class="close" data-dismiss="alert">×</button>
 					{{$message}}
 				</div>
 			@endif 
