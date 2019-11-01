@@ -3,9 +3,9 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 24px">Approvals
+				<h1 style="font-size: 24px">Approval Permissions
 					<span class="ml-2">
-						<a href="{{route('approvals.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
+						<a href="{{route('permissions.create')}}" class="btn btn-sm btn-success" style="font-size: 13px">
 							<span class="fa fa-plus "></span> Add New</a>
 					</span>
 					<span class="ml-2">
@@ -35,44 +35,33 @@
 							<thead>
 								<tr>
 									<th>ID</th>
-									<th>Title</th>
+									<th>Role Name</th>
 									<th>Can Approve</th>
 									<th>Can Decline</th>
-									<th>Can Delete</th>
-									<th>Can Cancel</th>
-									<th>Can Hold</th>
-									<th>Can Edit</th>
-									<th>Description</th>
 									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
-							{{-- @foreach($approvals as $approval) --}}
+							@foreach($approval_index as $index)
 								<tr>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-									<td>12</td>
-
+									<td>{{$index->id}}</td>
+									<td>{{$index->designation->name}}</td>
+									<td>{{$index->approve == 1 ? 'Yes' : 'No'}}</td>
+									<td>{{$index->decline == 1 ? 'Yes' : 'No'}}</td>
 									<td class='d-flex'>
-										{{-- <span>
-												<a href="{{route('approvals.edit',$approval->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
+										<span>
+											<a href="{{route('approvals.edit',$approval->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
 										</span>
 										<span class="ml-2">
-											<form action="{{route('approvals.destroy',$approval->id)}}" method="POST" id="delform_{{ $approval->id}}">
-													@csrf
-													@method('DELETE')
-												<a href="javascript:$('#delform_{{$approval->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>			
+											<form action="" method="POST" id="delform_">
+												@csrf
+												@method('DELETE')
+												<a href="javascript:$('#delform_').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>			
 											</form>
-										</span> --}}
+										</span>
 									</td>
 								</tr>
-							{{-- @endforeach --}}
+							@endforeach
 							</tbody>
 						</table>
 					</div>

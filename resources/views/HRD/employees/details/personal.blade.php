@@ -49,21 +49,17 @@
 							<label for="">Full Name</label>
 							<input type="text" class="form-control" name="full_name" value="{{old('full_name',(explode(' ', $employee->emp_name, 2))[1])}}" />
 							@error('full_name')
-                <span class="text-danger" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            	@enderror
+			                <span class="text-danger" role="alert">
+			                    <strong>{{ $message }}</strong>
+			                </span>
+			            	@enderror
 						</div>
 						<div class="col-4 form-group">
 							<label for="">Gender</label>
 							<br>
 							<div class="row">
-									<input type="radio" 
-									class="mr-2 mt-1"
-									name="emp_gender" 
-									value="M" 
-									autocomplete="off"
-									{{old('emp_gender',$employee->emp_gender) == 'M' ? 'checked' : ''}}
+<input type="radio" class="mr-2 mt-1" name="emp_gender" value="M" autocomplete="off" 
+{{old('emp_gender',$employee->emp_gender) == 'M' ? 'checked' : ''}}
 									> Male
 									<input type="radio" 
 									class="mr-2 mt-1 ml-3"

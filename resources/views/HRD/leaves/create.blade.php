@@ -3,7 +3,7 @@
 	<main class="app-content">
 		<div class="row">
 			<div class="col-md-12 col-xl-12">
-				<h1 style="font-size: 20px">Add Stage For Approval</h1>
+				<h1 style="font-size: 20px">Set Leaves Limit</h1>
 				<hr>
 			</div>
 		</div>
@@ -11,27 +11,27 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card shadow-xs">
 					<div class="card-body">
-						<form action="{{route('approvals.store')}}" method="post">
+						<form action="{{route('leaves.store')}}" method="post">
 							@csrf
 							<div class="row">
-						{{--<div class="col-4 form-group">
-							<label for="activity">Activity</label>
-							<select name="activity" id="activity" class="form-control">
+						<div class="col-4 form-group">
+							<label for="leavetype">Activity</label>
+							<select name="leavetype" id="leavetype" class="form-control">
 								<option value=""> Select activity </option>
-								@foreach($activities as $activity)
-								<option value="{{$activity->id}}">{{$activity->name}}</option>
+								@foreach($leavetypes as $leavetype)
+								<option value="{{$leavetype->id}}">{{$leavetype->name}}</option>
 								@endforeach
 							</select>
-							@error('activity')
+							@error('leavetype')
 							<span class="text-danger" role="alert">
 								<strong>* {{ $message }}</strong>
 							</span>
 							@enderror
-						</div>--}}
+						</div>
 					<div class="col-5 form-group">
-						<label for="">Title</label>
-						<input type="text" class="form-control" name="title" value="{{ old('title') }}">
-						@error('title')
+						<label for="count">Total</label>
+						<input type="text" class="form-control" name="count">
+						@error('count')
 				          <span class="text-danger" role="alert">
 				            <strong>* {{ $message }}</strong>
 				          </span>
@@ -50,9 +50,9 @@
 						<label for="departments">Select department</label>
 						<select name="departments" id="departments" class="form-control">
 							<option value="">Department</option>
-							@foreach($department as $departments)
-							<option value="{{$departments->id}}">{{$departments->name}}</option>
-							@endforeach
+							{{-- @foreach($department as $departments) --}}
+							<option value="{{-- {{$departments->id}} --}}">{{-- {{$departments->name}} --}}</option>
+							{{-- @endforeach --}}
 						</select>
 						@error('departments')
 						<span class="text-danger" role="alert">

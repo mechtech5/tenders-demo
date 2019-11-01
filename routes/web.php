@@ -13,17 +13,41 @@
 Route::get('/', 'HomeController@index')->name('home');
 Auth::routes();
 // Route::get('/home', 'HomeController@index')->name('home');
+
 Route::resource('/expenses/bills','Expenses\BillsController');
 Route::resource('/expenses/vendors','Expenses\VendorsController');
 Route::resource('/expenses/tours','Expenses\ToursController');
 Route::resource('/hrd/approvals','HRD\ApprovalsController');
 Route::resource('/hrd/employees','HRD\EmployeesController');
 Route::resource('/employee/leaves','Employee\LeavesController');
+
 Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves')->name('employee.apply_leaves');
+
 Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
 
+//HRD LEAVES
+
+
+Route::resource('/hrd/leaves', 'HRD\LeavesController');
+Route::resource('/hrd/rules', 'HRD\LeavesController');
+Route::get('hrd/settings/leaves/{leave_id}/{approver_id}/{action}', 'HRD\LeavesController@leavepermission')->name('leave.details');
+Route::get('leave-detail', 'HRD\LeavesController@requestDetail')->name('request.detail');
+
+
+/*Route::get('/hrd/leaves/{tab}/create', 'HRD\LeavesController@create')->name('hrd.leaves.create');
+Route::post('/hrd/leaves/{tab}/store', 'HRD\LeavesController@store')->name('hrd.leaves.store');*/
+
+
+//  Employee Leaves
+Route::get('emp_leave','Employee\LeavesController@emp_leave')->name('emp_leave');
+Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leave_store');
+/*Route::get('employee/leaves', 'Employee\LeavesController@showindex')->name('employeeleave.index');*/
+Route::get('employee/leaves/{id}/create', 'Employee\LeavesController@applyform')->name('apply.leave');
+
+
 Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
-//delete employees info
+
+//Delete Employees Info
 
 Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
 
@@ -66,6 +90,7 @@ Route::resource('/settings/categories','Settings\CategoryController');
 Route::resource('/settings/designations','Settings\DesignationController');
 Route::resource('/settings/statuses','Settings\StatusController');
 Route::resource('/settings/grades','Settings\GradesController');
+Route::resource('/settings/permissions','Settings\PermissionController');
 
 Route::resource('/tender_master', 'Tender\TenderController');
 Route::post('tender_master/{type}', 'Tender\TenderController@getForm');
@@ -83,9 +108,6 @@ Route::post('settings/mast_entity/{method}/{db_table}/{id?}', 'MasterController@
 Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy')->name('mast_entity.delete');
 
 
-//  Employee Leaves
-Route::get('emp_leave','Employee\LeavesController@emp_leave')->name('emp_leave');
-Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leave_store');
 
 //Download documents
 

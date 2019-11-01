@@ -125,7 +125,6 @@
 				<input type="hidden" id="form_type" value="experiences">
 			</form>
 			<hr>
-			
 			<table class="table table-striped table-hover table-bordered">
 				<thead class="thead-dark">
 					<tr>
@@ -149,13 +148,12 @@
 						<td>{{$exp->monthly_ctc}}</td>
 						<td>{{$exp->start_dt}}</td>
 						<td>{{$exp->end_dt}}</td>
-						{{-- <td><a href="{{route('employees.download', ['db_table' => 'emp_exp', $exp->id])}}"><i class="fa fa-arrow-down"></i>Download</a></td> --}}
 						<td>{{$exp->reason_of_leaving}}</td>
 						<td class='d-flex' style="border-bottom:none">
 							<span>
 								<button class="btn btn-sm btn-success modalExp" data-id="{{$exp->id}}"><i class="fa fa-eye text-white" style="font-size: 12px;"></i>
 								</button>
-								{{-- Model --}}
+								{{-- Modal --}}
 <div class="modal fade" id="expModal" role="dialog">
      <div class="modal-dialog modal-lg" >
     	<div class="modal-content" style="width:1250px;margin: auto;right: 27%;">
@@ -163,7 +161,6 @@
         		<h4 class="modal-title">Experience</h4>
         	</div>
         	<div class="modal-body table-responsive" id="modalTable">
-          		
         	</div>
         	 <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

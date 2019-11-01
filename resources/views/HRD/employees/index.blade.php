@@ -9,7 +9,7 @@
 							{{-- <span class="fa fa-upload"> --}}</span>
 							<form action="{{route('employees.import')}}" method="POST" enctype="multipart/form-data">
 								@csrf
-								<input type="file" onchange="this.form.submit()" name="import">
+								<input type="file" onchange="this.form.submit()" name="import" class="hidden">
 							</form>
 						</button>
 					</span>

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\EmployeeMast;
 use App\Models\Approval;
 use Illuminate\Http\Request;
+use App\Models\Master\ActivityMast;
+use App\Models\Master\DeptMast;
 
 class ApprovalsController extends Controller
 {
@@ -16,8 +18,8 @@ class ApprovalsController extends Controller
      */
     public function index()
     {
-      $data['approvals'] = Approval::all();
-      return view('HRD.approvals.index',$data);
+      //$data['approvals'] = Approval::all();
+      return view('HRD.approvals.index');
     }
 
     /**
@@ -27,8 +29,13 @@ class ApprovalsController extends Controller
      */
     public function create()
     {
-    	$employees = EmployeeMast::whereIn('comp_code',['000','001','002'])->get();
-      return view('HRD.tour_approvals.create',compact('employees'));
+    	//$employees = EmployeeMast::whereIn('comp_code',['000','001','002'])->get();
+        $activity   = ActivityMast::where('name', 'leave')->first();
+        $department = DeptMast::where('deleted_at', null)->get();
+
+        //return $activity->id;
+
+        return view('HRD.approvals.create',compact('activity', 'department'));
     }
 
     /**
@@ -39,7 +46,7 @@ class ApprovalsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //return $request->options;
     }
 
     /**

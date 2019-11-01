@@ -18,4 +18,8 @@ class Designation extends Model
  	public function company(){
  		return $this->belongsTo('App\Models\Master\CompMast','comp_id');
  	}
+
+ 	public function approvalmast(){
+ 		return $this->hasOne('App\Models\Master\ApprovalMast', 'id');
+ 	}
 }

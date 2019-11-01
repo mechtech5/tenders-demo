@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class EmpDocument extends Model
 {
-
     use SoftDeletes;
 
     protected $table = 'emp_docs';
@@ -17,5 +16,4 @@ class EmpDocument extends Model
     	return $this->belongsTo('App\Models\Master\DocTypeMast','doc_type_id');
     }
 
-    //public function 
 }

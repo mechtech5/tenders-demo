@@ -62,7 +62,6 @@ class EmployeesController extends Controller
 
   public function save_academics(Request $request,$id){
 
-
     //return $request->all();
 	  $vdata = request()->validate([
 			'domain_of_study'    => 'max:90',
@@ -138,6 +137,7 @@ class EmployeesController extends Controller
 
 	  $vdata = request()->validate([
 			'emp_code'  => 'string|max:15',
+      'designation'=> 'nullable',
       'aadhar_no' => 'string|nullable|max:12',
       'pan_no'    => 'string|nullable|max:20',
       'voter_id'  => 'string|nullable|max:20',
@@ -157,6 +157,8 @@ class EmployeesController extends Controller
     $employee->emp_type   = $request->emp_type;
     $employee->join_dt    = $request->join_date;
     $employee->leave_dt   = $request->leave_date;
+    $employee->leave_dt   = null;
+    $employee->desg_id    = $request->designation;
     $employee->aadhar_no  = $request->aadhar_no;
     $employee->pan_no     = $request->pan_no;
     $employee->voter_id   = $request->voter_id;
@@ -173,7 +175,6 @@ class EmployeesController extends Controller
     $employee->save();
 
     
-		
 		return redirect()->route('employee.show_page',['id'=>$id,'tab'=>'official'])->with('success','Updated successfully.');
   }
 
@@ -181,8 +182,8 @@ class EmployeesController extends Controller
 	  $vdata = request()->validate([
 			'emp_title'      => 'required',
 			'full_name'      => 'required|max:45',
-			'contact_number' => 'digits_between:9,15',
-			'alternate_contact_number' => 'digits_between:9,15',
+			'contact_number' => 'nullable',
+			'alternate_contact_number' => 'nullable',
 			'email'          => 'nullable|email|max:50',
 			'alternate_email'=> 'nullable|email|max:50',
 		]);
@@ -284,12 +285,15 @@ class EmployeesController extends Controller
     $path     = "HRD.employees.details.".$tab;
 
     if($tab == 'official'){
-    	$meta['emp_types']     = EmpType::all();
-    	$meta['emp_statuses']  = EmpStatus::all();
-      $meta['comp_mast']     = CompMast::all();
-      $meta['dept_mast']     = DeptMast::all();
+    	$meta['emp_types']     = EmpType::where('deleted_at', null)->get();
+    	$meta['emp_statuses']  = EmpStatus::where('deleted_at', null)->get();
+      $meta['comp_mast']     = CompMast::where('deleted_at', null)->get();
+      $meta['dept_mast']     = DeptMast::where('deleted_at', null)->get();
       $meta['grade_mast']    = Grade::all();
-      $meta['emp_mast']      = EmployeeMast::all();
+      $meta['designation']   = Designation::where('deleted_at', null)->get();
+      $meta['emp_mast']      = EmployeeMast::where('deleted_at', null)->get();
+
+      //return $meta['designation'];
 
     }
 
@@ -304,6 +308,7 @@ class EmployeesController extends Controller
     if($tab == 'documents'){
       $meta['doc_types'] = DocTypeMast::all();
      $employee = EmployeeMast::with('documents')->where('id',$id)->first();
+     
     }
 
     if($tab == 'nominee'){

@@ -9,7 +9,7 @@ class MasterController extends Controller
 {
 	public function start_page(){
 			$tables = array(
-				 array(			
+				 	array(			
 					 		'table_name' => 'approval_mast',
 							'display_name' => 'Approvals',
 							'icon' => 'fa fa-user-circle-o',
@@ -121,6 +121,14 @@ class MasterController extends Controller
 							'bg_color' => '#22615fa6',
 							'count' => DB::table('leave_type_mast')->get()->count()
 							),
+
+				 	array(
+				 			'table_name'	=> 'activity_mast',
+							'display_name'	=> 'Activity',
+							'icon'			=> 'fa fa-futbol-o',
+							'bg_color'		=> '#17a2b8',
+							'count'			=> DB::table('activity_mast')->get()->count()
+						)
 				  
 				);
 			//sort array
@@ -158,6 +166,7 @@ class MasterController extends Controller
 					'tender_type_mast' => 'Tender Types',
 					'emp_grade_mast' => 'Employee Grades',
 					'leave_type_mast' => 'Leave Types',
+					'acitvity_mast'		=> 'Activities'
 				);
 		foreach($tables as $key => $val){
 			if($key == $tbl_name){

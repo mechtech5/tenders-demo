@@ -72,7 +72,6 @@
 				<a class="btn btn-danger btn-sm" href="javascript:location.reload()">Cancel</a>
 			</div>
 		</div>
-
 		<input type="hidden" id="form_type" value="academics">
 	</form>
 		<hr>

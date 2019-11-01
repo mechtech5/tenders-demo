@@ -52,15 +52,19 @@ class EmployeeMast extends Model
  		return $this->hasMany('App\Models\Employees\EmpDocument', 'emp_id');
  	}
 
- 	public function doctype(){
- 		return $this->hasMany('App\Models\Master\DocTypeMast', 'id');
- 	}
-
  	public function bankdetails(){
  		return $this->hasMany('App\Models\Employees\EmpBankDetail', 'emp_id');
  	}
 
  	public function nominee(){
  		return $this->hasMany('App\Models\Employees\EmpNominee', 'emp_id');
+ 	}
+
+ 	public function leaveapplies(){
+ 		return $this->hasMany('App\Models\Employees\LeaveApply', 'emp_id');
+ 	}
+
+ 	public function department(){
+ 		return $this->belongsTo('App\Models\Master\DeptMast', 'dept_id');
  	}
 }

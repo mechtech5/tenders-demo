@@ -159,7 +159,7 @@
 											<div class="animated-checkbox">
 										         <div class="radio">
 												   <label><input type="radio" name="carry_forward" value="1" >Yes</label>
-												   <label style="margin-left: 20px"><input type="radio" value="0" name="carry_forward">No</label>
+												   <label style="margin-left: 20px"><input type="radio" value="0" name="carry_forward">No</Description	label>
 												 </div>
 											</div>
 										</div>
