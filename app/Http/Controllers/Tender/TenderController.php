@@ -185,7 +185,7 @@ class TenderController extends Controller
 
 		}
 
-		if($form_type == 'corrigendum'){
+		elseif($form_type == 'corrigendum'){
 
 			$corrigendum = array(
 						'tender_id'=>$request->tender_id,
@@ -193,25 +193,21 @@ class TenderController extends Controller
 						'changes'  =>$request->changes);
 
 			if($request->date != '' ){
-
 				TenderCorrigendum::create($corrigendum);
 				$corrigendum = TenderCorrigendum::where('tender_id',$request->tender_id)->get();
+
 				return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));
 			}		
 		}
 
-		if($form_type == 'qualification'){
-
-			$corrigendum = array(
-						'tender_id'=>$request->tender_id,
-						'date'     =>$request->date,
-						'changes'  =>$request->changes);
-
-			if($request->date != '' ){
-
-				TenderCorrigendum::create($corrigendum);
-				$corrigendum = TenderCorrigendum::where('tender_id',$request->tender_id)->get();
-				return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));
+		elseif($form_type == 'qualification'){
+			$qualification = array('allotment_status'=>$request->status);
+			$tender_id     = $request->tender_id;
+		
+			if($request->status != '' ){
+				Tender::where('id',$tender_id)->update($qualification);	
+							
+				return 'Allotment Status Successfully Updated';
 			}	
 		}
 	}

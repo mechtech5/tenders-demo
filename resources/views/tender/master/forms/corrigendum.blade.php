@@ -109,7 +109,9 @@
 				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
 				data:data,
 				success:function(data){
-					$('#table_corrige').html(data)
+					if(data !=''){
+						$('#table_corrige').html(data)
+					}
 				}
 		})
 	}
@@ -147,7 +149,6 @@
 				success:function(data){
 					$('#exampleModal').modal('hide')
 					$('#table_corrige').html(data)
-
 					$('.notify-sect').notify($('#message').val(),'success');
 				}
 		})		
