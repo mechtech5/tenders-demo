@@ -1,4 +1,4 @@
-<div id="details_tab">
+<div id="qualification">
 	<form id="qualification_tab_form">
 		<div class="row">
 	    <div class="col-3 form-group">
@@ -12,12 +12,25 @@
 	    	</select>
 	    </div>
 		</div>
+		<input type="hidden" name="tender_id" value="{{$tender_id}}">
+		<input type="submit" on="quali_submit" value="Submit" class="btn btn-primary" >
 	</form>
 </div>
 
 <script>
-	$(document).ready(function(){
-		$('.select2').select2();
+	
+	function save(){
+	 var data = $('#qualification').serializeArray();
+	 data.push({name:'form_type',value:'qualification'});
 
-	});
+		$.ajax({
+				url:'/tender_details',
+				type:'POST',
+				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+				data:data,
+				success:function(data){
+					$('#table_corrige').html(data)
+				}
+		})
+	}	
 </script>

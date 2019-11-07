@@ -1,5 +1,3 @@
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
 <div id="details_tab">
 	<form id="add_meeting_form" class="d-none">
 		<div class="row">
@@ -39,8 +37,8 @@
 		  	@foreach($prebid as $prebids)
 		  		<tr>
 		  			<td>{{++$count}}</td>
-		  			<td>{{$prebids->location}}</td>
 		  			<td>{{$prebids->date}}</td>
+		  			<td>{{$prebids->location}}</td>
 		  			<td>{{$prebids->remarks}}</td>
 		  			<td class="text-center">
 		  				<a style="color: #fff" data-id="{{$prebids->id}}" runat="server" class="fa fa-edit btn btn-success edit_meeting" rel="tooltip" title="" data-original-title="Edit"></a>
@@ -76,7 +74,7 @@
 					<label>Meeting Date</label>
 				</div>
 				<div class="col-md-8 col-sm-8">
-					<input id="m_date" class="form-control">
+					<input id="m_date" class="form-control datepicker">
 				</div>
         	</div>
         	<div class="row mt-3">	
@@ -97,7 +95,7 @@
     </div>
   </div>  
 </div>
-
+<input type="hidden" id="message" value="<?php if(session('message') !='' ){ echo session('message'); } ?>">
 <script>
 	$(document).ready(function(){
 		
@@ -165,6 +163,7 @@
 				success:function(data){
 					$('#exampleModal').modal('hide')
 					$('#table_refresh').html(data)
+					$('.notify-sect').notify($('#message').val(),'success');
 				}
 		})		
 	})
@@ -176,9 +175,9 @@
 			url:'/delete_reco',
 			type:'POST',
 			headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-			data:{id:id,tender_id:tender_id,type:'delete_prebid'},
+			data:{id:id,tender_id:tender_id,type:'prebid_delete'},
 			success:function(data){
-				alert(data);				
+				$('#table_refresh').html(data)			
 			}
 		})		
 	})

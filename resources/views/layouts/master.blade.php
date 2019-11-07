@@ -9,6 +9,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script src="{{ asset('js/app.js') }}"></script>
+
+
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/main.css') }}">
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,17 +19,9 @@
     <link rel="stylesheet" href="{{asset('themes/vali/css/parts-selector.css')}}">
     
     <!-- Start DatePicker CDN-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
-    <!-- End DatePicker CDN-->
-
-    <!-- Start Models Popup CDN -->
     
-    <!-- End Model Popup CDN -->  
-     
-
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="{{ asset('js/notify.min.js') }}"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+   
     @stack('styles')
   </head>
   <style>
@@ -46,7 +40,12 @@
     <script src="{{asset('themes/vali/js/popper.min.js')}}"></script>
     <script src="{{asset('themes/vali/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('themes/vali/js/main.js')}}"></script>
-    <script src="{{asset('themes/vali/js/plugins/parts-selector.js')}}"></script>
+    <script src="{{asset('themes/vali/js/plugins/parts-selector.js')}}"></script>    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+    <!-- End DatePicker CDN-->   
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="{{ asset('js/notify.min.js') }}"></script>
     @stack('scripts')
   </body>
 </html>

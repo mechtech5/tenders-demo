@@ -1,5 +1,3 @@
-@extends('layouts.master')
-
 <div id="details_tab">
 	<form id="details_tab_form">
 				
@@ -72,7 +70,7 @@
                                 	 ?>
                                 	 	<a style="color:#ffffff ;margin-top:31px" class="btn btn-success pull-right add_button fa fa-plus"></a>
                                 	 	<?php if($clients->name != '') { ?>
-                                	 		<a delete-id="{{$clients->id }}"  style="color:#ffffff;margin-top:31px" class="delete_reco remove_button fa fa-trash pull-right btn btn-danger"></a>
+                                	 		<a delete-id="{{$clients->id }}"  style="color:#ffffff;margin-top:31px" class=" delete_reco remove_button fa fa-trash pull-right btn btn-danger"></a>
                                 	 		<?php } ?>
                                 	 <?php } else{ ?>
                                 	 		<a delete-id="{{$clients->id }}" style="color:#ffffff;margin-top:31px" class="delete_reco remove_button fa fa-trash pull-right btn btn-danger"></a>
@@ -130,7 +128,6 @@
 
 <script>
 	$(document).ready(function(){
-	  alert('hello')
 		$('.datepicker').datepicker({
 			orientation: "bottom",
 			format: "yyyy-mm-dd",
@@ -149,6 +146,7 @@
 		$(".add_client").toggleClass('d-none');
 		$(".save_client, .add_client_div, .cancel_save_client").toggleClass('d-none');
 	}
+
 	$(document).ready(function(){
 	    var maxField = 10; 	    
 	    var wrapper = $('.field_wrapper');
@@ -176,6 +174,7 @@
 	     	event.preventDefault();
 	        var form = $('#details_tab_form').serialize();
 	        var tender_id = $('#tender_id').val();
+	       // alert(form);
 	        $.ajax({
                  url: "/tender_details",
                  type: 'POST',
@@ -189,26 +188,25 @@
 	       })
 	   })
 
-	      $('.delete_reco').on('click',function(){
-		      	var	id = $(this).attr('delete-id');
-		      	var tender_id = $('#tender_id').val();
-		      	$(this).remove();
-		      	
-		      	$.ajax({
-	                 url: "/delete_reco",
-	                 type: 'POST',
-	                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-	                 data: {id:id,tender_id:tender_id:type:'details_delete'},
-	                 success: function (data) {
-	                 	if(data == 0){
-	                 		location.reload()
-	                 	}
-	                 	else{
-	                 		$('.delete_row_'+id).parent('div').remove();
-	                 		$('.delete_notify').notify('Successfully Deleted','success');
-	                 	}            
-	                }
-	      		})
-	      	})
+	   $('.delete_reco').on('click',function(){
+		  	var	id = $(this).attr('delete-id');
+		   	var tender_id = $('#tender_id').val();
+		   	$(this).remove();		      	
+	      	$.ajax({
+                 url: "/delete_reco",
+                 type: 'POST',
+                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                 data: {id:id,tender_id:tender_id,type:'details_delete'},
+                 success: function (data) {
+                 	if(data == 0){
+                 		location.reload()
+                 	}
+                 	else{
+                 		$('.delete_row_'+id).parent('div').remove();
+                 		$('.delete_notify').notify('Successfully Deleted','success');
+                 	}            
+                }
+      		})
+      	})
     })
 </script>

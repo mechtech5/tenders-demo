@@ -139,9 +139,10 @@ function display_priority_class($int){
 								</tr>
 							</thead>
 							<tbody>
+								<?php $count = 0; ?>
 							@foreach($tenders as $row)
 							<tr class="text-center">
-								<td>{{$row->id}}</td>
+								<td>{{++$count}}</td>
 								<td>{{$row->title}}</td>
 								<td>{{$row->category->name}}</td>
 								<td>{{$row->type->name}}</td>

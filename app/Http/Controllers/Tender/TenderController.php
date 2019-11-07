@@ -9,6 +9,8 @@ use App\Models\Tenders\TenderType;
 use Illuminate\Http\Request;
 use App\Models\Tenders\TenderClient;
 use App\Models\Tenders\TenderPrebid;
+use App\Models\Tenders\TenderCorrigendum;
+use Session;
 
 class TenderController extends Controller
 {
@@ -27,6 +29,7 @@ class TenderController extends Controller
 		$tender_categories = TenderCategory::all();
 		$prebid            = TenderPrebid::where('tender_id',$tender_id)->get();
 		$client            = TenderClient::where('tender_id',$tender_id)->get();
+		$corrigendum       = TenderCorrigendum::where('tender_id',$tender_id)->get();
 		$tender            = Tender::find($tender_id);
 		$count             = count($client);
 
@@ -39,7 +42,7 @@ class TenderController extends Controller
 			$client = array(0 => $client);
 		}
 		
-	    return view('tender.master.forms.'.$type,compact('tender_types','tender_categories','tender_id','client','tender','prebid'));
+	    return view('tender.master.forms.'.$type,compact('tender_types','tender_categories','tender_id','client','tender','prebid','corrigendum'));
 	 }
 
 	public function create()
@@ -115,7 +118,8 @@ class TenderController extends Controller
 	public function save_details(Request $request)
 	{			
 		$form_type  = $request->form_type;
-		$tender_id  = $request->tender_id;		
+		$tender_id  = $request->tender_id;	
+
 		if($form_type == 'details'){
 		  	$data = array('title' =>$request->title,
 		  				  'reference_no'=>$request->reference_no,
@@ -164,7 +168,7 @@ class TenderController extends Controller
 					'financial_opening_date'    => $request->financial_opening_date.' '.$financial_time);					
 			Tender::where('id',$request->tender_id)->update($date_submi);
 
-			return 'Tender Subnission Date Success Submited';  
+			return 'Tender Subnission Date Successfully Submited';  
 		}
 
 		if($form_type == 'prebid'){
@@ -180,40 +184,99 @@ class TenderController extends Controller
 			}		
 
 		}
+
+		if($form_type == 'corrigendum'){
+
+			$corrigendum = array(
+						'tender_id'=>$request->tender_id,
+						'date'     =>$request->date,
+						'changes'  =>$request->changes);
+
+			if($request->date != '' ){
+
+				TenderCorrigendum::create($corrigendum);
+				$corrigendum = TenderCorrigendum::where('tender_id',$request->tender_id)->get();
+				return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));
+			}		
+		}
+
+		if($form_type == 'qualification'){
+
+			$corrigendum = array(
+						'tender_id'=>$request->tender_id,
+						'date'     =>$request->date,
+						'changes'  =>$request->changes);
+
+			if($request->date != '' ){
+
+				TenderCorrigendum::create($corrigendum);
+				$corrigendum = TenderCorrigendum::where('tender_id',$request->tender_id)->get();
+				return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));
+			}	
+		}
 	}
 
 	public function delete_reco(Request $request){
-		if($request->type == 'details_delete'){
-			return 'details';
+		if($request->type == 'details_delete'){			
 			$id = $request->id;
 			$tender_id = $request->tender_id;
 			TenderClient::where('id',$id)->delete();
 			$tender = TenderClient::where('tender_id',$tender_id)->get();
 			return count($tender);
 		}
-		if($request->type == 'delete_prebid'){
-			return 'hello';
-			// $id = $request->id;
-			// $tender_id = $request->tender_id;
-			// TenderClient::where('id',$id)->delete();
-			// $tender = TenderClient::where('tender_id',$tender_id)->get();		
+		elseif($request->type == 'prebid_delete'){
+
+			$id = $request->id;
+			$tender_id = $request->tender_id;
+			TenderPrebid::where('id',$id)->delete();
+			$prebid = TenderPrebid::where('tender_id',$tender_id)->get();
+			return view('tender.master.forms.prebid_table',compact('prebid'));		
+		}
+
+		elseif($request->type == 'corrige_delete'){
+			$id = $request->id;
+			$tender_id = $request->tender_id;
+			TenderCorrigendum::where('id',$id)->delete();
+			$corrigendum = TenderCorrigendum::where('tender_id',$tender_id)->get();
+			return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));		
 		}
 	}
 
 	public function update_meeting(Request $request){
+
 		if($request->type == 'model'){
 			$id   = $request->id;
 			$data = TenderPrebid::find($id);
 			return json_encode($data); 
 		}
-		if($request->type == 'save_data'){
+
+		elseif($request->type == 'save_data'){
 			$tender_id = $request->tender_id;
 			$update = array('location'=>$request->location,'date'=>$request->date,'remarks'=>$request->remarks);
 			$save = TenderPrebid::where('id',$request->id)->update($update);
 			$message = 'Successfully Updated';
 			if($save){
 				$prebid = TenderPrebid::where('tender_id',$tender_id)->get();
+				Session::put('message',$message); 
 				return view('tender.master.forms.prebid_table',compact('prebid','message'));
+			}
+		} 
+
+		elseif($request->type == 'corrige_model'){
+			$id   = $request->id;
+			$data = TenderCorrigendum::find($id);
+			return json_encode($data); 
+		}
+
+		elseif($request->type == 'save_data_corrige'){
+			$tender_id   = $request->tender_id;
+			$update      = array('date'=>$request->date,'changes'=>$request->changes);
+			$corrigendum = TenderCorrigendum::where('id',$request->id)->update($update);
+			$message     = 'Successfully Updated';
+			if($corrigendum){
+				$corrigendum = TenderCorrigendum::where('tender_id',$tender_id)->get();
+				Session::put('message',$message); 
+				return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));
 			}
 		}
 	}
