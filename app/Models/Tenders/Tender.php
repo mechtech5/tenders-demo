@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tender extends Model
 {
- 	protected $table = 'tender_mast';
+ 	protected $table   = 'tender_mast';
+ 	protected $guarded = [];
  	use SoftDeletes;
 
  	public function category(){

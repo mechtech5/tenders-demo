@@ -101,6 +101,16 @@ class CreateTendersTable extends Migration
             $table->timestamps();
             $table->softDeletes();      
         });
+
+        Schema::create('tender_client', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 255)->nullable();
+            $table->string('email',15)->nullable();
+            $table->string('desig',15)->nullable();
+            $table->string('number',15)->nullable();
+            $table->timestamps();
+            $table->softDeletes();      
+        });
     }
 
     /**

@@ -92,13 +92,30 @@ Route::resource('/settings/statuses','Settings\StatusController');
 Route::resource('/settings/grades','Settings\GradesController');
 Route::resource('/settings/permissions','Settings\PermissionController');
 
+//start Tendar section routing
+
 Route::resource('/tender_master', 'Tender\TenderController');
 Route::post('tender_master/{type}', 'Tender\TenderController@getForm');
+Route::post('tender_details/', 'Tender\TenderController@save_details');
+Route::post('delete_reco/', 'Tender\TenderController@delete_reco');
+Route::post('update_meeting/', 'Tender\TenderController@update_meeting');
+
+//Start Tender Type Controller  
+
 Route::resource('/tender_type', 'Tender\TenderTypeController');
+
+//End Tender Type Controller
+
+//Start Tender Categoty Controller
+
 Route::resource('/tender_category', 'Tender\TenderCategoryController');
+
+//End Tender Categoty Controller
 Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
 	
 });
+
+//end Tendar section routing
 
 // Master CRUD
 Route::get('settings/mast_entity/{db_table}', 'MasterController@index')->name('mast_entity.all');

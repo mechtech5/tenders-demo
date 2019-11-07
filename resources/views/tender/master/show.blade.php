@@ -1,8 +1,13 @@
 @extends('layouts.master')
 @section('content')
 	<main class="app-content">
+		<div class="row">
+			<div class="col-sm-12 col-md-12 text-center" style="top: -22px; left: -111px;">
+				<span class="notify-sect"></span>
+			</div>
+		</div>
 		<h4 class='text-center'>Title</h4>
-		<hr>
+		<hr>		
 		<div class="row">
 			<span class="">
 				<label class="">PROPERTY : </label>
@@ -18,22 +23,22 @@
 		</div>
 		<ul class="nav nav-pills nav-justified mt-3">
 			<li class="nav-item">
-		    <a class="nav-link details" href="javascript:void(0)" onclick="getForm('details')">Details</a>
+		    <a class="nav-link details" href="javascript:void(0)" onclick="getForm('details',{{$id}})">Details</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link imp_dates" href="javascript:void(0)" onclick="getForm('imp_dates')">Imp Dates</a>
+		    <a class="nav-link imp_dates" href="javascript:void(0)" onclick="getForm('imp_dates',{{$id}})">Imp Dates</a>
 		  </li>
 		   <li class="nav-item">
-		    <a class="nav-link responsibilities" href="javascript:void(0)" onclick="getForm('responsibilities')">Responsibilities</a>
+		    <a class="nav-link responsibilities" href="javascript:void(0)" onclick="getForm('responsibilities',{{$id}})">Responsibilities</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link prebid" href="javascript:void(0)" onclick="getForm('prebid')">Prebid</a>
+		    <a class="nav-link prebid" href="javascript:void(0)" onclick="getForm('prebid',{{$id}})">Prebid</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link corrigendum" href="javascript:void(0)" onclick="getForm('corrigendum')">Corrigendum</a>
+		    <a class="nav-link corrigendum" href="javascript:void(0)" onclick="getForm('corrigendum',{{$id}})">Corrigendum</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link qualification" href="javascript:void(0)" onclick="getForm('qualification')">Qualification</a>
+		    <a class="nav-link qualification" href="javascript:void(0)" onclick="getForm('qualification',{{$id}})">Qualification</a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link emd" href="javascript:void(0)" onclick="getForm('emd')">EMD</a>
@@ -52,12 +57,13 @@
 		</div>
 		
 	</main>
+	<input type="hidden" name="tender_id" value="{{$id}}">
 	<script>
 		$(document).ready(function(){
 			getForm('details');
 			$('.details').addClass('active');
 		});
-		function getForm(type){
+		function getForm(type,id){
 			let tender_id = '<?php echo $tender->id;?>';
 			let img = $('.img_parent').html();
 			$('#form-area').html(img);

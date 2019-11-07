@@ -23,15 +23,11 @@ class TenderTypeController extends Controller
 
 	public function store(Request $request)
 	{
-
-		$data = $request->validate([
- 			'name'	=> 'required|string|max:191',
- 			'description'	=> 'required',
- 		]);
- 		$tender_type = new TenderType();
- 		$tender_type->type_name  = $data['name'];
- 		$tender_type->type_desc  = $data['description'];
- 		$tender_type->save();
+		$data   = $request->validate([
+ 			    'name'       	=> 'required|string|max:191',
+ 			    'description'	=> 'required',
+ 		]);	
+ 		TenderType::create($data);
   	return redirect()->route('tender_type.index')->with('success','Created Successfully.');
 	}
 
@@ -43,7 +39,7 @@ class TenderTypeController extends Controller
 	public function edit($id)
 	{
 	  $tender_type = TenderType::find($id);
-		return view('tender.type.edit',compact('tender_type'));
+	  return view('tender.type.edit',compact('tender_type'));
 	}
 
 	public function update(Request $request, $id)
@@ -53,11 +49,8 @@ class TenderTypeController extends Controller
  			'description'	=> 'required',
  		]);
 
-	 	$tender_type = TenderType::findOrFail($id);
-   	$tender_type->type_name = $data['name'];
-   	$tender_type->type_desc = $data['description'];
-   	$tender_type->save();
-   	
+ 		TenderType::where('id',$id)->update($data);
+	 	
  		return redirect()->route('tender_type.index')->with('success','Updated Successfully.');
 	}
 

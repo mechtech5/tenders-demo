@@ -37,11 +37,12 @@
 								</tr>
 							</thead>
 							<tbody>
+							<?php $count = 0; ?>	
 							@foreach($tender_categories as $tender_category)
 							<tr>
-								<td>{{$tender_category->id}}</td>
-								<td>{{$tender_category->category_name}}</td>
-								<td>{{$tender_category->category_desc}}</td>
+								<td>{{++$count}}</td>
+								<td>{{$tender_category->name}}</td>
+								<td>{{$tender_category->description}}</td>
 								<td class="d-flex">
 										<span>
 											<a href="{{route('tender_category.edit',$tender_category->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>

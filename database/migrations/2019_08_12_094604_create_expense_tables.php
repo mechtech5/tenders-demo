@@ -359,6 +359,7 @@ class CreateExpenseTables extends Migration
         Schema::dropIfExists('inc_client_mast');
         Schema::dropIfExists('payment_mast');
         Schema::dropIfExists('account_mast');
+        Schema::dropIfExists('expense_catg_mast');
 
         // Detail Tables
         
@@ -378,7 +379,7 @@ class CreateExpenseTables extends Migration
         Schema::dropIfExists('exp_bill_statuses');
         Schema::dropIfExists('exp_bill_totals');
 
-        // Invoices
+        // Invoices 
         Schema::dropIfExists('inc_invoices');
         Schema::dropIfExists('inc_invoice_histories');
         Schema::dropIfExists('inc_invoice_items');

@@ -73,13 +73,13 @@ class CreateLeavesTable extends Migration
           $table->softDeletes();
       });
 
-      Schema::create('activity', function (Blueprint $table)){
+      Schema::create('activity', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->string('title');
           $table->string('desc');
-      }
+      });
 
-      Schema::create('approval_mast', function (Blueprint $table)){
+      Schema::create('leave_approval_mast', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->integer('act_id');
           $table->string('title');
@@ -89,9 +89,9 @@ class CreateLeavesTable extends Migration
           $table->string('hold');
           $table->string('skip');
           $table->string('desc');
-      }
+      });
 
-      Schema::create('approval_detail', function (Blueprint $table)){
+      Schema::create('approval_detail', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->integer('leave_allotment_id');
           $table->integer('approval_id');
@@ -102,15 +102,15 @@ class CreateLeavesTable extends Migration
           $table->string('hold');
           $table->string('skip');
           $table->string('desc');
-      }
+      });
 
-      Schema::create('approval_actions_mast', function (Blueprint $table)){
+      Schema::create('approval_actions_mast', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->string('name');
           $table->text('description');
-      }
+      });
 
-      Schema::create('approval_setup_mast', function (Blueprint $table)){
+      Schema::create('approval_setup_mast', function (Blueprint $table){
           $table->bigIncrements('id');
           $table->integer('emp_id');
           $table->integer('dept_id');
@@ -118,8 +118,7 @@ class CreateLeavesTable extends Migration
           $table->integer('activity_id');
           $table->text('actions_id');
           $table->integer('ordering');
-
-      }
+      });
 
 
     }
@@ -135,7 +134,7 @@ class CreateLeavesTable extends Migration
       Schema::dropIfExists('emp_leave_applies');
       Schema::dropIfExists('emp_leave_allotment');
       Schema::dropIfExists('activity');
-      Schema::dropIfExists('approval_mast');
+      Schema::dropIfExists('leave_approval_mast');
       Schema::dropIfExists('approval_detail');
       Schema::dropIfExists('approval_actions_mast');
       Schema::dropIfExists('approval_setup_mast');

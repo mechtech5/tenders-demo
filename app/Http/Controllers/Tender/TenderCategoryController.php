@@ -27,12 +27,9 @@ class TenderCategoryController extends Controller
  			'name'	=> 'required|string|max:191',
  			'description'	=> 'required',
  		]);
- 		$tender_category = new TenderCategory();
- 		$tender_category->category_name  = $data['name'];
- 		$tender_category->account_code  = 452;
- 		$tender_category->category_desc  = $data['description'];
- 		$tender_category->save();
-  	return redirect()->route('tender_category.index')->with('success','Created Successfully.');
+		$data['account_code'] = 10001;
+ 		TenderCategory::create($data);
+ 		return redirect()->route('tender_category.index')->with('success','Created Successfully.');
 	}
 
 	public function show()
@@ -53,10 +50,7 @@ class TenderCategoryController extends Controller
 	   			'description'	=> 'required',
 	   		]);
 
-		 $tender_category = TenderCategory::find($id);
-     $tender_category->category_name = $data['name'];
-     $tender_category->category_desc = $data['description'];
-     $tender_category->save();
+		TenderCategory::where('id',$id)->update($data);    
  		return redirect()->route('tender_category.index')->with('success','Updated Successfully.');
 	}
 

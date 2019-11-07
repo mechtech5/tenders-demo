@@ -25,10 +25,10 @@
 										<input type="text" name="name" class="form-control" value="{{old('name')}}">
 									</div>
 									@error('name')
-                    <span class="text-danger" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                	@enderror
+					                    <span class="text-danger" role="alert">
+					                        <strong>{{ $message }}</strong>
+					                    </span>
+				                	@enderror
 								</div>
 							<div class="col-md-6 col-lg-6 col-xl-6 mt-2 offset-3">
 									<label for="name"><b>Description <span class="text-danger">*</span></b> </label>

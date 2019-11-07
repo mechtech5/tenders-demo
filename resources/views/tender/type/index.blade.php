@@ -40,8 +40,8 @@
 							@foreach($tender_types as $tender_type)
 							<tr>
 								<td>{{$tender_type->id}}</td>
-								<td>{{$tender_type->type_name}}</td>
-								<td>{{$tender_type->type_desc}}</td>
+								<td>{{$tender_type->name}}</td>
+								<td>{{$tender_type->description}}</td>
 								<td class="d-flex">
 									<span>
 										<a href="{{route('tender_type.edit',$tender_type->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>

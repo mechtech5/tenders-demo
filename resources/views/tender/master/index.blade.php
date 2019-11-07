@@ -143,8 +143,8 @@ function display_priority_class($int){
 							<tr class="text-center">
 								<td>{{$row->id}}</td>
 								<td>{{$row->title}}</td>
-								<td>{{$row->category->category_name}}</td>
-								<td>{{$row->type->type_name}}</td>
+								<td>{{$row->category->name}}</td>
+								<td>{{$row->type->name}}</td>
 								<td>{{$row->created_at}}</td>
 								<td class="text-white font-weight-bold {{ display_priority_class($row->priority) }}">
 									{{ display_priority_text($row->priority) }}
@@ -155,20 +155,7 @@ function display_priority_class($int){
 								<td class="d-flex">
 									<span>
 										<a href="{{route('tender_master.show',$row->id)}}" class="btn btn-sm btn-outline-primary">View Details</a>
-									</span>
-									{{-- <span>
-										<a href="{{route('tender_master.edit',$row->id)}}" class="btn btn-sm btn-success"><i class="fa fa-edit text-white" style="font-size: 12px;"></i></a>
-									</span> --}}
-									{{-- <span class="ml-2">
-										<a href="{{route('tender_master.show',$row->id)}}" class="btn btn-sm btn-info"><i class="fa fa-eye text-white" style="font-size: 12px;"></i></a>
-									</span> --}}
-									{{-- <span class="ml-2">
-										<form  action="{{route('tender_master.destroy',$row->id)}}" method="POST" id="delform_{{ $row->id}}">
-												@csrf
-											@method('DELETE')
-											<a href="javascript:$('#delform_{{ $row->id}}').submit();" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash text-white"  style="font-size: 12px;"></i></a>
-										</form>
-									</span> --}}
+									</span>									
 								</td>
 							</tr>
 							@endforeach
