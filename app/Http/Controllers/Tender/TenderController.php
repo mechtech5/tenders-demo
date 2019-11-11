@@ -10,7 +10,10 @@ use Illuminate\Http\Request;
 use App\Models\Tenders\TenderClient;
 use App\Models\Tenders\TenderPrebid;
 use App\Models\Tenders\TenderCorrigendum;
+use App\Models\Tenders\TenderDocument;
+use Illuminate\Support\Facades\Storage;
 use Session;
+use File;
 
 class TenderController extends Controller
 {
@@ -30,6 +33,7 @@ class TenderController extends Controller
 		$prebid            = TenderPrebid::where('tender_id',$tender_id)->get();
 		$client            = TenderClient::where('tender_id',$tender_id)->get();
 		$corrigendum       = TenderCorrigendum::where('tender_id',$tender_id)->get();
+		$document          = TenderDocument::where('tender_id',$tender_id)->get();
 		$tender            = Tender::find($tender_id);
 		$count             = count($client);
 
@@ -42,7 +46,7 @@ class TenderController extends Controller
 			$client = array(0 => $client);
 		}
 		
-	    return view('tender.master.forms.'.$type,compact('tender_types','tender_categories','tender_id','client','tender','prebid','corrigendum'));
+	    return view('tender.master.forms.'.$type,compact('tender_types','tender_categories','tender_id','client','tender','prebid','corrigendum','document'));
 	 }
 
 	public function create()
@@ -155,7 +159,7 @@ class TenderController extends Controller
 		  	return 'Tender Details Success Submited';  	 
 		}
 
-		if($form_type == 'data_subm'){
+		elseif($form_type == 'data_subm'){
 			$online_time = !empty($request->online_time)?$request->online_time:'12:00:00';
 			$physical_time = !empty($request->physical_time)?$request->physical_time:'12:00:00';
 			$technical_time = !empty($request->technical_time)?$request->technical_time:'12:00:00';
@@ -171,7 +175,7 @@ class TenderController extends Controller
 			return 'Tender Subnission Date Successfully Submited';  
 		}
 
-		if($form_type == 'prebid'){
+		elseif($form_type == 'prebid'){
 			$prebid = array(
 						'tender_id'=>$request->tender_id,
 						'location' =>$request->location,
@@ -209,6 +213,33 @@ class TenderController extends Controller
 							
 				return 'Allotment Status Successfully Updated';
 			}	
+		}
+
+		elseif($form_type == 'doc'){
+			
+			$tender_id = $request->tender_id;
+		    $tender_details = Tender::find($tender_id);			   
+			
+			if($request->hasFile('file')){		
+		        $filename = $request->file('file')->getClientOriginalName();
+		        $extension = $request->file('file')->getClientOriginalExtension();
+		        $fileNameToStore = $filename.'_'.date('d-m-Y').'.'.$extension;
+
+                $chk_path = storage_path('app/public/'.$tender_details->tender_no);	
+
+	            if(! File::exists($chk_path)){
+	                File::makeDirectory($chk_path, 0777, true, true);
+	            }
+
+	            $path = $request->file('file')->storeAs('public/'.$tender_details->tender_no,$fileNameToStore);		           
+
+	            $doc = array('doc_title'=>$request->doc_title,'file'=>$fileNameToStore,'note'=>$request->note,'tender_id'=>$request->tender_id);			
+	            $save = TenderDocument::create($doc);	
+	           	$data    = TenderDocument::where('tender_id',$tender_id)->get();
+	           	$message = 'Document Updated Successfully';
+	            Session::put('message',$message);
+	            return view('tender.master.forms.refresh_doc_table',compact('data'));
+	        }
 		}
 	}
 
@@ -273,6 +304,50 @@ class TenderController extends Controller
 				$corrigendum = TenderCorrigendum::where('tender_id',$tender_id)->get();
 				Session::put('message',$message); 
 				return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));
+			}
+		} 
+
+		elseif($request->type == 'doc_model'){
+			$id   = $request->id;
+			$data = TenderDocument::find($request->id);
+			return json_encode($data);		
+		}
+
+		elseif($request->type == 'update_doc'){
+			$tender_id      = $request->tender_id;
+		    $tender_doc     = TenderDocument::find($request->u_id);				      
+		    $tender_details = Tender::find($tender_doc->tender_id);
+			
+			if($request->hasFile('file')){	
+
+		        $filename = $request->file('file')->getClientOriginalName();
+		        $extension = $request->file('file')->getClientOriginalExtension();
+		        $fileNameToStore = $filename.'_'.date('d-m-Y').'.'.$extension;
+
+                $chk_path = storage_path('app/public/'.$tender_details->tender_no);	
+
+	            if(! File::exists($chk_path)){
+	                File::makeDirectory($chk_path, 0777, true, true);
+	            }
+
+	            $path = $request->file('file')->storeAs('public/'.$tender_details->tender_no.'/',$fileNameToStore);		           
+
+	            $doc = array('doc_title'=>$request->doc_title,'file'=>$fileNameToStore,'note'=>$request->note,'tender_id'=>$request->tender_id);			
+	            $save = TenderDocument::where('id',$request->u_id)->update($doc);	
+
+	            if($request->file('file')){
+	            	
+	           		Storage::delete('app/public/'.$tender_details->tender_no.'/'.$tender_details->file);
+       			}
+
+	           	$data    = TenderDocument::where('tender_id',$tender_id)->get();
+	           	$message = 'Document Updated Successfully';
+	            Session::put('message',$message);
+	            return view('tender.master.forms.refresh_doc_table',compact('data'));
+			}
+			else{
+				$doc = array('doc_title'=>$request->doc_title,'file'=>$fileNameToStore,'note'=>$request->note,'tender_id'=>$request->tender_id);			
+	            $save = TenderDocument::where('id',$request->u_id)->update($doc);
 			}
 		}
 	}

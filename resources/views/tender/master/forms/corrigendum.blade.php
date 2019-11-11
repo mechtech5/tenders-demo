@@ -92,6 +92,7 @@
 			todayHighlight: true
 		});
 	});
+	
 	function add(){
 		$('#add_form, .save, .cancel, .add').toggleClass('d-none');
 	}
