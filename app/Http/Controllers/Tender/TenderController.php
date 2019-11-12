@@ -176,10 +176,11 @@ class TenderController extends Controller
 		}
 
 		elseif($form_type == 'prebid'){
+			$time   = !empty($request->time)?$request->time:'12:00:00';
 			$prebid = array(
 						'tender_id'=>$request->tender_id,
 						'location' =>$request->location,
-						'date'     =>$request->date,
+						'date'     =>$request->date.' '.$time,
 						'remarks'  =>$request->remarks);
 			if($request->location != '' ){
 				TenderPrebid::create($prebid);
@@ -191,9 +192,11 @@ class TenderController extends Controller
 
 		elseif($form_type == 'corrigendum'){
 
+			$time  = !empty($request->time)?$request->time:'12:00:00';
+
 			$corrigendum = array(
 						'tender_id'=>$request->tender_id,
-						'date'     =>$request->date,
+						'date'     =>$request->date.' '.$time,
 						'changes'  =>$request->changes);
 
 			if($request->date != '' ){
@@ -223,7 +226,7 @@ class TenderController extends Controller
 			if($request->hasFile('file')){		
 		        $filename = $request->file('file')->getClientOriginalName();
 		        $extension = $request->file('file')->getClientOriginalExtension();
-		        $fileNameToStore = $filename.'_'.date('d-m-Y').'.'.$extension;
+		        $fileNameToStore = date('d-m-Y').'_'.$filename;
 
                 $chk_path = storage_path('app/public/'.$tender_details->tender_no);	
 
@@ -266,6 +269,14 @@ class TenderController extends Controller
 			TenderCorrigendum::where('id',$id)->delete();
 			$corrigendum = TenderCorrigendum::where('tender_id',$tender_id)->get();
 			return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));		
+		}
+
+		elseif($request->type == 'doc_delete'){
+			$id = $request->id;
+			$tender_id = $request->tender_id;
+			TenderDocument::where('id',$id)->delete();
+			$data = TenderDocument::where('tender_id',$tender_id)->get();
+			return view('tender.master.forms.refresh_doc_table',compact('data'));		
 		}
 	}
 
@@ -322,7 +333,7 @@ class TenderController extends Controller
 
 		        $filename = $request->file('file')->getClientOriginalName();
 		        $extension = $request->file('file')->getClientOriginalExtension();
-		        $fileNameToStore = $filename.'_'.date('d-m-Y').'.'.$extension;
+		        $fileNameToStore = date('d-m-Y').'_'.$filename;
 
                 $chk_path = storage_path('app/public/'.$tender_details->tender_no);	
 
@@ -346,8 +357,12 @@ class TenderController extends Controller
 	            return view('tender.master.forms.refresh_doc_table',compact('data'));
 			}
 			else{
-				$doc = array('doc_title'=>$request->doc_title,'file'=>$fileNameToStore,'note'=>$request->note,'tender_id'=>$request->tender_id);			
+				$doc = array('doc_title'=>$request->doc_title,'note'=>$request->note,'tender_id'=>$request->tender_id);			
 	            $save = TenderDocument::where('id',$request->u_id)->update($doc);
+	            if($save){
+	              	$data = TenderDocument::where('tender_id',$tender_id)->get();
+	              	return view('tender.master.forms.refresh_doc_table',compact('data'));
+	            }
 			}
 		}
 	}

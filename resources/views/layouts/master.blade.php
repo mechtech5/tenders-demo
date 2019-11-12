@@ -10,8 +10,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <script src="{{ asset('js/app.js') }}"></script>
 
-
     <link rel="stylesheet" type="text/css" href="{{ asset('themes/vali/css/main.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/validation.css') }}">
 
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     
@@ -21,6 +22,25 @@
     <!-- Start DatePicker CDN-->
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" rel="stylesheet"/>
+
+
+
+    <!-- #region datatables files -->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <!-- #endregion -->
+
+
+    <!-- #Start TimePicker -->
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>  
+
+    <!-- #End TimePicker -->
    
     @stack('styles')
   </head>
@@ -46,6 +66,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script src="{{ asset('js/notify.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.validate.js') }}"></script>
     @stack('scripts')
   </body>
 </html>

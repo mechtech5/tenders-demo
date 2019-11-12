@@ -2,9 +2,15 @@
 	<form id="add_form" class="d-none">
 		<div class="row">
 			<div class="col-3 form-group">
-	    		<label for="">Date Time</label>
+	    		<label for="">Date</label>
 	    		<input type="text" readonly="true" class="form-control datepicker" name="date"/>
 	    	</div>
+	    	<div class="col-3 form-group">
+	    		<label for="">Time</label>
+	    		<input type="text" class="form-control timepicker" name="time"/>
+	    	</div>
+	    </div>
+	    <div class="row">
 	    	<div class="col-12">
 	    		<div class="form-group">
 	    			<label for="">Changes in Term</label>
@@ -85,6 +91,11 @@
 
 <script>
 	$(document).ready(function(){
+
+		$('.timepicker').datetimepicker({
+        	format: 'HH:mm:ss'
+    	}); 
+    	
 		$('.datepicker').datepicker({
 			orientation: "bottom",
 			format: "yyyy-mm-dd",

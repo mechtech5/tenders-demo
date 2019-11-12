@@ -62,7 +62,7 @@
         <li class={{call_user_func_array('Request::is', (array)['settings/designations*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('designations.index')}}"><i class="icon fa fa-angle-double-right"></i> Designation </a></li>
         <li class={{call_user_func_array('Request::is', (array)['settings/statuses*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('statuses.index')}}"><i class="icon fa fa-angle-double-right"></i> Statuses </a></li>
         <li class={{call_user_func_array('Request::is', (array)['settings/permissions*']) ? 'active_subtab' : ''}}>
-          <a class="treeview-item" href="{{route('permissions.index')}}">
+          <a class="treeview-item" href="{{url('admin')}}">
             <i class="icon fa fa-angle-double-right"></i> Permissions </a>
         </li>
         <li class={{call_user_func_array('Request::is', (array)['settings/grades*']) ? 'active_subtab' : ''}}>

@@ -1,10 +1,11 @@
+<script src="{{ asset('js/jquery.validate.js') }}"></script>
 <div id="details_tab">
 	<form id="details_tab_form">
 				
 		<div class="row">
-	    <div class="col-3 form-group">
+	    <div class="col-3 form-group ">
 	    	<label for="">Title</label>
-	    	<input type="text" class="form-control" value="{{ old('title') ?? $tender->title}}" name="title">
+	    	<input type="text" class="form-control required" value="{{ old('title') ?? $tender->title}}" name="title">
 	    </div>
 	    <div class="col-3 form-group">
 	    	<label for="">Tender No.</label>
@@ -29,21 +30,21 @@
 	    </div>
 	     <div class="col-3 form-group">
 	    	<label for="">Place</label>
-	    	<input type="text" value="{{ old('place') ?? $tender->place}}" class="form-control" name="place"/>
+	    	<input type="text" value="{{ old('place') ?? $tender->place}}" class="form-control required" name="place"/>
 	    </div>
 	    <div class="col-3 form-group">
 	    	<label for="">Department</label>
-	    	<input type="text" value="{{ old('departm') ?? $tender->departm}}" class="form-control" name="departm"/>
+	    	<input type="text" value="{{ old('departm') ?? $tender->departm}}" class="form-control required" name="departm"/>
 	    </div>
 	     <div class="col-3 form-group">
 	    	<label for="">Tender fill in Office</label>
-	    	<input type="text" value="{{ old('fill_company_office') ?? $tender->fill_company_office}}" name="fill_company_office">
+	    	<input type="text" class="form-control required" value="{{ old('fill_company_office') ?? $tender->fill_company_office}}" name="fill_company_office">
 	    </div>	   
 	    <div class="w-100"></div>
 	    <div class="col-12">
 	    	<div class="form-group">
 	    		<label for="">Description</label>
-	    		<textarea name="descri" class="form-control" id="" cols="30" rows="5">{{ old('descri') ?? $tender->descri}}</textarea>
+	    		<textarea name="descri" class="form-control required" id="" cols="30" rows="5">{{ old('descri') ?? $tender->descri}}</textarea>
 	    	</div>
 	    	<hr>
 	    </div>
@@ -147,6 +148,62 @@
 		$(".save_client, .add_client_div, .cancel_save_client").toggleClass('d-none');
 	}
 
+
+$('label.required').append('&nbsp;<strong class="text-danger">*</strong>&nbsp;');
+var form = $("#details_tab_form");
+
+form.validate({   
+    rules: {
+		publish_date:{
+			required: true,
+      		
+		},
+		reference_no:{
+			required:true,
+		},
+		total_cost:{
+			required: true,
+      		number: true,
+		},
+		document_cost:{
+			required: true,
+      		number: true,
+		}
+    },
+	messages: {
+	},
+	errorElement: "em",
+	errorPlacement: function errorPlacement(error, element) { 
+		element.after(error);
+		error.addClass( "help-block" );
+
+	 },
+	highlight: function ( element, errorClass, validClass ) {
+		$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+	},
+	unhighlight: function (element, errorClass, validClass) {
+		$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+	},
+	submitHandler: function (form) {
+        var form = $('#details_tab_form').serialize();
+	        var tender_id = $('#tender_id').val();
+	       // alert(form);
+	        $.ajax({
+                 url: "/tender_details",
+                 type: 'POST',
+                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                 data: $('#details_tab_form').serialize(),
+                 success: function (data) {
+                 	$('.notify-sect').notify(data,'success');
+                 	$('html,body').animate({scrollTop: 0}, 1500);
+                 	window.setTimeout(function(){location.reload()},4000)
+                }
+	       })
+    }
+                      
+});
+
+
 	$(document).ready(function(){
 	    var maxField = 10; 	    
 	    var wrapper = $('.field_wrapper');
@@ -170,23 +227,10 @@
 	        x--;
 	    });
 
-	      $('#submit_details').on('click',function(event){
-	     	event.preventDefault();
-	        var form = $('#details_tab_form').serialize();
-	        var tender_id = $('#tender_id').val();
-	       // alert(form);
-	        $.ajax({
-                 url: "/tender_details",
-                 type: 'POST',
-                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                 data: $('#details_tab_form').serialize(),
-                 success: function (data) {
-                 	$('.notify-sect').notify(data,'success');
-                 	$('html,body').animate({scrollTop: 0}, 1500);
-                 	window.setTimeout(function(){location.reload()},4000)
-                }
-	       })
-	   })
+	   //    $('#submit_details').on('click',function(event){
+	   //   	event.preventDefault();
+	        
+	   // })
 
 	   $('.delete_reco').on('click',function(){
 		  	var	id = $(this).attr('delete-id');

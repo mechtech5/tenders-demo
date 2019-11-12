@@ -17,21 +17,14 @@ Auth::routes();
 Route::resource('/expenses/bills','Expenses\BillsController');
 Route::resource('/expenses/vendors','Expenses\VendorsController');
 Route::resource('/expenses/tours','Expenses\ToursController');
-Route::resource('/hrd/approvals','HRD\ApprovalsController');
-Route::resource('/hrd/employees','HRD\EmployeesController');
+
 Route::resource('/employee/leaves','Employee\LeavesController');
 
 Route::get('/employee/apply_leaves/{id}','Employee\LeavesController@apply_leaves')->name('employee.apply_leaves');
 
-Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
+
 
 //HRD LEAVES
-
-
-Route::resource('/hrd/leaves', 'HRD\LeavesController');
-Route::resource('/hrd/rules', 'HRD\LeavesController');
-Route::get('hrd/settings/leaves/{leave_id}/{approver_id}/{action}', 'HRD\LeavesController@leavepermission')->name('leave.details');
-Route::get('leave-detail', 'HRD\LeavesController@requestDetail')->name('request.detail');
 
 
 /*Route::get('/hrd/leaves/{tab}/create', 'HRD\LeavesController@create')->name('hrd.leaves.create');
@@ -43,13 +36,6 @@ Route::get('emp_leave','Employee\LeavesController@emp_leave')->name('emp_leave')
 Route::post('emp_leave_store','Employee\LeavesController@store')->name('emp_leave_store');
 /*Route::get('employee/leaves', 'Employee\LeavesController@showindex')->name('employeeleave.index');*/
 Route::get('employee/leaves/{id}/create', 'Employee\LeavesController@applyform')->name('apply.leave');
-
-
-Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
-
-//Delete Employees Info
-
-Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
 
 
 
@@ -82,7 +68,7 @@ Route::get('expenses/tour/start/{id}','Expenses\ToursController@start')->name('t
 Route::get('expenses/tour/end/{id}','Expenses\ToursController@end')->name('tour.end');
 Route::get('expenses/tour/decline/{id}','Expenses\ToursController@decline')->name('tour.decline');
 // HRD module
-Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
+
 
 Route::resource('/settings/expense_in_user','Settings\ExpenseUserController');
 Route::resource('/settings/expense_permit_user','Settings\ExpensePermitUserController');
@@ -90,7 +76,7 @@ Route::resource('/settings/categories','Settings\CategoryController');
 Route::resource('/settings/designations','Settings\DesignationController');
 Route::resource('/settings/statuses','Settings\StatusController');
 Route::resource('/settings/grades','Settings\GradesController');
-Route::resource('/settings/permissions','Settings\PermissionController');
+//Route::resource('/settings/permissions','Settings\PermissionController');
 
 //start Tendar section routing
 
@@ -128,8 +114,58 @@ Route::delete('settings/mast_entity/{db_table}/{id}', 'MasterController@destroy'
 
 //Download documents
 
-Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
+// Route::get('hrd/employees/download/{db_table}/{id}', 'HRD\EmployeesController@downloadDocs')->name('employees.download');
 
 //Import Export
 
 Route::post('import', 'HRD\EmployeesController@import')->name('employees.import');
+
+
+
+Route::group(['middleware' => ['role:superadmin']], function () {
+	// This Route start For RolesController
+
+	Route::resource('admin', 'ACL\RolesController');
+	Route::get('/delete/{id}','ACL\RolesController@destroy')->name('delete');
+	Route::post('/save_changes','ACL\RolesController@saveChanges')->name('saveChanges');
+
+	// End RolesController
+
+	// Start Permission Conroller 
+
+	Route::resource('permissions', 'ACL\PermissionController');
+	Route::get('/delete_permissions/{id}', 'ACL\PermissionController@destroy')->name('delete_permissions');
+	// End Permission Conroller 
+
+	// Start Users Conroller 
+
+	Route::resource('/users', 'ACL\UserController');
+	Route::get('/destroy/{id}', 'ACL\UserController@destroy')->name('destroy');
+	Route::post('/changes_role','ACL\UserController@changesRole')->name('changesRole');
+	Route::post('/changePermission','ACL\UserController@changePermission')->name('changePermission');	
+});
+
+
+Route::group(['middleware' => ['role:hr']], function () {
+	
+	Route::resource('/hrd/leaves', 'HRD\LeavesController');
+	
+	Route::resource('/hrd/rules', 'HRD\LeavesController');
+	
+	Route::get('hrd/settings/leaves/{leave_id}/{approver_id}/{action}', 'HRD\LeavesController@leavepermission')->name('leave.details');
+	
+	Route::get('leave-detail', 'HRD\LeavesController@requestDetail')->name('request.detail');
+
+	Route::get('/hrd/employees/show_page/{id}/{tab}','HRD\EmployeesController@show_page')->name('employee.show_page');
+
+	Route::resource('/hrd/approvals','HRD\ApprovalsController');
+	
+	Route::resource('/hrd/employees','HRD\EmployeesController');
+
+	Route::get('/exp_table','HRD\EmployeesController@exp_table')->name('exp_table');
+
+	Route::get('/hrd/employees/delete_row/{db_table}/{id}', 'HRD\EmployeesController@delete_row')->name('employee.delete_row');
+	
+	Route::get('employees/export/', 'HRD\EmployeesController@export')->name('employees.export');
+
+});

@@ -2,13 +2,19 @@
 	<form id="add_meeting_form" class="d-none">
 		<div class="row">
 			<div class="col-3 form-group">
-	    	<label for="">Meeting Location</label>
-	    	<input type="text" class="form-control" name="location"/>
-	    </div>
+		    	<label for="">Meeting Location</label>
+		    	<input type="text" class="form-control" name="location"/>
+		    </div>
 			<div class="col-3 form-group">
-	    	<label for="">Meeting date Time</label>
-	    	<input type="text" class="form-control datepicker" readonly="true" name="date"/>
-	    </div>
+		    	<label for="">Meeting date</label>
+		    	<input type="text" class="form-control datepicker" readonly="true" name="date"/>
+		    </div>
+		    <div class="col-3 form-group">
+		    	<label for="">Meeting Time</label>
+		    	<input type="text" class="form-control timepicker" name="time"/>
+		    </div>
+
+	    </div>		
 	    <div class="col-12">
 	    	<div class="form-group">
 	    		<label for="">Meeting Remarks and Conclusions</label>
@@ -99,6 +105,10 @@
 <script>
 	$(document).ready(function(){
 		
+		$('.timepicker').datetimepicker({
+        	format: 'HH:mm:ss'
+    	}); 
+
 		$('.datepicker').datepicker({
 			orientation: "bottom",
 			format: "yyyy-mm-dd",
@@ -116,7 +126,6 @@
 	function save_meeting(){
 		var data = $('#add_meeting_form').serializeArray();
 		data.push({name:'form_type',value:'prebid'});
-	
 		$.ajax({
 				url:'/tender_details',
 				type:'POST',
@@ -154,9 +163,9 @@
 	$(document).on('click','#m_submit',function(){
 		var id        = $('#m_id').val();
 		var location  = $('#m_location').val();
-		var date      = $('#m_date').val();
+		var date      = $('#m_date').val();		 
 		var remarks   = $('#m_remarks').val();
-		var tender_id = $('#m_tender_id').val();
+		var tender_id = $('#m_tender_id').val();		
 			$.ajax({
 				url:'/update_meeting',
 				type:'POST',

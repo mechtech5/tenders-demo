@@ -28,7 +28,7 @@
 	    		<label for="" class="pull-right"><b>Time</b></label>
 	    	</div>
 	    	<div class="col-md-3 col-sm-3">
-	    		<input placeholder="Selected time" value="{{$online_time}}" name="online_time" type="text" id="timepicker" class="form-control">
+	    		<input placeholder="Selected time" value="{{$online_time}}" name="online_time" type="text" class="form-control timepicker">
 	    	</div>	
         </div>
 	    <div class="row  mt-2">
@@ -42,7 +42,7 @@
 	    		<lable class="pull-right"><b>Time</b></lable>
 	    	</div>
 	    	<div class="col-md-3 col-sm-3">	    		
-				<input placeholder="Selected time" value="{{$physical_time}}" name="physical_time" type="text" id="timepicker" class="form-control">
+				<input placeholder="Selected time" value="{{$physical_time}}" name="physical_time" type="text" class="form-control timepicker">
 			</div>
 	    </div>
 	    <div class="row mt-2">
@@ -56,7 +56,7 @@
 	    		<lable class="pull-right"><b>Time</b></lable>
 	    	</div>
 	    	<div class="col-sm-3 col-md-3">
-	    		<input type="text" class="form-control" value="{{$technical_time}}" name="technical_time">
+	    		<input type="text" class="form-control timepicker " value="{{$technical_time}}" name="technical_time">
 	    	</div>	
 	    </div>
 	    <div class="row mt-2">
@@ -70,7 +70,7 @@
 	    		<label class="pull-right"><b>Time</b></label>
 	    	</div>
 	    	<div class="col-md-3 col-sm-3">
-	    		<input type="text" class="form-control" value="{{$financial_time}}" name="financial_time">
+	    		<input type="text" class="form-control timepicker" value="{{$financial_time}}" name="financial_time">
 	    	</div>
 	    </div>
 	    <div class="row">
@@ -84,11 +84,9 @@
 
 <script>
 	$(document).ready(function(){
-		//  $(function(){
-	 //    	$('#datetimepicker3').datetimepicker({
-	 //        	format: 'HH:mm:ss',      
-		//     });
-		// });
+	 $('.timepicker').datetimepicker({
+        format: 'HH:mm:ss'
+    }); 
 
 		$('.datepicker').datepicker({
 			orientation: "bottom",
