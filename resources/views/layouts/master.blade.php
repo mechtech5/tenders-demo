@@ -65,7 +65,7 @@
 
     <script src="{{ asset('js/notify.min.js') }}"></script>
     <script src="{{ asset('js/jquery.validate.js') }}"></script>
-     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
     @stack('scripts')
   </body>
 </html>
