@@ -58,11 +58,13 @@
                         <div class="card-body " >
                             <div class="row">                            	
                                 <div class="col-sm-12 col-md-12 col-xl-12" id="mytable1">
+                                	
                                 	<div class="row">
                                 		<div class="col-sm-12 col-md-12 col-xl-12 text-center">
                                 			<span class="delete_notify"></span>
                                 		</div>
                                 	</div>
+                                	<div class="count_div">
                                 	<?php  $count = 1; 
                                 	?>
                                 	@foreach($client as $clients)
@@ -105,11 +107,7 @@
 										</div>
 										<?php $count++ ?>
 										@endforeach
-									 <div class="row">
-									 	<div class="col-md-12 col-sm-12">	
-									   		
-									   	</div>	
-									 </div>										 
+									</div> 									 
 									<div class="field_wrapper"></div>
 								</div>
 							</div>
@@ -206,8 +204,12 @@ form.validate({
 
 	$(document).ready(function(){
 	    var maxField = 10; 	    
-	    var wrapper = $('.field_wrapper');
-	    var x = 1; 
+	    var wrapper = $('.field_wrapper');	    
+		var crut =$(".count_div > div").length;
+	    var x = 1;
+	    if(crut !=0 ){
+	    	x = crut;
+	    } 
 	    var fieldHTML = '<div class="multi_rows"><a style="color:#ffffff;margin-top:31px" class="remove_button fa fa-minus pull-right btn btn-danger"></a><div class="row remov_paren"><div class="col-md-3 col-sm-3"><div class="form-group"><label for="">Contact Name</label>	<input type="text" class="form-control" name="contact_name[]"/></div><input type="hidden" name="update_id[]" value=""></div><div class="col-md-3 col-sm-3"><div class="form-group"><label for="">Email</label><input type="text" class="form-control" name="email[]"/></div></div><div class="col-md-3 col-sm-3"><div class="form-group"><label for="">Designation</label><input type="text" class="form-control" name="desig[]"/></div></div><div class="col-md-3 col-sm-3"><div class="form-group"><label for="">Contact number</label><input type="text" class="form-control" name="number[]"/></div></div></div><div class="row"><div class="col-sm-12 col-md-12 pull-right"></div></div>'; 
 	    
 	    $('.add_button').click(function(){	 

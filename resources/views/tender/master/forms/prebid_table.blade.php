@@ -13,12 +13,12 @@
 	  	@foreach($prebid as $prebids)
 	  		<tr>
 	  			<td>{{++$count}}</td>
-	  			<td>{{$prebids->location}}</td>
 	  			<td>{{$prebids->date}}</td>
+	  			<td>{{$prebids->location}}</td>
 	  			<td>{{$prebids->remarks}}</td>
 	  			<td class="text-center">
 		  			<a style="color: #fff" data-id="{{$prebids->id}}" runat="server" class="fa fa-edit btn btn-success edit_meeting" rel="tooltip" title="" data-original-title="Edit"></a>
-	                 <a style="color: #fff" onclick="javascript:return confirm('Do You Really Want To Delete This?');" class="fa fa-times btn btn-danger" rel="tooltip" title="" data-original-title="Delete"></a>
+	                 <a style="color: #fff" onclick="javascript:return confirm('Do You Really Want To Delete This?');" class="fa fa-times btn btn-danger meeting_delete" data-id="{{$prebids->id}}" rel="tooltip" title="" data-original-title="Delete"></a>
 		  		</td>
 	  		</tr>
 	  	@endforeach		  	

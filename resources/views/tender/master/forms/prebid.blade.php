@@ -21,12 +21,15 @@
 	    		<textarea name="remarks" class="form-control" id="" cols="30" rows="5"></textarea>
 	    	</div>
 	    </div>
-		</div>
+
 		<input type="hidden" id="tender_id" name="tender_id" value="{{$tender_id}}">
+	    <input class="btn btn-success mt-2 mb-2 pull-right save_meeting d-none" value="Save" type="submit">
 	</form>
-	<a href="javascript:void(0)" class="btn btn-info mt-2 mb-2 pull-right add_meeting"  onclick="add_meeting()">Add</a>
-	<a href="javascript:void(0)" class="btn btn-danger mt-2 mb-2 ml-2 pull-right cancel_add_meeting d-none" onclick="cancel_add_meeting()">Cancel</a>
-	<a href="javascript:void(0)" class="btn btn-success mt-2 mb-2 pull-right save_meeting d-none"  onclick="save_meeting()">Save</a>
+</div>
+	
+<a href="javascript:void(0)" class="btn btn-info mt-2 mb-2 pull-right add_meeting"  onclick="add_meeting()">Add</a>
+<a href="javascript:void(0)" class="btn btn-danger mr-1 mt-2 mb-2 ml-2 pull-right cancel_add_meeting d-none" onclick="cancel_add_meeting()">Cancel</a>
+	
 	<div id="table_refresh">
 		<table class="table table-striped table-hover table-bordered">
 		  <thead class="thead-dark">
@@ -116,27 +119,64 @@
 			todayHighlight: true
 		});
 	});
+	
+
+$('label.required').append('&nbsp;<strong class="text-danger">*</strong>&nbsp;');
+var form = $("#add_meeting_form");
+
+form.validate({   
+    rules: {
+		location:{
+			required: true,
+      		
+		},
+		date:{
+			required:true,
+		},
+		time:{
+			required: true,     		
+		},
+		remarks:{
+			required: true,
+		}
+    },
+	messages: {
+	},
+	errorElement: "em",
+	errorPlacement: function errorPlacement(error, element) { 
+		element.after(error);
+		error.addClass( "help-block" );
+
+	 },
+	highlight: function ( element, errorClass, validClass ) {
+		$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+	},
+	unhighlight: function (element, errorClass, validClass) {
+		$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+	},
+	submitHandler: function (form) {
+			var data = $('#add_meeting_form').serializeArray();
+			data.push({name:'form_type',value:'prebid'});
+			$.ajax({
+					url:'/tender_details',
+					type:'POST',
+					headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+					data:data,
+					success:function(data){
+						if(data != ''){
+							$('#table_refresh').html(data)
+						}
+					}
+			})
+	    }
+                      
+});
+
 	function add_meeting(){
 		$('#add_meeting_form, .save_meeting, .cancel_add_meeting, .add_meeting').toggleClass('d-none');
 	}
 	function cancel_add_meeting(){
 		$('#add_meeting_form, .save_meeting, .cancel_add_meeting, .add_meeting').toggleClass('d-none');
-	}
-
-	function save_meeting(){
-		var data = $('#add_meeting_form').serializeArray();
-		data.push({name:'form_type',value:'prebid'});
-		$.ajax({
-				url:'/tender_details',
-				type:'POST',
-				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-				data:data,
-				success:function(data){
-					if(data != ''){
-						$('#table_refresh').html(data)
-					}
-				}
-		})
 	}
 
 	$(document).on('click','.edit_meeting',function(){
