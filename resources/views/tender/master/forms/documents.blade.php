@@ -1,3 +1,4 @@
+<?php dd($tender); ?>
 <div id="emp_docs">
 	<form id="upload_form" enctype='multipart/form-data'>
 		<div class="row">
@@ -37,7 +38,7 @@
 		  </thead>
 		  <tbody id="docsTbody">
 		  	<?php $count = 0; ?> 
-		  	@foreach($document as $Data)
+		  	@foreach($tender->documents as $Data)
 		  	<?php $tender = App\Models\Tenders\Tender::find($Data->tender_id);	?>
 		  		<tr>
 		  			<td>{{ ++$count }}</td>

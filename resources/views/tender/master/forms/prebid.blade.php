@@ -43,7 +43,7 @@
 		  </thead>
 		  <tbody>
 		  	<?php $count = 0; ?>
-		  	@foreach($prebid as $prebids)
+		  	@foreach($tender->prebids as $prebids)
 		  		<tr>
 		  			<td>{{++$count}}</td>
 		  			<td>{{$prebids->date}}</td>

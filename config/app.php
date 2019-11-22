@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        App\Providers\HelperServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -228,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form'=> Collective\Html\FormFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Helper' => App\Helpers\Helpers::class,
 
     ],
 

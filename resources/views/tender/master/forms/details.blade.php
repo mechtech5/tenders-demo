@@ -67,7 +67,8 @@
                                 	<div class="count_div">
                                 	<?php  $count = 1; 
                                 	?>
-                                	@foreach($client as $clients)
+
+                                	@foreach($tender->clients as $clients)
 
                                 	<?php if($count == 1){
                                 	 ?>

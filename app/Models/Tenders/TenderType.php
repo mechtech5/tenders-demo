@@ -15,4 +15,5 @@ class TenderType extends Model
  	public function tenders(){
 		return $this->hasMany('App\Models\Tenders\Tender', 'type_id');
  	}
+ 	
 }

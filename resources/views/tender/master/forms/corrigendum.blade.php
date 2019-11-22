@@ -34,8 +34,8 @@
 		    </tr>
 		  </thead>
 		  <tbody id="table_corrige">
-		  	<?php $count = 0; ?>
-  				@foreach($corrigendum as $corrigend)
+	  		<?php $count = 0; ?>
+  				@foreach($tender->corrigendums as $corrigend)
 			  		<tr>
 			  			<td>{{ ++$count }}</td>
 			  			<td>{{ $corrigend->date }}</td>
