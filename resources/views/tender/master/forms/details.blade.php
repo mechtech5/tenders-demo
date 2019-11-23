@@ -68,7 +68,7 @@
                                 	<?php  $count = 1; 
                                 	?>
 
-                                	@foreach($tender->clients as $clients)
+                                	@forelse($tender->clients as $clients)
 
                                 	<?php if($count == 1){
                                 	 ?>
@@ -107,7 +107,38 @@
 										    </div>									   
 										</div>
 										<?php $count++ ?>
-										@endforeach
+										@empty
+
+											<a style="color:#ffffff ;margin-top:31px" class="btn btn-success pull-right add_button fa fa-plus"></a>
+                                	       	<div class="row">                 		
+											<div class="col-md-3 col-sm-3 delete_row_">
+										    	<div class="form-group">
+										    		<label for="">Contact Name</label>
+										    		<input type="text" class="form-control" name="contact_name[]" value=""/>
+										    	</div>
+										    	<input type="hidden" name="update_id[]" value="">
+										    </div>
+										    <div class="col-md-3 col-sm-3">
+										    	<div class="form-group">
+										    		<label for="">Email</label>
+										    		<input type="text" class="form-control" name="email[]" value="" />
+										    	</div>
+										    </div>
+										     <div class="col-md-3 col-sm-3">
+										    	<div class="form-group">
+										    		<label for="">Designation</label>
+										    		<input type="text" class="form-control" name="desig[]" value="" />
+										    	</div>
+										    </div>
+										     <div class="col-md-3 col-sm-3">
+										    	<div class="form-group">
+										    		<label for="">Contact number</label>
+										    		<input type="text" class="form-control" name="number[]" value="" />
+										    	</div>
+										    </div>									   
+										</div>
+
+										@endforelse
 									</div> 									 
 									<div class="field_wrapper"></div>
 								</div>

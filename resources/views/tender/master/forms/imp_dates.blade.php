@@ -75,22 +75,26 @@
 	    </div>
 	    <div class="count_div">
 	    <?php $count =1; ?>
-	   	@foreach($tender->tenderOtherDate as $tender_date)
-		    <div class="multi_rows ">
+		
+	   	@forelse($other_date as $tender_date)
+
+		    
 		    	<?php if($count == 1){ ?>
 	        	 	<a style="color:#ffffff ;margin-top:31px" class="btn btn-success pull-right add_button fa fa-plus"></a>
+	        	
 	        	 	<?php if($tender_date->title != '') { ?>
 	        	 		<a delete-id="{{$tender_date->id }}"  style="color:#ffffff;margin-top:31px" class=" delete_reco remove_button fa fa-trash pull-right btn btn-danger"></a>
-	        	 		<?php } ?>
+	        	 	<?php } ?>
 	        	 <?php } else{ ?>
-	        	 		<a delete-id="{{$tender_date->id }}" style="color:#ffffff;margin-top:31px" class="delete_reco remove_button fa fa-minus pull-right btn btn-danger"></a>
+	        	 		<a delete-id="{{$tender_date->id }}" style="color:#ffffff;margin-top:31px" class="delete_reco remove_button fa fa-trash pull-right btn btn-danger"></a>
 	        	<?php  } ?>
-		    	
+		    	<div class="multi_rows ">
 		    	<div class="row remov_paren delete_row_{{$tender_date->id}}">
 		    		<div class="col-md-4 col-sm-4">
 		    			<div class="form-group">
 		    				<label for="">Date Type</label>
 		    				<input type="text" value="{{$tender_date->title}}"  class="form-control" name="title[]"/>
+		    				<input type="hidden" name="update_id[]" value="{{$tender_date->id}}">
 		    			</div>	    			
 		    		</div>
 		    		<div class="col-md-4 col-sm-4">
@@ -107,7 +111,33 @@
 		    		</div>	    		
 		    	</div>	    				    
 		    </div>
-		    @endforeach
+		    <?php $count++; ?>
+		    @empty
+		    	<div class="multi_rows ">
+		    	 	<a style="color:#ffffff ;margin-top:31px" class="btn btn-success pull-right add_button fa fa-plus"></a>
+	        	
+	        	<div class="row remov_paren ">
+		    		<div class="col-md-4 col-sm-4">
+		    			<div class="form-group">
+		    				<label for="">Date Type</label>
+		    				<input type="text" value=""  class="form-control" name="title[]"/>
+		    			</div>	    			
+		    		</div>
+		    		<div class="col-md-4 col-sm-4">
+		    			<div class="form-group">
+		    				<label for="">Date</label>
+		    				<input type="text" readonly="true" value="" class="form-control datepicker" name="date[]"/>
+		    			</div>
+		    		</div>
+		    		<div class="col-md-4 col-sm-4">
+		    			<div class="form-group">
+		    				<label for="">Time</label>
+		    				<input type="text" value="" class="form-control timepicker" name="time[]"/>
+		    			</div>
+		    		</div>	    		
+		    	</div>	    				    
+		    </div>
+		    @endforelse
 		    </div>
 		    <div class="field_wrapper">
 			    	

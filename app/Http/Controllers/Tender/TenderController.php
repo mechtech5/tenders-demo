@@ -35,9 +35,17 @@ class TenderController extends Controller
 		$tender_categories = TenderCategory::all();
 		$client            = TenderClient::where('tender_id',$tender_id)->get();
 		$document          = TenderDocument::where('tender_id',$tender_id)->get();
-		$tender            = Tender::with(['prebids','clients','corrigendums','documents','tenderOtherDate','emd'])->find($tender_id);
-				
-	    return view('tender.master.forms.'.$type,compact('tender_types','tender_id','tender'));
+		$tender            = Tender::with(['prebids','clients','corrigendums','documents','tenderOtherDate','emd'])->where('id',$tender_id)->first();
+		$other_date        = TenderOthersDate::where('tender_id',$tender_id)->get();
+		if(count($other_date) == 0){
+			$other_date->title = '';
+			$other_date->date = '';
+			$other_date->id = '';
+			$other_date->tender_id =$tender_id;
+			$other_date->time  = '';
+		}
+		
+	    return view('tender.master.forms.'.$type,compact('tender_types','tender_id','tender','other_date'));
 	 }
 
 	public function create()
@@ -151,8 +159,7 @@ class TenderController extends Controller
 		  	return 'Tender Details Success Submited';  	 
 		}
 
-		elseif($form_type == 'data_subm'){			
-
+		elseif($form_type == 'data_subm'){		
 			$online_time = !empty($request->online_time)?$request->online_time:'12:00:00';
 			$physical_time = !empty($request->physical_time)?$request->physical_time:'12:00:00';
 			$technical_time = !empty($request->technical_time)?$request->technical_time:'12:00:00';
@@ -164,16 +171,20 @@ class TenderController extends Controller
 					'technical_opening_date'    => $request->technical_opening_date.' '.$technical_time,
 					'financial_opening_date'    => $request->financial_opening_date.' '.$financial_time);					
 			Tender::where('id',$request->tender_id)->update($date_submi);
-		
-			$count = count($request->time);
+			$count = count($request->time);			
 			$x = 0;
 			while($count > $x){
 				
 				if($request->time[$x] != '' && $request->date[$x] != '' && $request->title[$x] != ''){
 
 					$timeData = array('tender_id'=>$request->tender_id,'title'=>$request->title[$x],'date'=>$request->date[$x],'time'=>$request->time[$x]);
-
-					TenderOthersDate::create($timeData);					
+					
+					if($x < count($request->update_id)){
+						TenderOthersDate::where('id',$request->update_id[$x])->update($timeData);	
+					}
+					else{
+						TenderOthersDate::create($timeData);
+					}
 				}		
 				$x++;		
 			}
