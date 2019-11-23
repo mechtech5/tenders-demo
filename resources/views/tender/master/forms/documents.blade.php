@@ -1,4 +1,3 @@
-<?php dd($tender); ?>
 <div id="emp_docs">
 	<form id="upload_form" enctype='multipart/form-data'>
 		<div class="row">

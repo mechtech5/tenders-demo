@@ -164,7 +164,7 @@ class TenderController extends Controller
 					'technical_opening_date'    => $request->technical_opening_date.' '.$technical_time,
 					'financial_opening_date'    => $request->financial_opening_date.' '.$financial_time);					
 			Tender::where('id',$request->tender_id)->update($date_submi);
-
+		
 			$count = count($request->time);
 			$x = 0;
 			while($count > $x){
