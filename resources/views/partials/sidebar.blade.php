@@ -49,6 +49,7 @@
         <li class={{call_user_func_array('Request::is', (array)['tender_type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_type.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Types</a></li>
         <li class={{call_user_func_array('Request::is', (array)['tender_category*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_category.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Categories</a></li>
          <li class=""><a class="treeview-item" href="{{route('tender_responsible.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Responsible</a></li>
+         <li class=""><a class="treeview-item" href="{{route('tender_location.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Location</a></li>
         <li class={{call_user_func_array('Request::is', (array)['tender_master*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_master.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Mast</a></li>
       </ul>
     </li>

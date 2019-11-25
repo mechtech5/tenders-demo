@@ -12,6 +12,8 @@ use App\Models\Tenders\TenderPrebid;
 use App\Models\Tenders\TenderCorrigendum;
 use App\Models\Tenders\TenderDocument;
 use App\Models\Tenders\TenderOthersDate;
+use App\Models\Tenders\Location;
+use App\Models\Tenders\Responsible;
 use App\Models\Tenders\EMD;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Helpers;
@@ -23,8 +25,8 @@ class TenderController extends Controller
 	public function index()
 	{
 		$types      = TenderType::all();
-		$categories = TenderCategory::all();
-		$tenders    = Tender::with('category', 'type')->get();
+		$categories = TenderCategory::all();		
+		$tenders    = Tender::with('category', 'type','category')->get();
 		return view('tender.master.index', compact('tenders', 'types', 'categories'));
 	}
 
@@ -33,6 +35,8 @@ class TenderController extends Controller
 	 	$tender_id         = $request->tender_id; 
 	 	$tender_types      = TenderType::all();
 		$tender_categories = TenderCategory::all();
+		$location          = Location::all();
+		$responsi          = Responsible::all();
 		$client            = TenderClient::where('tender_id',$tender_id)->get();
 		$document          = TenderDocument::where('tender_id',$tender_id)->get();
 		$tender            = Tender::with(['prebids','clients','corrigendums','documents','tenderOtherDate','emd'])->where('id',$tender_id)->first();
@@ -45,7 +49,7 @@ class TenderController extends Controller
 			$other_date->time  = '';
 		}
 		
-	    return view('tender.master.forms.'.$type,compact('tender_types','tender_id','tender','other_date'));
+	    return view('tender.master.forms.'.$type,compact('tender_types','tender_id','tender','other_date','location','responsi'));
 	 }
 
 	public function create()

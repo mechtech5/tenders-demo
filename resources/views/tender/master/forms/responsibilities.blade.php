@@ -5,6 +5,9 @@
 	    	<label for="">Synopsis Creation</label>
 	    	<select name="type" id="" class="select2 form-control">
 	    		<option value="">-- Select Employee --</option>
+	    		@foreach($responsi as $res)
+	    			<option value="{{$res->id}}">{{$res->name}}</option>
+	    		@endforeach	
 	    	</select>
 	    </div>
 	    <div class="col-3 form-group">
