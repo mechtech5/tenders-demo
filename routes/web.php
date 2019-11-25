@@ -95,6 +95,8 @@ Route::resource('/tender_type', 'Tender\TenderTypeController');
 //Start Tender Categoty Controller
 
 Route::resource('/tender_category', 'Tender\TenderCategoryController');
+Route::resource('/tender_responsible', 'Tender\ResponsibleController'); 
+Route::get('/responsible_delete/{id}', 'Tender\ResponsibleController@destroy'); 
 
 //End Tender Categoty Controller
 Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
