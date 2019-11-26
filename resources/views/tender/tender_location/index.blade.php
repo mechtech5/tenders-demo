@@ -31,27 +31,26 @@
 			<div class="col-md-12 col-xl-12">
 				<div class="card shadow-xs">					
 					<div class="card-body table-responsive">
-						<table  class="table table-stripped table-bordered">
-							<thead>
-								<tr class="text-center">
-									<th>SoNo.</th>
-									<th>Name</th>									
-									<th>Action</th>
+						<table  class="table table-stripped table-hover table-bordered ">
+							<thead class="thead-light">
+								<tr>
+									<th scope="col">SoNo.</th>
+									<th scope="col">Name</th>						
+									<th scope="col">Action</th>
 								</tr>
 							</thead>
 							<tbody>
 								@php $count = 0; @endphp
 								@foreach($location as $repon)
 									<tr>
-										<td>{{++$count}}</td>
+										<th scope="row">{{++$count}}</th>
 										<td>{{$repon->name}}</td>
-										<td class="d-flex text-center">
-											<span>
+										<td colspan="2" class="d-flex text-center">
+											
 											<a href="{{route('tender_location.edit',$repon->id)}}" class="btn btn-sm btn-outline-warning"><i class="fa fa-edit"></i> Edit</a>
-											</span>
-											<span class="ml-2">
-											<a href="{{url('tender_location_delete',$repon->id)}}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>		
-											</span>
+											
+											<a href="{{url('tender_location_delete',$repon->id)}}" class="btn btn-sm btn-outline-danger ml-2" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</a>		
+											
 										</td>
 									</tr>
 								@endforeach								

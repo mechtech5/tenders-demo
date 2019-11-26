@@ -43,9 +43,9 @@
 	    	<label for="">Creation place</label>
 	    	<select name="tender_emd_creat_place" id="" class="select2 form-control">
 	    		<option value="">-- Select place --</option>
-				<option {{$tender->emd !=null ? ($tender->emd->tender_emd_creat_place == 'indore' ? 'selected' : '') :''}} value="indore">Indore</option>
-				<option {{$tender->emd !=null ? ($tender->emd->tender_emd_creat_place == 'ratlam' ? 'selected' : '') :''}} value="ratlam">Ratlam</option>
-				<option {{$tender->emd !=null ? ($tender->emd->tender_emd_creat_place == 'bhopal' ? 'selected' : '') :''}} value="bhopal">Bhopal</option>	    		
+	    			@foreach($location as $loc)
+						<option {{$tender->emd !=null ? ($tender->emd->tender_emd_creat_place == $loc->id ? 'selected' : '') :''}} value="{{$loc->id}}">{{$loc->name}}</option>	    		
+					@endforeach	
 	    	</select>
 	    </div>
 	    <div class="col-3 form-group">
@@ -81,15 +81,18 @@
 	    	<label for="">Deposit Location</label>
 	    	<select name="tender_emd_return_depo_loc" id="" class="select2 form-control">
 	    		<option>-- Select Location --</option>
-	    		<option {{$tender->emd !=null ? ($tender->emd->tender_emd_return_depo_loc == 'indore' ? 'selected' : '') :''}} value="indore">Indore</option>
-				<option {{$tender->emd !=null ? ($tender->emd->tender_emd_return_depo_loc == 'ratlam' ? 'selected' : '') :''}} value="ratlam">Ratlam</option>
-				<option {{$tender->emd !=null ? ($tender->emd->tender_emd_return_depo_loc == 'bhopal' ? 'selected' : '') :''}} value="bhopal">Bhopal</option>
+	    		@foreach($location as $loc)
+						<option {{$tender->emd !=null ? ($tender->emd->tender_emd_creat_place == $loc->id ? 'selected' : '') :''}} value="{{$loc->id}}">{{$loc->name}}</option>	    		
+					@endforeach
 	    	</select>
 	    </div>
 	     <div class="col-3 form-group">
 	    	<label for="">Responsibility Of</label>
 	    	<select name="tender_emd_return_respo" id="" class="select2 form-control">
 	    		<option value="">-- Select Employee --</option>
+	    		@foreach($responsi as $res)
+	    			<option {{$tender->emd->tender_emd_return_respo == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
+	    		@endforeach
 	    	</select>
 	    </div>
 	    <div class="col-3 form-group">
@@ -135,8 +138,7 @@ form.validate({
 			required: true, 		
 		},
 		tender_emd_bank_name:{
-			required: true,
-			number: true,      		
+			required: true     		
 		},
 		tender_emd_amt:{
 			required: true,
@@ -158,8 +160,7 @@ form.validate({
 			date: true,      		
 		},
 		tender_emd_return_ac:{
-			required: true,   		
-			number:true,
+			required: true
 		},
 		tender_emd_return_amt:{
 			required: true,
@@ -177,6 +178,9 @@ form.validate({
 		},
 		tender_emd_return_clouser:{
 			required: true,    		
+		},
+		tender_emd_return_respo:{
+			required: true  
 		}
     },
 	messages: {
