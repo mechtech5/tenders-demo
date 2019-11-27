@@ -86,22 +86,19 @@ Route::post('tender_details/', 'Tender\TenderController@save_details');
 Route::post('delete_reco/', 'Tender\TenderController@delete_reco');
 Route::post('update_meeting/', 'Tender\TenderController@update_meeting');
 
-//Start Tender Type Controller  
-
 Route::resource('/tender_type', 'Tender\TenderTypeController');
 
-//End Tender Type Controller
-
-//Start Tender Categoty Controller
-
 Route::resource('/tender_category', 'Tender\TenderCategoryController');
+
 Route::resource('/tender_responsible', 'Tender\ResponsibleController'); 
 Route::get('/responsible_delete/{id}', 'Tender\ResponsibleController@destroy'); 
 
 Route::resource('/tender_location', 'Tender\LocationController'); 
 Route::get('/tender_location_delete/{id}','Tender\LocationController@destroy'); 
-
-//End Tender Categoty Controller
+Route::resource('/tender_boq', 'Tender\BOQController');
+Route::resource('/tender_item', 'Tender\ItemsController'); 
+Route::get('/tender_item_delete/{id}', 'Tender\ItemsController@destroy'); 
+ 
 Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
 	
 });

@@ -49,8 +49,10 @@
         <li class={{call_user_func_array('Request::is', (array)['tender_type*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_type.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Types</a></li>
         <li class={{call_user_func_array('Request::is', (array)['tender_category*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_category.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Categories</a></li>
          <li class=""><a class="treeview-item" href="{{route('tender_responsible.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Responsible</a></li>
+         <li class=""><a class="treeview-item" href="{{route('tender_item.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Items</a></li>
          <li class=""><a class="treeview-item" href="{{route('tender_location.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Location</a></li>
         <li class={{call_user_func_array('Request::is', (array)['tender_master*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_master.index')}}"><i class="icon fa fa-angle-double-right"></i>Tender Mast</a></li>
+        <li class={{call_user_func_array('Request::is', (array)['tender_master*']) ? 'active_subtab' : ''}}><a class="treeview-item" href="{{route('tender_boq.index')}}"><i class="icon fa fa-angle-double-right"></i>BOQ Createion</a></li>
       </ul>
     </li>
     <li class="treeview {{call_user_func_array('Request::is', (array)['settings*']) ? 'is-expanded' : ''}}"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-cog "></i><span class="app-menu__label">Settings</span><i class="treeview-indicator fa fa-angle-right"></i></a>
