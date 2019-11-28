@@ -46,7 +46,7 @@
 									<tr class="text-center">
 										<td>{{++$count}}</td>
 										<td>{{$items->name}}</td>
-										<td>{{$items->unit_name}}</td>
+										<td>{{$items->unit->name}}</td>
 										<td>{{$items->remarks}}</td>			
 										<td>
 										<span>

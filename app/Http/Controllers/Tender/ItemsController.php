@@ -5,28 +5,29 @@ namespace App\Http\Controllers\Tender;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Tenders\TenderItems;
+use App\Models\Tenders\UnitsMast;
 
 class ItemsController extends Controller
 {
     public function index()
     {
-        $item = TenderItems::all();
+        $item = TenderItems::with('unit')->get();
         return view('tender.items.index',compact('item'));
     }
 
     public function create()
-    {
-        return view('tender.items.create');
+    {   
+        $unit = UnitsMast::all();
+        return view('tender.items.create',compact('unit'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate(['name'     =>'required',
-                                    'unit_name'=>'required',
+                                    'unit_id'  =>'required',
                                     'remarks'  =>'nullable'     
                                     ]);
 
-        $data['unit_name'] = strtoupper($data['unit_name']);
         $data['name']      = ucfirst($data['name']);        
         TenderItems::create($data);
         return redirect()->route('tender_item.index')->with('success','Created Successfully.');
@@ -46,10 +47,9 @@ class ItemsController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->validate(['name'     =>'required',
-                                    'unit_name'=>'required',
+                                    'unit_id'  =>'required',
                                     'remarks'  =>'nullable'     
-                                    ]);
-        $data['unit_name'] = strtoupper($data['unit_name']);
+                                    ]);        
         $data['name']      = ucfirst($data['name'] );
         TenderItems::where('id',$id)->update($data);
         return redirect()->route('tender_item.index')->with('success','Update Successfully.');

@@ -98,6 +98,8 @@ Route::get('/tender_location_delete/{id}','Tender\LocationController@destroy');
 Route::resource('/tender_boq', 'Tender\BOQController');
 Route::resource('/tender_item', 'Tender\ItemsController'); 
 Route::get('/tender_item_delete/{id}', 'Tender\ItemsController@destroy'); 
+Route::resource('/tender_unit', 'Tender\UnitController'); 
+Route::get('/tender_unit_delete/{id}', 'Tender\UnitController@destroy'); 
  
 Route::group(['prefix' => 'tenders', 'namespace' => 'Tender'], function ()  {
 	

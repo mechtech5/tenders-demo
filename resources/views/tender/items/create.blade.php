@@ -25,13 +25,19 @@
 					                	@enderror								
 								</div>							
 								<div class="col-md-4 col-lg-4 col-xl-4 mt-2 offset-4">
-									<label for="name"><b>Unit Name <span class="text-danger">*</span></b> </label>			
-										<input type="text" name="unit_name" class="form-control" value="{{old('unit_name')}}">
-										@error('unit_name')
-					                    <span class="text-danger" role="alert">
-					                        <strong>{{ $message }}</strong>
-					                    </span>
-					                	@enderror								
+									<label for="name"><b>Unit Name <span class="text-danger">*</span></b> </label>
+									<select name="unit_id" class="form-control">
+										<option><-- Select --></option>
+										@foreach($unit as $units)
+											<option value="{{$units->id}}">{{$units->name}}</option>
+										@endforeach	
+									</select>			
+										
+									@error('unit_id')
+				                    <span class="text-danger" role="alert">
+				                        <strong>{{ $message }}</strong>
+				                    </span>
+				                	@enderror								
 								</div>	
 								<div class="col-md-4 col-lg-4 col-xl-4 mt-2 offset-4">
 									<label for="name"><b>Remarks</b> </label>
