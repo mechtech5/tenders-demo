@@ -18,11 +18,13 @@
 	    		</div>
 	    	</div>
 		</div>
-		<input type="hidden" id="tender_id" value="{{$tender_id}}" name="tender_id">
+		<input type="hidden" name="form_type" value="corrigendum">
+		<input type="hidden" name="tender_id" id="tender_id" value="{{$tender_id}}" name="tender_id">
+		<a href="javascript:void(0)" class="btn btn-danger mt-2 mb-2 ml-2 pull-right cancel d-none" onclick="cancel()">Cancel</a>
+		<input type="submit" value="Submit" class="btn btn-success mt-2 mb-2 pull-right save d-none">
 	</form>
 	<a href="javascript:void(0)" class="btn btn-info mt-2 mb-2 pull-right add"  onclick="add()">Add</a>
-	<a href="javascript:void(0)" class="btn btn-danger mt-2 mb-2 ml-2 pull-right cancel d-none" onclick="cancel()">Cancel</a>
-	<a href="javascript:void(0)" class="btn btn-success mt-2 mb-2 pull-right save d-none"  onclick="save()">Save</a>
+	
 	<div id="corrig_table">
 		<table class="table table-striped table-hover table-bordered">
 		  <thead class="thead-dark">
@@ -90,6 +92,58 @@
 </div>
 
 <script>
+
+
+$('label.required').append('&nbsp;<strong class="text-danger">*</strong>&nbsp;');
+var form = $("#add_form");
+
+form.validate({   
+    rules: {
+		changes:{
+			required: true,
+      		
+		},
+		date:{
+			required:true,
+		},
+		time:{
+			required: true,     		
+		}
+    },
+	messages: {
+	},
+	errorElement: "em",
+	errorPlacement: function errorPlacement(error, element) { 
+		element.after(error);
+		error.addClass( "help-block" );
+
+	 },
+	highlight: function ( element, errorClass, validClass ) {
+		$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+	},
+	unhighlight: function (element, errorClass, validClass) {
+		$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+	},
+	submitHandler: function (form) {
+		$.ajax({
+			url:'/tender_details',
+			type:'POST',
+			headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+			data:$('#add_form').serialize(),
+			success:function(data){
+				if(data !=''){
+					$('#table_corrige').html(data)
+					$("input[name='date']").val('');
+					$("input[name='time']").val('');
+					$("textarea[name='changes']").val('');
+				}
+			}
+		})
+	}
+                      
+});
+
+
 	$(document).ready(function(){
 
 		$('.timepicker').datetimepicker({
@@ -109,23 +163,6 @@
 	}
 	function cancel(){
 		$('#add_form, .save, .cancel, .add').toggleClass('d-none');
-	}
-
-	function save(){
-	 var data = $('#add_form').serializeArray();
-	 data.push({name:'form_type',value:'corrigendum'});
-
-		$.ajax({
-				url:'/tender_details',
-				type:'POST',
-				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-				data:data,
-				success:function(data){
-					if(data !=''){
-						$('#table_corrige').html(data)
-					}
-				}
-		})
 	}
 
 	$(document).on('click','.edit_corrige',function(){

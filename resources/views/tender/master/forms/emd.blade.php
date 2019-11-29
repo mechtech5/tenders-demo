@@ -2,7 +2,7 @@
 <div id="details_tab">
 	<form id="details_emd_form">
 		<div class="row">
-			<h4 class="col-12 divider">EMD</h4>
+			<h4 class="col-12 divider">EMD Creation</h4>
 	    <div class="col-3 form-group">
 	    	<label for="">EMD Made from A/c No</label>
 	    	<br>
@@ -50,12 +50,56 @@
 	    </div>
 	    <div class="col-3 form-group">
 	    	<label for="">Renewal Date</label>
-	    		<input value="{{$tender->emd !=null ? $tender->emd->tender_emd_renable_dt :''}}" type="text" class="form-control datepicker" name="tender_emd_renable_dt"/>
+	    		<input value="{{$tender->emd !=null ? $tender->emd->tender_emd_renable_dt :''}}" readonly="true" type="text" class="form-control datepicker" name="tender_emd_renable_dt"/>
 	    </div>
 	     <div class="col-3 form-group">
 	    	<label for="">Expiry Date</label>
 	    		<input type="text" value="{{$tender->emd !=null ? $tender->emd->tender_emd_exp_dt :''}}" class="form-control datepicker" name="tender_emd_exp_dt"/>
 	    </div>
+
+
+	    <h4 class="col-12 divider">EMD Submition</h4>
+  		<div class="col-3 form-group">
+	    	<label for="">Client Name</label>
+	    	<input type="text" value="{{$tender->emd !=null ? $tender->emd->tender_emd_sub_client :''}}" class="form-control" name="tender_emd_sub_client">
+	    </div>	
+
+	    <div class="col-3 form-group">
+	    	<label for="">Person Name</label>
+	    		<input type="text" value="{{$tender->emd !=null ? $tender->emd->tender_emd_sub_person :''}}" class="form-control" name="tender_emd_sub_person"/>
+	    </div>    
+	    <div class="col-3 form-group">
+	    	<label for="">Date</label>
+	    		<input type="text" value="{{$tender->emd !=null ? $tender->emd->tender_emd_sub_date:''}}" readonly="true" class="form-control datepicker" name="tender_emd_sub_date"/>
+	    </div>
+	     <div class="col-3 form-group">
+	    	<label for="">Location Name</label>
+	    	<select name="tender_emd_sub_loc" id="" class="select2 form-control">
+	    		<option>-- Select Location --</option>
+	    		@foreach($location as $loc)
+						<option {{$tender->emd !=null ? ($tender->emd->tender_emd_sub_loc == $loc->id ? 'selected' : '') :''}} value="{{$loc->id}}">{{$loc->name}}</option>	    		
+					@endforeach
+	    	</select>
+	    </div>
+	    <div class="col-3 form-group">
+	    	<label for="">Submited By</label>
+	    	<select name="tender_emd_sub_by" id="" class="select2 form-control">
+	    		<option value="">-- Select Employee --</option>
+	    		@foreach($responsi as $res)
+	    			<option {{$tender->emd->tender_emd_sub_by == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
+	    		@endforeach
+	    	</select>
+	    </div>
+	    <div class="col-3 form-group">
+	    	<label for="">Submited To</label>
+	    	<select name="tender_emd_sub_to" id="" class="select2 form-control">
+	    		<option value="">-- Select Employee --</option>
+	    		@foreach($responsi as $res)
+	    			<option {{$tender->emd->tender_emd_sub_to == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
+	    		@endforeach
+	    	</select>
+	    </div>
+
 			<h4 class="col-12 divider">EMD Return Receive</h4>
   		<div class="col-3 form-group">
 	    	<label for="">Bank Name</label>
@@ -67,7 +111,7 @@
 	    </div>
 	    <div class="col-3 form-group">
 	    	<label for="">Date</label>
-	    		<input type="text" value="{{$tender->emd !=null ? $tender->emd->tender_emd_return_dt:''}}"  class="form-control datepicker" name="tender_emd_return_dt"/>
+	    		<input type="text" value="{{$tender->emd !=null ? $tender->emd->tender_emd_return_dt:''}}" readonly="true"  class="form-control datepicker" name="tender_emd_return_dt"/>
 	    </div>
 	    <div class="col-3 form-group">
 	    	<label for="">Deposit Date</label>
@@ -105,6 +149,10 @@
 	    	<input type="hidden" class="form-control" name="form_type" value="emd_form">
 	    	<input type="hidden" class="form-control" name="tender_id" value="{{$tender_id}}">
 	    </div>
+
+
+
+	    
 		</div>	
 		<div class="row ">
 			<div class="col-md-12 col-sm-12 text-center">

@@ -1,3 +1,4 @@
+
 	<?php
 		$timestamp   = (strtotime($tender->online_submission_date));
 		$online_date = date('Y-n-j', $timestamp);
@@ -77,7 +78,6 @@
 	    <?php $count =1; ?>
 		
 	   	@forelse($other_date as $tender_date)
-
 		    
 		    	<?php if($count == 1){ ?>
 	        	 	<a style="color:#ffffff ;margin-top:31px" class="btn btn-success pull-right add_button fa fa-plus"></a>
@@ -142,6 +142,18 @@
 		    <div class="field_wrapper">
 			    	
 			</div>	
+			<div class="row bg ml-3">				
+				<div class="chiller_cb ">
+				    <input id="myCheckbox" type="checkbox">
+				    <label for="myCheckbox">Checkbox checked</label>
+				    <span></span>
+				</div>
+			</div>
+			<div class="row ml-1 show_file" style="display:none">
+				<dir class="col-md-4">
+					<input type="file" class="form-control" name="corrigendum">
+				</dir>
+			</div>
 
 	    <div class="row">
 			<div class="col-sm-12 col-md-12 text-center mt-3">
@@ -243,11 +255,8 @@ $(document).on('focus',".datepicker1", function(){
       		})
       	})
 	});
+	$(document).on('click','#myCheckbox',function(){
 
-	// function toggle_add(){
-	// 	$(".myForm, .add, .save, .cancel").toggleClass('d-none');
-	// }
-
-	// function save(){
-	// }
+		toggle_btn('#myCheckbox','.show_file');
+	})	
 </script>

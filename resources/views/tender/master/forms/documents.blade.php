@@ -7,7 +7,7 @@
 		    </div>
 		    <div class="col form-group">
 		    	<label for="">Attachment</label>
-		    	<input type="file" name="file" id="file">
+		    	<input style="width: 311px;" type="file" name="file" id="file"><br>
 		    </div>
 		    <div class="col form-group">
 		    	<label for="">Note</label>
@@ -105,9 +105,39 @@
 <input type="hidden" id="message" value="<?php if(session('message') != ''){ echo session('message'); } ?>">
 
 <script>
-	$(document).ready(function(){
-		$('#submit_doc').on('click',function(event){
-	     	event.preventDefault();
+
+	$('label.required').append('&nbsp;<strong class="text-danger">*</strong>&nbsp;');
+var form = $("#upload_form");
+
+form.validate({   
+    rules: {
+		doc_title:{
+			required: true,
+      		
+		},
+		file:{
+			required:true,
+		},
+		note:{
+			required: true,     		
+		}
+    },
+	messages: {
+	},
+	errorElement: "em",
+	errorPlacement: function errorPlacement(error, element) { 
+		element.after(error);
+		error.addClass( "help-block" );
+
+	 },
+	highlight: function ( element, errorClass, validClass ) {
+		$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+	},
+	unhighlight: function (element, errorClass, validClass) {
+		$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+	},
+	submitHandler: function (form) {
+		event.preventDefault();
 	     	var form = $('#upload_form')[0];
 		    var data = new FormData(form);	    	     	
 
@@ -127,9 +157,9 @@
                 	}
                 }
 	       })
-	   })
-
-	});
+	}
+                      
+});
 
 	$(document).on('click','.edit_meeting',function(){
 		var id        = $(this).attr('data-id');

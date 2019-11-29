@@ -35,4 +35,7 @@ class Tender extends Model
  	public function emd(){
  		return $this->belongsTo('App\Models\Tenders\EMD','id','tender_id');
  	}
+ 	public function responsibl(){
+ 		return $this->belongsTo('App\Models\Tenders\TenderResponsibilites','id','tender_id');
+ 	}
 }

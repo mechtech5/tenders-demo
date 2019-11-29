@@ -76,9 +76,9 @@
 			.then(response => {
 				$('#form-area').html(response.data);
 			})
-				.catch(error => console.log(error.response));
-					$('.nav-link').removeClass('active');
-					$('.'+type).addClass('active');
+			.catch(error => console.log(error.response));
+				$('.nav-link').removeClass('active');
+				$('.'+type).addClass('active');
 		}
 	</script>
 @endsection

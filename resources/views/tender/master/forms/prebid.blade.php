@@ -91,7 +91,7 @@
 					<label>Meeting Remarks</label>
 				</div>
 				<div class="col-md-8 col-sm-8">
-					<textarea id="m_remarks" class="form-control"></textarea>
+					<textarea id="m_remarks" name="" class="form-control"></textarea>
 				</div>
 				<input type="hidden" id="m_id">
 				<input type="hidden" id="m_tender_id">
@@ -165,6 +165,10 @@ form.validate({
 					success:function(data){
 						if(data != ''){
 							$('#table_refresh').html(data)
+							$("input[name='location']").val('');
+							$("input[name='date']").val('');
+							$("input[name='time']").val('');
+							$("textarea[name='remarks']").val('');							
 						}
 					}
 			})

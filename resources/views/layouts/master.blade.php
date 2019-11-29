@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{asset('themes/vali/css/parts-selector.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
     
     <!-- Start DatePicker CDN-->
 
@@ -63,6 +64,7 @@
 
     <script src="{{ asset('js/notify.min.js') }}"></script>
     <script src="{{ asset('js/jquery.validate.js') }}"></script>
+    <script src="{{ asset('js/myfunction.js') }}"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
     @stack('scripts')
   </body>

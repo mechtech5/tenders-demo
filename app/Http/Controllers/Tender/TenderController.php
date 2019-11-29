@@ -15,6 +15,7 @@ use App\Models\Tenders\TenderOthersDate;
 use App\Models\Tenders\Location;
 use App\Models\Tenders\Responsible;
 use App\Models\Tenders\EMD;
+use App\Models\Tenders\TenderResponsibilites;
 use Illuminate\Support\Facades\Storage;
 use App\Helpers\Helpers;
 use Session;
@@ -39,7 +40,7 @@ class TenderController extends Controller
 		$responsi          = Responsible::all();
 		$client            = TenderClient::where('tender_id',$tender_id)->get();
 		$document          = TenderDocument::where('tender_id',$tender_id)->get();
-		$tender            = Tender::with(['prebids','clients','corrigendums','documents','tenderOtherDate','emd'])->where('id',$tender_id)->first();
+		$tender            = Tender::with(['prebids','clients','corrigendums','documents','tenderOtherDate','emd','responsibl'])->where('id',$tender_id)->first();
 		$other_date        = TenderOthersDate::where('tender_id',$tender_id)->get();
 		if(count($other_date) == 0){
 			$other_date->title = '';
@@ -62,11 +63,12 @@ class TenderController extends Controller
 	public function store(Request $request)
 	{
 		$data = $request->validate([
-		 			'title'	=> 'required|string|max:255',
-		 			'category_id'	=> 'required',
-		 			'type_id'	=> 'required',
-		 			'priority'	=> 'required'
-		 		]);
+		 		'title'	        => 'required|string|max:255',
+		 		'category_id'	=> 'required',
+		 		'type_id'	    => 'required',
+		 		'priority'	    => 'required'
+		 	]);
+		
  		$is_eligible = isset($request->is_eligible) ? $request->is_eligible : 0;
  		$trnder_num  = Helpers::getNumber(); 		
  		$tender               = new Tender();
@@ -175,16 +177,20 @@ class TenderController extends Controller
 					'technical_opening_date'    => $request->technical_opening_date.' '.$technical_time,
 					'financial_opening_date'    => $request->financial_opening_date.' '.$financial_time);					
 			Tender::where('id',$request->tender_id)->update($date_submi);
-			$count = count($request->time);			
+			$count = count($request->time);
 			$x = 0;
 			while($count > $x){
 				
 				if($request->time[$x] != '' && $request->date[$x] != '' && $request->title[$x] != ''){
 
 					$timeData = array('tender_id'=>$request->tender_id,'title'=>$request->title[$x],'date'=>$request->date[$x],'time'=>$request->time[$x]);
-					
-					if($x < count($request->update_id)){
-						TenderOthersDate::where('id',$request->update_id[$x])->update($timeData);	
+					if(!empty($request->update_id)){						
+						if($x < count($request->update_id)){
+							TenderOthersDate::where('id',$request->update_id[$x])->update($timeData);
+						}
+						else{
+							TenderOthersDate::create($timeData);
+						}
 					}
 					else{
 						TenderOthersDate::create($timeData);
@@ -269,6 +275,7 @@ class TenderController extends Controller
 		elseif($form_type == 'emd_form'){
 			$tender_id = $request->tender_id;
 			$update_id  = $request->update_id;	
+
 		    $tender_details = Tender::find($tender_id);
 
 			if($request->hasFile('tender_emd_return_receipt')){		
@@ -286,25 +293,31 @@ class TenderController extends Controller
 	            $path = $request->file('tender_emd_return_receipt')->storeAs('public/'.$tender_details->tender_no.'/EMD/',$fileNameToStore);
 	        }
 	        $doc = array(
-	            			'tender_id'=>$request->tender_id,
-	            			'tender_emd_ac'=>$request->tender_emd_ac,
-	            			'tender_emd_type'=>$request->tender_emd_type,
-	            			'tender_emd_bank_name'=>$request->tender_emd_bank_name,
-	            			'tender_emd_amt'=>$request->tender_emd_amt,
-	            			'tender_emd_creat_dt'=>$request->tender_emd_creat_dt,
-	            			'tender_emd_creat_place'=>$request->tender_emd_creat_place,
-	            			'tender_emd_renable_dt'=>$request->tender_emd_renable_dt,
-	            			'tender_emd_exp_dt'=>$request->tender_emd_exp_dt,
-	            			'tender_emd_return_ac'=>$request->tender_emd_return_ac,
-	            			'tender_emd_return_amt'=>$request->tender_emd_return_amt,
-	            			'tender_emd_return_dt'=>$request->tender_emd_return_dt,
-	            			'tender_emd_return_depo_dt'=>$request->tender_emd_return_depo_dt,
-	            			'tender_emd_return_depo_bnk'=>$request->tender_emd_return_depo_bnk,
-	            			'tender_emd_return_depo_loc'=>$request->tender_emd_return_depo_loc,
-	            			'tender_emd_return_respo'=>$request->tender_emd_return_respo,
-	            			'tender_emd_return_clouser'=>$request->tender_emd_return_clouser,
-	            			'tender_emd_return_receipt'=>$request->tender_emd_return_receipt
-	            			);
+			'tender_id'                 =>$request->tender_id,
+			'tender_emd_ac'             =>$request->tender_emd_ac,
+			'tender_emd_type'           =>$request->tender_emd_type,
+			'tender_emd_bank_name'      =>$request->tender_emd_bank_name,
+			'tender_emd_amt'            =>$request->tender_emd_amt,
+			'tender_emd_creat_dt'       =>$request->tender_emd_creat_dt,
+			'tender_emd_creat_place'    =>$request->tender_emd_creat_place,
+			'tender_emd_renable_dt'     =>$request->tender_emd_renable_dt,
+			'tender_emd_exp_dt'         =>$request->tender_emd_exp_dt,
+			'tender_emd_return_ac'      =>$request->tender_emd_return_ac,
+			'tender_emd_return_amt'     =>$request->tender_emd_return_amt,
+			'tender_emd_return_dt'      =>$request->tender_emd_return_dt,
+			'tender_emd_return_depo_dt' =>$request->tender_emd_return_depo_dt,
+			'tender_emd_return_depo_bnk'=>$request->tender_emd_return_depo_bnk,
+			'tender_emd_return_depo_loc'=>$request->tender_emd_return_depo_loc,
+			'tender_emd_return_respo'   =>$request->tender_emd_return_respo,
+			'tender_emd_return_clouser' =>$request->tender_emd_return_clouser,
+			'tender_emd_return_receipt' =>$request->tender_emd_return_receipt,
+			'tender_emd_sub_client'     =>$request->tender_emd_sub_client,
+			'tender_emd_sub_person'     => $request->tender_emd_sub_person,
+			'tender_emd_sub_date'       => $request->tender_emd_sub_date,
+			'tender_emd_sub_loc'        => $request->tender_emd_sub_loc,
+			'tender_emd_sub_by'         => $request->tender_emd_sub_by,
+			'tender_emd_sub_to'         => $request->tender_emd_sub_to
+			);
 	            if(empty($update_id)){			
 	            	$save = EMD::create($doc);	
 	            }
@@ -330,6 +343,26 @@ class TenderController extends Controller
 	            Session::put('message',$message);
 	            return $message;
 		}
+
+		elseif($form_type == 'responsibilites'){
+		    $data = array(
+		    	'tender_id' =>$request->tender_id,
+		    	'synopsis_id'=>$request->synopsis_id,
+		    	'filling_id' =>$request->filling_id,
+		    	'market_survey_id'=>$request->market_survey_id,
+		    	'rate_analysis_id'=>$request->rate_analysis_id
+		    	);			
+		    if(!empty($request->update_id)){
+		    	TenderResponsibilites::where('id',$request->update_id)->update($data);
+		    		$message = 'Updated Successfully';
+			}
+			else{
+				TenderResponsibilites::create($data);
+				$message = 'Created Successfully';
+			}		   
+	        Session::put('message',$message);
+	           return $message;	
+	    }
 	}
 
 	public function delete_reco(Request $request){
