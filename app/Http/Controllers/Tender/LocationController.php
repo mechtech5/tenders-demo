@@ -8,6 +8,11 @@ use App\Models\Tenders\Location;
 
 class LocationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $location = Location::all();

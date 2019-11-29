@@ -23,12 +23,12 @@
 	    </div>
 
 		<input type="hidden" id="tender_id" name="tender_id" value="{{$tender_id}}">
-	    <input class="btn btn-success mt-2 mb-2 pull-right save_meeting d-none" value="Save" type="submit">
+		 <a href="javascript:void(0)" class="btn btn-danger mr-1 mt-2 mb-2 ml-2 pull-right cancel_add_meeting d-none" onclick="cancel_add_meeting()">Cancel</a>
+	    <input class="btn btn-success mt-2 mb-2 pull-right save_meeting d-none" value="Save" type="submit">	   
 	</form>
 </div>
 	
 <a href="javascript:void(0)" class="btn btn-info mt-2 mb-2 pull-right add_meeting"  onclick="add_meeting()">Add</a>
-<a href="javascript:void(0)" class="btn btn-danger mr-1 mt-2 mb-2 ml-2 pull-right cancel_add_meeting d-none" onclick="cancel_add_meeting()">Cancel</a>
 	
 	<div id="table_refresh">
 		<table class="table table-striped table-hover table-bordered">

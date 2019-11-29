@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 
 class BOQController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
    public function index()
     {
         return view('tender.BOQ.index');

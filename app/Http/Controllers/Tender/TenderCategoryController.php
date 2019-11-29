@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class TenderCategoryController extends Controller
 {
+	public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
 	public function index()
 	{
 		$tender_categories  = TenderCategory::all();

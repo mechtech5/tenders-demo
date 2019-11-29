@@ -21,7 +21,7 @@
 		<input type="hidden" name="form_type" value="corrigendum">
 		<input type="hidden" name="tender_id" id="tender_id" value="{{$tender_id}}" name="tender_id">
 		<a href="javascript:void(0)" class="btn btn-danger mt-2 mb-2 ml-2 pull-right cancel d-none" onclick="cancel()">Cancel</a>
-		<input type="submit" value="Submit" class="btn btn-success mt-2 mb-2 pull-right save d-none">
+		<input type="submit" value="Save" class="btn btn-success mt-2 mb-2 pull-right save d-none">
 	</form>
 	<a href="javascript:void(0)" class="btn btn-info mt-2 mb-2 pull-right add"  onclick="add()">Add</a>
 	
