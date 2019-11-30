@@ -1,6 +1,6 @@
 
 	<?php
-		$timestamp   = (strtotime($tender->online_submission_date));
+		$timestamp   = strtotime($tender->online_submission_date);
 		$online_date = date('Y-n-j', $timestamp);
 		$online_time = date('H:i:s', $timestamp);
 
@@ -23,13 +23,13 @@
 		   		<label for=""><b>Tender last submission Date online</b></label>
 		   	</div>	
 		   	<div class="col-md-3 col-sm-3">
-		   		<input type="text"  readonly="true" class="form-control datepicker" name="online_submission_date" value="{{$online_date}}">
+		   		<input type="text" placeholder="Select Date"  readonly="true" class="form-control datepicker" name="online_submission_date" value="{{$tender->online_submission_date ? $online_date :''}}">
 		   	</div>	
 	    	<div class="col-md-2 col-sm-2">
 	    		<label for="" class="pull-right"><b>Time</b></label>
 	    	</div>
 	    	<div class="col-md-3 col-sm-3">
-	    		<input placeholder="Selected time" value="{{$online_time}}" name="online_time" type="text" class="form-control timepicker">
+	    		<input placeholder="Select time" value="{{$tender->online_submission_date ? $online_time :''}}" name="online_time" type="text" class="form-control timepicker">
 	    	</div>	
         </div>
 	    <div class="row  mt-2">
@@ -37,13 +37,13 @@
 	    		<label for="" class=""><b>Tender last submission Date physical (Hard Copy)</b></label>
 	    	</div>
 	    	<div class="col-md-3 col-sm-3">
-	    		<input type="text"  readonly="true" class="form-control datepicker " name="physical_submission_date" value="{{$physical_date}}">
+	    		<input type="text"  readonly="true" placeholder="Select Date" class="form-control datepicker " name="physical_submission_date" value="{{$tender->physical_submission_date ? $physical_date :''}}">
 	    	</div>	
 	    	<div class="col-md-2 col-sm-2">
 	    		<lable class="pull-right"><b>Time</b></lable>
 	    	</div>
 	    	<div class="col-md-3 col-sm-3">	    		
-				<input placeholder="Selected time" value="{{$physical_time}}" name="physical_time" type="text" class="form-control timepicker">
+				<input placeholder="Select time" value="{{$tender->physical_submission_date ? $physical_time :''}}" name="physical_time" type="text" class="form-control timepicker">
 			</div>
 	    </div>
 	    <div class="row mt-2">
@@ -51,27 +51,27 @@
 	    		<label for="" class=""><b>Tender opening technical Date & Time</b></label>
 	    	</div>
 	    	<div class="col-sm-3 col-md-3">
-	    		<input type="text" readonly="true" class="form-control datepicker" name="technical_opening_date" value="{{$technical_date}}">
+	    		<input type="text" readonly="true" placeholder="Select Date" class="form-control datepicker" name="technical_opening_date" value="{{$tender->technical_opening_date ? $technical_date :''}}">
 	    	</div>
 	    	<div class="col-sm-2 col-md-2">	
 	    		<lable class="pull-right"><b>Time</b></lable>
 	    	</div>
 	    	<div class="col-sm-3 col-md-3">
-	    		<input type="text" class="form-control timepicker " value="{{$technical_time}}" name="technical_time">
-	    	</div>	
+	    		<input type="text" placeholder="Select Time" class="form-control timepicker " value="{{ $tender->technical_opening_date ? $technical_time :''}}" name="technical_time">
+	    	</div>	 
 	    </div>
 	    <div class="row mt-2">
 	    	<div class="col-md-4 col-sm-4">
 	    		<label for="" class=""><b>Tender opening financial Date & Time</b></label>
 	    	</div>
 	    	<div class="col-sm-3 col-md-3">
-	    		<input type="text"  readonly="true" class="form-control datepicker" name="financial_opening_date" value="{{$financial_date}}">
+	    		<input type="text" placeholder="Select Date"  readonly="true" class="form-control datepicker" name="financial_opening_date" value="{{$tender->financial_opening_date ? $financial_date :''}}">
 	    	</div>
 	    	<div class="col-md-2 col-sm-2">
 	    		<label class="pull-right"><b>Time</b></label>
 	    	</div>
 	    	<div class="col-md-3 col-sm-3">
-	    		<input type="text" class="form-control timepicker" value="{{$financial_time}}" name="financial_time">
+	    		<input type="text" placeholder="Select Time" class="form-control timepicker" value="{{$tender->financial_opening_date ? $financial_time:''}}" name="financial_time">
 	    	</div>
 	    </div>
 	    <div class="count_div">
@@ -119,19 +119,19 @@
 		    		<div class="col-md-4 col-sm-4">
 		    			<div class="form-group">
 		    				<label for="">Date Type</label>
-		    				<input type="text" value=""  class="form-control" name="title[]"/>
+		    				<input type="text" value="" class="form-control" name="title[]"/>
 		    			</div>	    			
 		    		</div>
 		    		<div class="col-md-4 col-sm-4">
 		    			<div class="form-group">
 		    				<label for="">Date</label>
-		    				<input type="text" readonly="true" value="" class="form-control datepicker" name="date[]"/>
+		    				<input type="text" readonly="true" placeholder="Select Date" value="" class="form-control datepicker" name="date[]"/>
 		    			</div>
 		    		</div>
 		    		<div class="col-md-4 col-sm-4">
 		    			<div class="form-group">
 		    				<label for="">Time</label>
-		    				<input type="text" value="" class="form-control timepicker" name="time[]"/>
+		    				<input type="text" value="" class="form-control timepicker" placeholder="Select Time" name="time[]"/>
 		    			</div>
 		    		</div>	    		
 		    	</div>	    				    
@@ -271,6 +271,78 @@
 		</div>
 	</div>
 <script>
+
+
+	$('label.required').append('&nbsp;<strong class="text-danger">*</strong>&nbsp;');
+var form = $("#date_form");
+
+form.validate({   
+    rules: {
+		online_submission_date:{
+			required: true,
+			date: true,      		
+		},
+		physical_submission_date:{
+			required: true, 	
+			date: true, 	
+		},
+		technical_opening_date:{
+			required: true,
+			date: true,      		
+		},
+		financial_opening_date:{
+			required: true,
+			date: true,      		
+		},
+		physical_time:{
+			required: true,
+			time24:true
+		},
+		technical_time:{
+			required: true,
+			time24:true
+		},
+		online_time:{
+			required: true,
+			time24:true
+		},
+		financial_time:{
+			required: true,
+			time24:true
+		}
+    },
+	messages: {
+	},
+	errorElement: "em",
+	errorPlacement: function errorPlacement(error, element) { 
+		element.after(error);
+		error.addClass( "help-block" );
+
+	 },
+	highlight: function ( element, errorClass, validClass ) {
+		$( element ).parents( ".form-group" ).addClass( "has-error" ).removeClass( "has-success" );
+	},
+	unhighlight: function (element, errorClass, validClass) {
+		$( element ).parents( ".form-group" ).addClass( "has-success" ).removeClass( "has-error" );
+	},
+	submitHandler: function (form) {
+		var data = $('#date_form').serializeArray();
+		data.push({name:'form_type',value:'data_subm'});
+		$.ajax({
+			url:'/tender_details',
+			type:'POST',
+			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+			data:data,
+		    success:function(data){
+				$('.notify-sect').notify(data,'success');
+			}
+		})
+    }
+});
+
+$.validator.addMethod("time24", function(value, element) { 
+    return /^([01]?[0-9]|2[0-3])(:[0-5][0-9]){2}$/.test(value);
+}, "Invalid time format.");
 	
 	$(document).ready(function(){
 	 $('.timepicker').datetimepicker({        
@@ -300,18 +372,7 @@ $(document).on('focus',".datepicker1", function(){
 
 
 		$('#submit_date_form').on('click',function(event){
-			event.preventDefault();
-			var data = $('#date_form').serializeArray();
-			data.push({name:'form_type',value:'data_subm'});
-			$.ajax({
-				url:'/tender_details',
-				type:'POST',
-				headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-				data:data,
-				success:function(data){
-					$('.notify-sect').notify(data,'success');
-				}
-			})
+			
 		})
 
 	    var maxField = 3; 	    
@@ -321,7 +382,7 @@ $(document).on('focus',".datepicker1", function(){
 	    if(crut !=0 ){
 	    	x = crut;
 	    } 
-	    var fieldHTML = '<div class="multi_rows"><a style="color:#ffffff;margin-top:31px" class="remove_button fa fa-minus pull-right btn btn-danger"></a><div class="row remov_paren"><div class="col-md-4 col-sm-4"><div class="form-group"><label for="">Date Type</label>	<input type="text"  class="form-control" name="title[]"/></div></div><div class="col-md-4 col-sm-4"><div class="form-group"><label for="">Date</label><input type="text" class="form-control datepicker1" readonly="true" name="date[]"/></div></div><div class="col-md-4 col-sm-4"><div class="form-group"><label for="">Time</label><input type="text" class="form-control timepicker" name="time[]"/></div></div></div></div>	</div>'; 
+	    var fieldHTML = '<div class="multi_rows"><a style="color:#ffffff;margin-top:31px" class="remove_button fa fa-minus pull-right btn btn-danger"></a><div class="row remov_paren"><div class="col-md-4 col-sm-4"><div class="form-group"><label for="">Date Type</label>	<input type="text" class="form-control" name="title[]"/></div></div><div class="col-md-4 col-sm-4"><div class="form-group"><label for="">Date</label><input type="text" class="form-control datepicker1" placeholder="Select Date" readonly="true" name="date[]"/></div></div><div class="col-md-4 col-sm-4"><div class="form-group"><label for="">Time</label><input type="text" placeholder="Select Time" class="form-control timepicker" name="time[]"/></div></div></div></div>	</div>'; 
 	    
 	    $('.add_button').click(function(){	 
 	        if(x < maxField){ 

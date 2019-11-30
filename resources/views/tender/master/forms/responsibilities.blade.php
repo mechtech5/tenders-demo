@@ -6,7 +6,7 @@
 		    	<select name="synopsis_id" id="" class="select2 form-control">
 		    		<option value="">-- Select Employee --</option>
 		    		@foreach($responsi as $res)
-		    			<option {{$tender->responsibl->synopsis_id == $res->id ? 'selected':''}} value="{{$res->id}}">{{$res->name}}</option>
+		    			<option {{ $tender->responsibl ? ($tender->responsibl->synopsis_id ? $tender->responsibl->synopsis_id :''):'' == $res->id ? 'selected':''}} value="{{$res->id}}">{{$res->name}}</option>
 		    		@endforeach	
 		    	</select>
 		    </div>
@@ -15,7 +15,7 @@
 		    	<select name="filling_id" id="" class="select2 form-control">
 		    		<option value="">-- Select Employee --</option>
 		    		@foreach($responsi as $res)
-		    			<option {{$tender->responsibl->filling_id == $res->id ? 'selected':''}} value="{{$res->id}}">{{$res->name}}</option>
+		    			<option {{$tender->responsibl ? ($tender->responsibl->filling_id ? $tender->responsibl->filling_id : ''):'' == $res->id ? 'selected':''}} value="{{$res->id}}">{{$res->name}}</option>
 		    		@endforeach	
 		    	</select>
 		    </div>
@@ -24,7 +24,7 @@
 	    	<select name="market_survey_id" id="" class="select2 form-control">
 		    		<option value="">-- Select Employee --</option>
 		    		@foreach($responsi as $res)
-		    			<option {{$tender->responsibl->market_survey_id == $res->id ? 'selected':''}} value="{{$res->id}}">{{$res->name}}</option>
+		    			<option {{$tender->responsibl ? ($tender->responsibl->market_survey_id ? $tender->responsibl->market_survey_id:''):'' == $res->id ? 'selected':''}} value="{{$res->id}}">{{$res->name}}</option>
 		    		@endforeach	
 		    	</select>
 		    </div>
@@ -33,12 +33,12 @@
 		    	<select name="rate_analysis_id" id="" class="select2 form-control">
 		    		<option value="">-- Select Employee --</option>
 		    		@foreach($responsi as $res)
-		    			<option {{$tender->responsibl->rate_analysis_id == $res->id ? 'selected':''}} value="{{$res->id}}">{{$res->name}}</option>
+		    			<option {{$tender->responsibl ? ($tender->responsibl->rate_analysis_id ? $tender->responsibl->rate_analysis_id :''):'' == $res->id ? 'selected':''}} value="{{$res->id}}">{{$res->name}}</option>
 		    		@endforeach	
 		    	</select>
 		    </div>
 		</div>
-		<input type="hidden" name="update_id" value="{{$tender->responsibl->id}}">
+		<input type="hidden" name="update_id" value="{{$tender->responsibl ? ($tender->responsibl->id ? $tender->responsibl->id:''):''}}">
 		<input type="hidden" name="tender_id" value="{{$tender_id}}">
 		<input type="hidden" value="responsibilites" name="form_type">
 		<div class="row">

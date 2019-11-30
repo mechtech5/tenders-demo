@@ -18,7 +18,7 @@
   			<td class="text-center">
   				<a style="color: #fff" href="{{asset("storage/$tender->tender_no/$Data->file")}}" runat="server" class="fa fa-download btn btn-primary" rel="tooltip" title="" data-original-title="Edit"></a>
   				<a style="color: #fff" data-id="{{$Data->id}}" runat="server" class="fa fa-edit btn btn-success edit_meeting" rel="tooltip" title="" data-original-title="Edit"></a>
-	       <a style="color: #fff" data-id="{{$Data->id}}" onclick="javascript:return confirm('Do You Really Want To Delete This?');" class="fa fa-times btn btn-danger meeting_delete" rel="tooltip" title="" data-original-title="Delete"></a>
+	       <a style="color: #fff" data-id="{{$Data->id}}" onclick="javascript:return confirm('Do You Really Want To Delete This?');" class="fa fa-times btn btn-danger doc_delete" rel="tooltip" title="" data-original-title="Delete"></a>
   			</td>
   		</tr>
   	@endforeach	  	

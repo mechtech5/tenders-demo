@@ -86,7 +86,7 @@
 	    	<select name="tender_emd_sub_by" id="" class="select2 form-control">
 	    		<option value="">-- Select Employee --</option>
 	    		@foreach($responsi as $res)
-	    			<option {{$tender->emd->tender_emd_sub_by == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
+	    			<option {{ $tender->emd ?($tender->emd->tender_emd_sub_by ? $tender->emd->tender_emd_sub_by :''):'' == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
 	    		@endforeach
 	    	</select>
 	    </div>
@@ -95,7 +95,7 @@
 	    	<select name="tender_emd_sub_to" id="" class="select2 form-control">
 	    		<option value="">-- Select Employee --</option>
 	    		@foreach($responsi as $res)
-	    			<option {{$tender->emd->tender_emd_sub_to == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
+	    			<option {{$tender->emd ?($tender->emd->tender_emd_sub_to ? $tender->emd->tender_emd_sub_to :''):'' == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
 	    		@endforeach
 	    	</select>
 	    </div>
@@ -103,18 +103,18 @@
 			<h4 class="col-12 divider">Return</h4>
 	    <div class="col-3 form-group">
 	    	<label for="">Deposit Date</label>
-	    		<input type="text" value="{{$tender->emd !=null ? $tender->emd->tender_emd_return_depo_dt :''}}" class="form-control datepicker" name="tender_emd_return_date"/>
+	    		<input type="text" value="{{$tender->emd !=null ? ($tender->emd->tender_emd_return_date ? $tender->emd->tender_emd_return_date :''):''}}" class="form-control datepicker" name="tender_emd_return_date"/>
 	    </div>   
 	     <div class="col-3 form-group">
 	    	<label for="">Further Submitted To</label>
-	    	<input type="" class="form-control" name="tender_emd_return_furthe">
+	    	<input type="" class="form-control" value="{{$tender->emd !=null ? $tender->emd->tender_emd_return_furthe :''}}" name="tender_emd_return_furthe">
 	    </div>
 	    <div class="col-3 form-group">
 	    	<label for="">Received To</label>
 	    	<select name="tender_emd_return_recei" id="" class="select2 form-control">
 	    		<option value="">-- Select Employee --</option>
 	    		@foreach($responsi as $res)
-	    			<option {{$tender->emd->tender_emd_sub_to == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
+	    			<option {{$tender->emd ?($tender->emd->tender_emd_return_recei ? $tender->emd->tender_emd_return_recei :''):'' == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
 	    		@endforeach
 	    	</select>
 	    </div>	
@@ -123,7 +123,7 @@
 	    	<select name="tender_emd_return_depo_loc" id="" class="select2 form-control">
 	    		<option>-- Select Location --</option>
 	    		@foreach($location as $loc)
-						<option {{$tender->emd !=null ? ($tender->emd->tender_emd_creat_place == $loc->id ? 'selected' : '') :''}} value="{{$loc->id}}">{{$loc->name}}</option>	    		
+						<option {{$tender->emd !=null ? ($tender->emd->tender_emd_return_depo_loc == $loc->id ? 'selected' : '') :''}} value="{{$loc->id}}">{{$loc->name}}</option>	    		
 					@endforeach
 	    	</select>
 	    </div>     
@@ -131,27 +131,27 @@
 	    <h4 class="col-12 divider">Closure</h4>
 	    <div class="col-3 form-group">
 	    	<label for="">Submitted Bank</label>
-	    		<input type="text" value="{{$tender->emd !=null ? $tender->emd->tender_emd_return_depo_dt :''}}" class="form-control" name="tender_emd_clos_bnk"/>
+	    		<input type="text" value="{{$tender->emd !=null ? $tender->emd->tender_emd_clos_bnk :''}}" class="form-control" name="tender_emd_clos_bnk"/>
 	    </div>   
 	      <div class="col-3 form-group">
 	    	<label for="">Location</label>
 	    	<select name="tender_emd_clos_loc" id="" class="select2 form-control">
 	    		<option>-- Select Location --</option>
 	    		@foreach($location as $loc)
-						<option {{$tender->emd !=null ? ($tender->emd->tender_emd_creat_place == $loc->id ? 'selected' : '') :''}} value="{{$loc->id}}">{{$loc->name}}</option>	    		
+						<option {{$tender->emd !=null ? ($tender->emd->tender_emd_clos_loc == $loc->id ? 'selected' : '') :''}} value="{{$loc->id}}">{{$loc->name}}</option>	    		
 					@endforeach
 	    	</select>
 	    </div>
 	     <div class="col-3 form-group">
 	    	<label for="">Date</label>
-	    	<input type="" class="form-control datepicker" name="tender_emd_clos_dt">
+	    	<input type="" class="form-control datepicker" value="{{$tender->emd !=null ? ($tender->emd->tender_emd_clos_dt ? $tender->emd->tender_emd_clos_dt :''):''}}"  name="tender_emd_clos_dt">
 	    </div>
 	    <div class="col-3 form-group">
 	    	<label for="">Submited By</label>
 	    	<select name="tender_emd_clos_sbmt_by" id="" class="select2 form-control">
 	    		<option value="">-- Select Employee --</option>
 	    		@foreach($responsi as $res)
-	    			<option {{$tender->emd->tender_emd_sub_to == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
+	    			<option {{$tender->emd ?($tender->emd->tender_emd_clos_sbmt_by ? $tender->emd->tender_emd_clos_sbmt_by :''):'' == $res->id ? 'selected' :''}} value="{{$res->id}}">{{$res->name}}</option>
 	    		@endforeach
 	    	</select>
 	    </div>	

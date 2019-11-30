@@ -153,7 +153,10 @@ form.validate({
                 success: function (data) {
                 	if(data != ''){
                 		$('.notify-sect').notify($('#message').val(),'success');
-                		$('#docs_table').html(data);           	
+                		$('#docs_table').html(data);        
+                		$("input[name=doc_title]").val('');
+                		$("#file").val('').clone(true);
+                		$("textarea[name=note]").val('');   	
                 	}
                 }
 	       })
