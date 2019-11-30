@@ -203,6 +203,18 @@ form.validate({
 		document_cost:{
 			required: true,
       		number: true,
+		},
+		place:{
+			required:true
+		},
+		departm:{
+			required:true
+		},
+		fill_company_office:{
+			required:true
+		},
+		descri:{
+			required:true
 		}
     },
 	messages: {
