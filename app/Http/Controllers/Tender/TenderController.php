@@ -23,6 +23,11 @@ use File;
 
 class TenderController extends Controller
 {
+	public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
 	public function index()
 	{
 		$types      = TenderType::all();
@@ -208,6 +213,7 @@ class TenderController extends Controller
 						'tender_id'=>$request->tender_id,
 						'location' =>$request->location,
 						'date'     =>$request->date.' '.$time,
+						'minutes_of_meeting'=>$request->minutes_of_meeting,
 						'remarks'  =>$request->remarks);
 			if($request->location != '' ){
 				TenderPrebid::create($prebid);
@@ -218,19 +224,39 @@ class TenderController extends Controller
 		}
 
 		elseif($form_type == 'corrigendum'){
-
 			$time  = !empty($request->time)?$request->time:'12:00:00';
+
+			$tender_details = Tender::find($tender_id);
+
+			if($request->hasFile('file')){		
+		        $filename = $request->file('file')->getClientOriginalName();
+		        $extension = $request->file('file')->getClientOriginalExtension();
+		        $fileNameToStore = date('d-m-Y').'_'.$filename;
+
+                $chk_path = storage_path('app/public/'.$tender_details->tender_no);	
+
+	            if(!File::exists($chk_path)){	            	
+	                File::makeDirectory($chk_path, 0777, true, true);
+	            }
+
+	            $path = $request->file('file')->storeAs('public/'.$tender_details->tender_no.'/Corrigendum/',$fileNameToStore);
+	        }
+	        else{
+	        	$fileNameToStore = '';
+	        }
 
 			$corrigendum = array(
 						'tender_id'=>$request->tender_id,
 						'date'     =>$request->date.' '.$time,
-						'changes'  =>$request->changes);
+						'file'     => $fileNameToStore,
+						'changes'  =>$request->changes
+					    );
 
 			if($request->date != '' ){
 				TenderCorrigendum::create($corrigendum);
 				$corrigendum = TenderCorrigendum::where('tender_id',$request->tender_id)->get();
-
-				return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));
+				$tender = $tender_details;
+				return view('tender.master.forms.corrige_ref_table',compact('corrigendum','tender'));
 			}		
 		}
 
@@ -274,9 +300,35 @@ class TenderController extends Controller
 
 		elseif($form_type == 'emd_form'){
 			$tender_id = $request->tender_id;
-			$update_id  = $request->update_id;	
+			$update_id  =!empty($request->update_id)?$request->update_id:'';
 
 		    $tender_details = Tender::find($tender_id);
+
+		    $doc = array(
+			   'tender_id'     => $request->tender_id,
+	        	"tender_emd_ac" => $request->tender_emd_ac,
+      			"tender_emd_type" =>$request->tender_emd_type,
+	      		"tender_emd_bank_name" =>$request->tender_emd_bank_name,
+	      		"tender_emd_amt" =>$request->tender_emd_amt,
+	      		"tender_emd_creat_dt" => $request->tender_emd_creat_dt,
+	      		"tender_emd_creat_place" => $request->tender_emd_creat_place,
+	      		"tender_emd_renable_dt" => $request->tender_emd_renable_dt,
+			    "tender_emd_exp_dt" => $request->tender_emd_exp_dt,
+			    "tender_emd_sub_client" => $request->tender_emd_sub_client,
+			    "tender_emd_sub_person" => $request->tender_emd_sub_person,
+			    "tender_emd_sub_date" => $request->tender_emd_sub_date,
+			    "tender_emd_sub_loc" => $request->tender_emd_sub_loc,
+			    "tender_emd_sub_by" => $request->tender_emd_sub_by,
+			    "tender_emd_sub_to" => $request->tender_emd_sub_to,
+			    "tender_emd_return_date" => $request->tender_emd_return_date,
+			    "tender_emd_return_furthe" => $request->tender_emd_return_furthe,
+			    "tender_emd_return_recei" => $request->tender_emd_return_recei,
+			    "tender_emd_return_depo_loc" => $request->tender_emd_return_depo_loc,
+			    "tender_emd_clos_bnk" => $request->tender_emd_clos_bnk,
+			    "tender_emd_clos_loc" => $request->tender_emd_clos_loc,
+			    "tender_emd_clos_dt" => $request->tender_emd_clos_dt,
+			    "tender_emd_clos_sbmt_by" => $request->tender_emd_clos_sbmt_by			   
+			); 
 
 			if($request->hasFile('tender_emd_return_receipt')){		
 
@@ -291,40 +343,19 @@ class TenderController extends Controller
 	            }
 
 	            $path = $request->file('tender_emd_return_receipt')->storeAs('public/'.$tender_details->tender_no.'/EMD/',$fileNameToStore);
+
+	            $doc['tender_emd_return_receipt'] = $fileNameToStore;
 	        }
-	        $doc = array(
-			'tender_id'                 =>$request->tender_id,
-			'tender_emd_ac'             =>$request->tender_emd_ac,
-			'tender_emd_type'           =>$request->tender_emd_type,
-			'tender_emd_bank_name'      =>$request->tender_emd_bank_name,
-			'tender_emd_amt'            =>$request->tender_emd_amt,
-			'tender_emd_creat_dt'       =>$request->tender_emd_creat_dt,
-			'tender_emd_creat_place'    =>$request->tender_emd_creat_place,
-			'tender_emd_renable_dt'     =>$request->tender_emd_renable_dt,
-			'tender_emd_exp_dt'         =>$request->tender_emd_exp_dt,
-			'tender_emd_return_ac'      =>$request->tender_emd_return_ac,
-			'tender_emd_return_amt'     =>$request->tender_emd_return_amt,
-			'tender_emd_return_dt'      =>$request->tender_emd_return_dt,
-			'tender_emd_return_depo_dt' =>$request->tender_emd_return_depo_dt,
-			'tender_emd_return_depo_bnk'=>$request->tender_emd_return_depo_bnk,
-			'tender_emd_return_depo_loc'=>$request->tender_emd_return_depo_loc,
-			'tender_emd_return_respo'   =>$request->tender_emd_return_respo,
-			'tender_emd_return_clouser' =>$request->tender_emd_return_clouser,
-			'tender_emd_return_receipt' =>$request->tender_emd_return_receipt,
-			'tender_emd_sub_client'     =>$request->tender_emd_sub_client,
-			'tender_emd_sub_person'     => $request->tender_emd_sub_person,
-			'tender_emd_sub_date'       => $request->tender_emd_sub_date,
-			'tender_emd_sub_loc'        => $request->tender_emd_sub_loc,
-			'tender_emd_sub_by'         => $request->tender_emd_sub_by,
-			'tender_emd_sub_to'         => $request->tender_emd_sub_to
-			);
-	            if(empty($update_id)){			
+
+	            if(empty($update_id)){			            	
 	            	$save = EMD::create($doc);	
 	            }
 	            else{
+
 	            	$u_data = EMD::find($update_id);
 
 	            	if($request->hasFile('tender_emd_return_receipt')){
+	            
 	            		$filename = $request->file('tender_emd_return_receipt')->getClientOriginalName();
 				        $extension = $request->file('tender_emd_return_receipt')->getClientOriginalExtension();
 				        $fileNameToStore = date('d-m-Y').'_'.$filename;
@@ -385,9 +416,10 @@ class TenderController extends Controller
 		elseif($request->type == 'corrige_delete'){
 			$id = $request->id;
 			$tender_id = $request->tender_id;
+			$tender = Tender::find($tender_id);
 			TenderCorrigendum::where('id',$id)->delete();
 			$corrigendum = TenderCorrigendum::where('tender_id',$tender_id)->get();
-			return view('tender.master.forms.corrige_ref_table',compact('corrigendum'));		
+			return view('tender.master.forms.corrige_ref_table',compact('corrigendum','tender'));		
 		}
 
 		elseif($request->type == 'doc_delete'){
@@ -413,12 +445,16 @@ class TenderController extends Controller
 		if($request->type == 'model'){
 			$id   = $request->id;
 			$data = TenderPrebid::find($id);
-			return json_encode($data); 
+			$timestamp      = strtotime($data->date);
+			$date = date('Y-n-j', $timestamp);
+			$time = date('H:i:s', $timestamp);
+			$data1=array('id'=>$data->id,'tender_id'=>$data->tender_id,'location'=>$data->location,'date'=>$date,'time'=>$time,'minutes_of_meeting'=>$data->minutes_of_meeting,'remarks'=>$data->remarks);
+			return json_encode($data1); 
 		}
 
 		elseif($request->type == 'save_data'){
 			$tender_id = $request->tender_id;
-			$update = array('location'=>$request->location,'date'=>$request->date,'remarks'=>$request->remarks);
+			$update = array('location'=>$request->location,'date'=>$request->date.' '.$request->time,'remarks'=>$request->remarks,'minutes_of_meeting'=>$request->minutes);
 			$save = TenderPrebid::where('id',$request->id)->update($update);
 			$message = 'Successfully Updated';
 			if($save){
@@ -426,17 +462,57 @@ class TenderController extends Controller
 				Session::put('message',$message); 
 				return view('tender.master.forms.prebid_table',compact('prebid','message'));
 			}
+			else{
+				$data = array('error'=>'error');
+				return $data;
+			}
 		} 
 
 		elseif($request->type == 'corrige_model'){
 			$id   = $request->id;
 			$data = TenderCorrigendum::find($id);
-			return json_encode($data); 
+			$timestamp      = strtotime($data->date);
+			$date = date('Y-n-j', $timestamp);
+			$time = date('H:i:s', $timestamp);
+			$udata = array('date'=>$date,'time'=>$time,'changes'=>$data->changes,'tender_id'=>$data->tender_id);
+			
+			return json_encode($udata); 
 		}
 
 		elseif($request->type == 'save_data_corrige'){
 			$tender_id   = $request->tender_id;
-			$update      = array('date'=>$request->date,'changes'=>$request->changes);
+			$tender_details = Tender::find($tender_id);
+			$udate = TenderCorrigendum::where('id',$request->id)->first();
+
+			$update = array(
+						'tender_id'=>$request->tender_id,
+						'date'     =>$request->date.' '.$request->time,						
+						'changes'  =>$request->changes
+					    );
+
+			if($request->hasFile('file')){		
+
+		        $filename = $request->file('file')->getClientOriginalName();
+		        $extension = $request->file('file')->getClientOriginalExtension();
+		        $fileNameToStore = date('d-m-Y').'_'.$filename;
+
+                $chk_path = storage_path('app/public/'.$tender_details->tender_no);	
+
+	            if(!File::exists($chk_path)){	            	
+	                File::makeDirectory($chk_path, 0777, true, true);
+	            }
+
+	            $path = $request->file('tender_emd_return_receipt')->storeAs('public/'.$tender_details->tender_no.'/Corrigendum/',$fileNameToStore);
+
+	            Storage::delete('app/public/'.$tender_details->tender_no.'/'.$udate->file);
+
+	            $update['file'] = $fileNameToStore;
+	        }
+	        else{
+	        	$udate = TenderCorrigendum::where('id',$request->id)->first();
+	        	$update['file'] = $udate->file;
+	        }			
+			
 			$corrigendum = TenderCorrigendum::where('id',$request->id)->update($update);
 			$message     = 'Successfully Updated';
 			if($corrigendum){

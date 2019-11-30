@@ -34,9 +34,9 @@
 		  <li class="nav-item">
 		    <a class="nav-link prebid" href="javascript:void(0)" onclick="getForm('prebid',{{$id}})">Prebid</a>
 		  </li>
-		  <li class="nav-item">
+		  {{-- <li class="nav-item">
 		    <a class="nav-link corrigendum" href="javascript:void(0)" onclick="getForm('corrigendum',{{$id}})">Corrigendum</a>
-		  </li>
+		  </li> --}}
 		  <li class="nav-item">
 		    <a class="nav-link qualification" href="javascript:void(0)" onclick="getForm('qualification',{{$id}})">Qualification</a>
 		  </li>

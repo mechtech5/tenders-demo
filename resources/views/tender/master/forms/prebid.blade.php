@@ -17,6 +17,13 @@
 	    </div>		
 	    <div class="col-12">
 	    	<div class="form-group">
+	    		<label for="">Minutes Of Meeting</label>
+	    		<textarea name="minutes_of_meeting" class="form-control" id="" cols="30" rows="5"></textarea>
+	    	</div>
+	    </div>
+
+	    <div class="col-12">
+	    	<div class="form-group">
 	    		<label for="">Meeting Remarks and Conclusions</label>
 	    		<textarea name="remarks" class="form-control" id="" cols="30" rows="5"></textarea>
 	    	</div>
@@ -88,6 +95,22 @@
         	</div>
         	<div class="row mt-3">	
 				<div class="col-md-4 col-sm-4">
+					<label for="">Meeting Time</label>
+				</div>
+				<div class="col-md-8 col-sm-8">
+					<input type="text" id="m_time" class="form-control timepicker"/>
+				</div>
+        	</div>
+        	<div class="row mt-3">	
+				<div class="col-md-4 col-sm-4">
+					<label>Minutes Of Meeting</label>
+				</div>
+				<div class="col-md-8 col-sm-8">
+					<textarea id="m_minutes" name="" class="form-control"></textarea>
+				</div>				
+        	</div>
+        	<div class="row mt-3">	
+				<div class="col-md-4 col-sm-4">
 					<label>Meeting Remarks</label>
 				</div>
 				<div class="col-md-8 col-sm-8">
@@ -138,6 +161,9 @@ form.validate({
 		},
 		remarks:{
 			required: true,
+		},
+		minutes_of_meeting:{
+			required: true,
 		}
     },
 	messages: {
@@ -168,7 +194,9 @@ form.validate({
 							$("input[name='location']").val('');
 							$("input[name='date']").val('');
 							$("input[name='time']").val('');
-							$("textarea[name='remarks']").val('');							
+							$("textarea[name='remarks']").val('');	
+							$("textarea[name='minutes_of_meeting']").val('');	
+
 						}
 					}
 			})
@@ -191,13 +219,16 @@ form.validate({
 				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
 				data:{id:id,type:'model'},
 				success:function(data){
+					console.log(data)
 					var parsed_result = JSON.parse(data);  //parsing here
             		for (var key in parsed_result){
 					    $('#m_location').val(parsed_result['location'])
 					    $('#m_date').val(parsed_result['date'])
+					    $('#m_time').val(parsed_result['time'])
 					    $('#m_remarks').val(parsed_result['remarks'])
 					    $('#m_id').val(parsed_result['id'])
 					    $('#m_tender_id').val(parsed_result['tender_id']);
+					    $('#m_minutes').val(parsed_result['minutes_of_meeting']);
 					}
 					$('#exampleModal').modal('show')
 				}
@@ -207,18 +238,26 @@ form.validate({
 	$(document).on('click','#m_submit',function(){
 		var id        = $('#m_id').val();
 		var location  = $('#m_location').val();
-		var date      = $('#m_date').val();		 
+		var date      = $('#m_date').val();
+		var time      = $('#m_time').val();
+		var minutes   = $('#m_minutes').val();		 
 		var remarks   = $('#m_remarks').val();
 		var tender_id = $('#m_tender_id').val();		
 			$.ajax({
 				url:'/update_meeting',
 				type:'POST',
 				headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-				data:{id:id,location:location,date:date,remarks:remarks,tender_id:tender_id,type:'save_data'},
+				data:{id:id,location:location,date:date,remarks:remarks,tender_id:tender_id,type:'save_data','minutes':minutes,'time':time},
 				success:function(data){
-					$('#exampleModal').modal('hide')
-					$('#table_refresh').html(data)
-					$('.notify-sect').notify($('#message').val(),'success');
+					if(data['error'] != 'error'){
+						$('#exampleModal').modal('hide')
+						$('#table_refresh').html(data)
+						$('.notify-sect').notify($('#message').val(),'success');
+					}
+					else{
+						$('#exampleModal').modal('hide')
+						$('.notify-sect').notify('Data Not Save','error');
+					}
 				}
 		})		
 	})
