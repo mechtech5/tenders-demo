@@ -35,11 +35,7 @@
 							<thead>
 								<tr class="text-center">
 									<th>SoNo.</th>
-									<th>Name</th>
-									<th>Mobile No.</th>
-									<th>Emergency Mobile No.</th>
-									<th>Designation</th>
-									<th>Office Location</th>
+									<th>Name</th>								
 									<th>Email</th>
 									<th>Action</th>
 								</tr>
@@ -49,11 +45,7 @@
 								@foreach($respons as $repon)
 									<tr>
 										<td>{{++$count}}</td>
-										<td>{{$repon->name}}</td>
-										<td>{{$repon->mobile_no}}</td>
-										<td>{{$repon->emerg_mobile}}</td>
-										<td>{{$repon->desig}}</td>
-										<td>{{$repon->office_loc }}</td>
+										<td>{{$repon->name}}</td>										
 										<td>{{$repon->email}}</td>
 										<td class="d-flex">
 											<span>
